@@ -12,7 +12,7 @@
       "security": "CLEAR"
     },
     "anthropics/claude-plugins-official": {
-      "status": "audited",
+      "status": "contributed",
       "score": 96,
       "strategy": "progressive",
       "security": "REVIEW",
@@ -21,7 +21,12 @@
       "quality_issues": 16,
       "security_findings": 7,
       "audit_date": "2026-04-06",
-      "report": "auditor/audits/anthropics-claude-plugins-official.md"
+      "report": "auditor/audits/anthropics-claude-plugins-official.md",
+      "pipeline_prs": [
+        1255,
+        1256,
+        1257
+      ]
     },
     "trailofbits/skills": {
       "status": "audited",
