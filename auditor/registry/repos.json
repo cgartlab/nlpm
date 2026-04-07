@@ -42,7 +42,7 @@
     },
     "thedotmack/claude-mem": {
       "status": "audited",
-      "score": 44,
+      "score": 97,
       "strategy": "batched",
       "security": "BLOCKED"
     },
@@ -54,13 +54,13 @@
     },
     "openai/codex-plugin-cc": {
       "status": "audited",
-      "score": 75,
+      "score": 93,
       "strategy": "single",
-      "security": "CLEAR"
+      "security": "REVIEW"
     },
     "deanpeters/Product-Manager-Skills": {
       "status": "audited",
-      "score": 92,
+      "score": 89,
       "strategy": "batched",
       "security": "CLEAR"
     }
