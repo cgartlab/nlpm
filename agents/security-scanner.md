@@ -60,6 +60,12 @@ If zero executable artifacts found, report "No executable artifacts — security
 
 For each file found, read it and check against the patterns in your security skill.
 
+### Documentation files — classify first
+
+Before scanning any `.md` file (SKILL.md, CLAUDE.md, README.md, or any `*.md`): these files are documentation. They cannot execute code. Any pattern you find is instructional content — commands the human user might type, or examples shown to avoid. **Cap all findings in `.md` files at Low severity.** Do not flag `curl | bash` or `eval` or `new Function()` in `.md` files as Critical or High. Note them as "instructional content in documentation — not executable."
+
+Exception: if a `.md` file is explicitly wired as an executed script via `command:` in `hooks.json`, treat it as executable.
+
 ### For shell/python/JS scripts:
 - Check every line against Critical, High, and Medium pattern lists
 - Record file path, line number, matched pattern, and surrounding context
@@ -87,10 +93,10 @@ For each file found, read it and check against the patterns in your security ski
 ## Step 3: Classify Findings
 
 Assign severity to each finding using the definitions in your security skill:
-- **Critical**: Immediate exploitation risk
-- **High**: Likely dangerous
-- **Medium**: Context-dependent
-- **Low**: Minor concern
+- **Critical**: Immediate exploitation risk — only in executable files
+- **High**: Likely dangerous — only in executable files
+- **Medium**: Context-dependent — only in executable files
+- **Low**: Minor concern, or any pattern found in a documentation (`.md`) file
 
 ## Step 4: Report
 

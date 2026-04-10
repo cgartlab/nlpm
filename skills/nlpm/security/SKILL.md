@@ -6,6 +6,32 @@ version: 0.1.0
 
 # Security Scan Patterns for Claude Code Plugins
 
+## Context-Aware File Classification
+
+Before assigning severity to any finding, classify the file by its execution context:
+
+| File Type | Examples | Can Execute? | Rule |
+|-----------|----------|--------------|------|
+| Shell scripts | `*.sh`, `*.bash` | Yes | Apply full severity table |
+| Code files | `*.py`, `*.js`, `*.mjs`, `*.ts` | Yes | Apply full severity table |
+| Hook definitions | `hooks/hooks.json` | Runs on every tool call | Apply full severity table |
+| MCP configs | `.mcp.json` | Yes (server launch) | Apply full severity table |
+| Package manifests | `package.json` | Via npm scripts | Apply full severity table |
+| Documentation | `*.md` (SKILL.md, CLAUDE.md, README.md) | **No** | Cap at Low — see rule below |
+
+### Documentation Files (*.md)
+
+Patterns in `.md` files are instructional content, not executable code. A `curl | bash` in a README documents a user action the reader types manually — the plugin never runs it. Apply this rule universally:
+
+**Any Critical or High pattern found in a `.md` file → downgrade to Low (informational).** Note it as "instructional content in documentation — not executable."
+
+Examples:
+- `curl https://... | bash` in README.md → Low: install instruction for end users
+- `eval $var` in SKILL.md → Low: pattern shown as example to avoid
+- `new Function(...)` in CLAUDE.md → Low: educational reference
+
+Exception: if a `.md` file is explicitly referenced as a script via `command:` in `hooks.json` or executed via `bash file.md`, treat it as executable and apply full severity.
+
 ## Execution Surfaces
 
 Claude Code plugins have five execution surfaces that must be scanned:

@@ -707,6 +707,54 @@ jobs:
 
           gh issue comment "$ISSUE_NUM" --body-file /tmp/issue-comment.md 2>/dev/null || echo "WARNING: failed to post issue comment"
 
+          # If security blocked: file a specific, findings-inclusive disclosure on the TARGET repo
+          if [ "$SECURITY" = "BLOCKED" ]; then
+            # Extract Critical/High finding rows from audit report
+            FINDINGS=$(grep -E '^\| [0-9]+ \| (Critical|High|CRITICAL|HIGH)' "$REPORT" 2>/dev/null | head -15)
+            AUDIT_URL="https://github.com/${GITHUB_REPOSITORY}/blob/main/auditor/audits/${SLUG}.md"
+
+            {
+              echo "## Security Findings in Executable Artifacts"
+              echo ""
+              echo "While auditing NL programming artifacts in this repository, our scanner detected potential security issues in executable files."
+              echo ""
+              echo "### Findings"
+              echo ""
+              echo "| # | Severity | File | Line | Pattern | Description |"
+              echo "|---|----------|------|------|---------|-------------|"
+              if [ -n "$FINDINGS" ]; then
+                echo "$FINDINGS"
+              else
+                echo "| 1 | — | See full report | — | Multiple patterns | Critical/High patterns detected — see audit report for details |"
+              fi
+              echo ""
+              echo "### About This Report"
+              echo ""
+              echo "These findings come from [NLPM](https://github.com/xiaolai/nlpm-for-claude)'s security scanner, which checks executable surfaces (hooks, scripts, MCP configs, dependencies) against known-dangerous patterns."
+              echo ""
+              echo "We may be wrong — false positives happen. If any finding is intentional or already mitigated, please close this issue. If a finding is genuine and you'd like a fix PR, let us know."
+              echo ""
+              echo "Full audit report: ${AUDIT_URL}"
+            } > /tmp/disclosure.md
+
+            DISCLOSURE_URL=$(gh issue create \
+              --repo "$TARGET_REPO" \
+              --title "Security findings in executable artifacts" \
+              --body-file /tmp/disclosure.md 2>/dev/null) || true
+
+            if [ -n "$DISCLOSURE_URL" ]; then
+              echo "Disclosure filed: $DISCLOSURE_URL"
+              gh issue comment "$ISSUE_NUM" \
+                --body "Security disclosure filed on target repo: $DISCLOSURE_URL" 2>/dev/null || true
+              log_event "audit" "security_disclosed" "$(jq -cn \
+                --arg repo "$TARGET_REPO" \
+                --arg url "$DISCLOSURE_URL" \
+                '{repo: $repo, disclosure_url: $url}')" || true
+            else
+              echo "WARNING: could not file disclosure issue on $TARGET_REPO (no fork access or rate-limited)"
+            fi
+          fi
+
       - name: Summary
         env:
           TOTAL: ${{ steps.triage.outputs.total }}
