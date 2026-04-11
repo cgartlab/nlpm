@@ -58,7 +58,7 @@
       "security": "BLOCKED"
     },
     "slavingia/skills": {
-      "status": "contributed",
+      "status": "tracked",
       "score": 97,
       "strategy": "single",
       "security": "CLEAR",
@@ -67,13 +67,14 @@
       ],
       "prs": [
         {
-          "closedAt": null,
-          "mergedAt": null,
+          "closedAt": "2026-04-11T01:23:12Z",
+          "mergedAt": "2026-04-11T01:23:12Z",
           "number": 19,
-          "state": "OPEN",
+          "state": "MERGED",
           "title": "fix: add skills array to plugin.json for explicit skill registration"
         }
-      ]
+      ],
+      "case_study_candidate": true
     },
     "thedotmack/claude-mem": {
       "status": "audited",
@@ -191,7 +192,23 @@
         92,
         93
       ],
-      "tracking_issue": 94
+      "tracking_issue": 94,
+      "prs": [
+        {
+          "closedAt": null,
+          "mergedAt": null,
+          "number": 92,
+          "state": "OPEN",
+          "title": "security: replace new Function() eval with direct ESM import"
+        },
+        {
+          "closedAt": null,
+          "mergedAt": null,
+          "number": 93,
+          "state": "OPEN",
+          "title": "security: use JSON.stringify for selector escaping in devtools panel"
+        }
+      ]
     }
   },
   "metadata": {
