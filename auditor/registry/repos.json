@@ -209,6 +209,12 @@
           "title": "security: use JSON.stringify for selector escaping in devtools panel"
         }
       ]
+    },
+    "OthmanAdi/planning-with-files": {
+      "status": "audited",
+      "score": 91,
+      "strategy": "batched",
+      "security": "REVIEW"
     }
   },
   "metadata": {
