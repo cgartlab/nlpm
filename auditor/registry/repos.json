@@ -299,6 +299,12 @@
       "score": 82,
       "strategy": "progressive",
       "security": "CLEAR"
+    },
+    "AgriciDaniel/claude-seo": {
+      "status": "audited",
+      "score": 94,
+      "strategy": "batched",
+      "security": "REVIEW"
     }
   },
   "metadata": {
