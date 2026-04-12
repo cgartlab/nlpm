@@ -239,6 +239,12 @@
       "score": 84,
       "strategy": "progressive",
       "security": "BLOCKED"
+    },
+    "Jeffallan/claude-skills": {
+      "status": "audited",
+      "score": 92,
+      "strategy": "progressive",
+      "security": "CLEAR"
     }
   },
   "metadata": {
