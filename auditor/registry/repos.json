@@ -270,6 +270,12 @@
       "strategy": "progressive",
       "security": "REVIEW"
     },
+    "ChrisWiles/claude-code-showcase": {
+      "status": "audited",
+      "score": 81,
+      "strategy": "single",
+      "security": "CLEAR"
+    },
     "CloudAI-X/claude-workflow-v2": {
       "status": "audited",
       "score": 93,
