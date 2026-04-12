@@ -240,6 +240,18 @@
       "strategy": "progressive",
       "security": "BLOCKED"
     },
+    "Lum1104/Understand-Anything": {
+      "status": "audited",
+      "score": 86,
+      "strategy": "single",
+      "security": "CLEAR"
+    },
+    "Imbad0202/academic-research-skills": {
+      "status": "audited",
+      "score": 20,
+      "strategy": "batched",
+      "security": "CLEAR"
+    },
     "IvanMurzak/Unity-MCP": {
       "status": "audited",
       "score": 82,
