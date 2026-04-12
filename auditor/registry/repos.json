@@ -299,6 +299,12 @@
       "score": 82,
       "strategy": "progressive",
       "security": "CLEAR"
+    },
+    "ananddtyagi/cc-marketplace": {
+      "status": "audited",
+      "score": 73,
+      "strategy": "progressive",
+      "security": "CLEAR"
     }
   },
   "metadata": {
