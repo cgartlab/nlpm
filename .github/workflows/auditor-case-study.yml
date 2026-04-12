@@ -156,6 +156,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
           prompt: "Read the prompt file at /tmp/case-study-prompt.md and follow all instructions in it."
           claude_args: "--allowedTools Read,Glob,Grep,Write,Bash"
 
@@ -223,6 +224,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
           prompt: "Read the prompt file at /tmp/self-review-prompt.md and follow all instructions in it."
           claude_args: "--allowedTools Read,Glob,Grep,Write"
 
@@ -262,6 +264,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
           prompt: "Read the prompt file at /tmp/apply-fixes-prompt.md and follow all instructions in it."
           claude_args: "--allowedTools Read,Edit,Grep"
 
@@ -381,6 +384,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
           prompt: "Read the prompt file at /tmp/fix-links-prompt.md and follow all instructions in it."
           claude_args: "--allowedTools Read,Edit,Grep"
 
@@ -451,6 +455,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
           prompt: "Read the prompt file at /tmp/polish-prompt.md and follow all instructions in it."
           claude_args: "--allowedTools Read,Edit,Grep"
 
@@ -559,6 +564,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
           prompt: |
             Mermaid syntax errors were found. Read /tmp/mermaid-errors.txt.
             Fix each broken block in the article. Common fixes:

@@ -387,6 +387,7 @@ jobs:
           SECURITY_MCP: ${{ steps.security.outputs.mcp }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          allowed_bots: "github-actions[bot],nlpm-auditor[bot]"
           show_full_output: true
           claude_args: "--allowedTools Read,Glob,Grep,Write,Edit"
           prompt: |
