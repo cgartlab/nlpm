@@ -240,6 +240,30 @@
       "strategy": "progressive",
       "security": "BLOCKED"
     },
+    "Lum1104/Understand-Anything": {
+      "status": "audited",
+      "score": 86,
+      "strategy": "single",
+      "security": "CLEAR"
+    },
+    "Imbad0202/academic-research-skills": {
+      "status": "audited",
+      "score": 20,
+      "strategy": "batched",
+      "security": "CLEAR"
+    },
+    "IvanMurzak/Unity-MCP": {
+      "status": "audited",
+      "score": 82,
+      "strategy": "progressive",
+      "security": "CLEAR"
+    },
+    "Jeffallan/claude-skills": {
+      "status": "audited",
+      "score": 92,
+      "strategy": "progressive",
+      "security": "CLEAR"
+    },
     "Orchestra-Research/AI-Research-SKILLs": {
       "status": "audited",
       "score": 89,
