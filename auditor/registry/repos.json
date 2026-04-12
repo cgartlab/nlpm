@@ -299,6 +299,12 @@
       "score": 82,
       "strategy": "progressive",
       "security": "CLEAR"
+    },
+    "ccplugins/awesome-claude-code-plugins": {
+      "status": "audited",
+      "score": 78,
+      "strategy": "progressive",
+      "security": "CLEAR"
     }
   },
   "metadata": {
