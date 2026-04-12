@@ -31,7 +31,7 @@ esac
 
 if [ "$is_artifact" = true ]; then
   basename=$(basename "$file_path")
-  echo "{\"hookSpecificOutput\":{\"message\":\"NL artifact edited: ${basename}. Run /nlpm:score ${file_path} to check quality.\"}}"
+  echo "NL artifact edited: ${basename}. Run /nlpm:score ${file_path} to check quality." >&2
 fi
 
 exit 0
