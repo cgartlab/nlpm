@@ -329,6 +329,18 @@
       "score": 78,
       "strategy": "progressive",
       "security": "CLEAR"
+    },
+    "coreyhaines31/marketingskills": {
+      "status": "audited",
+      "score": 96,
+      "strategy": "batched",
+      "security": "CLEAR",
+      "artifacts": 35,
+      "bugs": 0,
+      "quality_issues": 14,
+      "security_findings": 3,
+      "audit_date": "2026-04-13",
+      "report": "auditor/audits/coreyhaines31-marketingskills.md"
     }
   },
   "metadata": {
