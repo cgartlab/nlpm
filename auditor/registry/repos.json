@@ -359,11 +359,231 @@
       "score": 77,
       "strategy": "progressive",
       "security": "BLOCKED"
+    },
+    "777genius/claude-notifications-go": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 528,
+      "artifacts": 7,
+      "description": "🔔 Cross-platform smart notifications plugin for Claude Code. 6 types. Click-to-focus. 1 line installation. Instant. Analyze context. Zero dependencies. webhooks (ntfy, slack, telegram...). Linux, MacOS, Windows.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 59,
+      "prs": []
+    },
+    "AgriciDaniel/claude-ads": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 2377,
+      "artifacts": 28,
+      "description": "Comprehensive paid advertising audit & optimization skill for Claude Code. 225+ checks across Google, Meta, YouTube, LinkedIn, TikTok, Microsoft & Apple Search Ads with weighted scoring, parallel agents, industry templates, and AI creative generation.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 60,
+      "prs": []
+    },
+    "JuliusBrussee/caveman": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 22505,
+      "artifacts": 10,
+      "description": "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 61,
+      "prs": []
+    },
+    "fcakyon/claude-codex-settings": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 590,
+      "artifacts": 97,
+      "description": "My personal Claude Code and OpenAI Codex setup with battle-tested skills, plugins, hooks and agents that I use daily.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 62,
+      "prs": []
+    },
+    "gmickel/flow-next": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 568,
+      "artifacts": 83,
+      "description": "Plan-first AI workflow plugin for Claude Code, OpenAI Codex, and Factory Droid. Zero-dep task tracking, worker subagents, Ralph autonomous mode, cross-model reviews.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 63,
+      "prs": []
+    },
+    "hesreallyhim/awesome-claude-code": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 38367,
+      "artifacts": 24,
+      "description": "A curated list of awesome skills, hooks, slash-commands, agent orchestrators, applications, and plugins for Claude Code by Anthropic",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 64,
+      "prs": []
+    },
+    "jeremylongshore/claude-code-plugins-plus-skills": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 1917,
+      "artifacts": 7868,
+      "description": "340 plugins + 1367 agent skills for Claude Code. Open-source marketplace with CCPI package manager, interactive tutorials, and production orchestration patterns.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 65,
+      "prs": []
+    },
+    "mukul975/Anthropic-Cybersecurity-Skills": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 4317,
+      "artifacts": 755,
+      "description": "754 structured cybersecurity skills for AI agents · Mapped to 5 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND & NIST AI RMF · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 26 security domains · Apache 2.0",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 66,
+      "prs": []
+    },
+    "muratcankoylan/ralph-wiggum-marketer": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 720,
+      "artifacts": 6,
+      "description": "A Claude Code Plugin that provides an autonomous AI copywriter.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 67,
+      "prs": []
+    },
+    "numman-ali/n-skills": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 974,
+      "artifacts": 10,
+      "description": "Curated plugin marketplace for AI agents - works with Claude Code, Codex, and openskills",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 68,
+      "prs": []
+    },
+    "nyldn/claude-octopus": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 2575,
+      "artifacts": 212,
+      "description": "Put up to 8 AI models on every coding task — blind spots surface before you ship. Claude Code plugin.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 69,
+      "prs": []
+    },
+    "rohitg00/awesome-claude-code-toolkit": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 1214,
+      "artifacts": 557,
+      "description": "The most comprehensive toolkit for Claude Code -- 135 agents, 35 curated skills (+400,000 via SkillKit), 42 commands, 176+ plugins, 20 hooks, 15 rules, 7 templates, 14 MCP configs, 26 companion apps, 52 ecosystem entries, and more.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 70,
+      "prs": []
+    },
+    "sangrokjung/claude-forge": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 648,
+      "artifacts": 89,
+      "description": "Supercharge Claude Code with 11 AI agents, 36 commands & 15 skills — the claude-code plugin framework inspired by oh-my-zsh. 6-layer security hooks included. 5-min install.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 71,
+      "prs": []
+    },
+    "santifer/career-ops": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 31983,
+      "artifacts": 14,
+      "description": "AI-powered job search system built on Claude Code. 14 skill modes, Go dashboard, PDF generation, batch processing.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 72,
+      "prs": []
+    },
+    "sickn33/antigravity-awesome-skills": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 32502,
+      "artifacts": 4427,
+      "description": "Installable GitHub library of 1,400+ agentic skills for Claude Code, Cursor, Codex CLI, Gemini CLI, Antigravity, and more. Includes installer CLI, bundles, workflows, and official/community skill collections.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 73,
+      "prs": []
+    },
+    "team-attention/plugins-for-claude-natives": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 729,
+      "artifacts": 40,
+      "description": "Claude Code plugins for power users",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 74,
+      "prs": []
+    },
+    "timescale/pg-aiguide": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 1680,
+      "artifacts": 8,
+      "description": "MCP server and Claude plugin for Postgres skills and documentation. Helps AI coding tools generate better PostgreSQL code.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 75,
+      "prs": []
+    },
+    "uditgoenka/autoresearch": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 3612,
+      "artifacts": 48,
+      "description": "Claude Autoresearch Skill — Autonomous goal-directed iteration for Claude Code. Inspired by Karpathy's autoresearch. Modify → Verify → Keep/Discard → Repeat forever.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 76,
+      "prs": []
+    },
+    "wanshuiyin/Auto-claude-code-research-in-sleep": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 6387,
+      "artifacts": 123,
+      "description": "ARIS ⚔️ (Auto-Research-In-Sleep) — Lightweight Markdown-only skills for autonomous ML research: cross-model review loops, idea discovery, and experiment automation. No framework, no lock-in — works with Claude Code, Codex, OpenClaw, or any LLM agent.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 77,
+      "prs": []
+    },
+    "ykdojo/claude-code-tips": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 7505,
+      "artifacts": 8,
+      "description": "45 tips for getting the most out of Claude Code, from basics to advanced - includes a custom status line script, cutting the system prompt in half, using Gemini CLI as Claude Code's minion, and Claude Code running itself in a container. Also includes the dx plugin.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 78,
+      "prs": []
+    },
+    "zebbern/claude-code-guide": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 3921,
+      "artifacts": 135,
+      "description": "Claude Code Guide - Setup, Commands, workflows, agents, skills & tips-n-tricks go from beginner to power user!",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 79,
+      "prs": []
+    },
+    "zubair-trabzada/geo-seo-claude": {
+      "discovered": "2026-04-13T06:41:48Z",
+      "stars": 5411,
+      "artifacts": 19,
+      "description": "GEO-first SEO skill for Claude Code. Comprehensive AI search optimization for any website — citability scoring, AI crawler analysis, brand authority, schema markup, platform-specific optimization, and PDF reports.  If you want learn how to sell this to real businesses, check out the skool community",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 80,
+      "prs": []
     }
   },
   "metadata": {
-    "last_discovery": null,
-    "total_discovered": 10,
+    "last_discovery": "2026-04-13T06:41:48Z",
+    "total_discovered": 32,
     "total_audited": 10,
     "total_contributed": 6
   }
