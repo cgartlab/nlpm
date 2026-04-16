@@ -527,10 +527,12 @@
       "stars": 1680,
       "artifacts": 8,
       "description": "MCP server and Claude plugin for Postgres skills and documentation. Helps AI coding tools generate better PostgreSQL code.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 94,
       "audit_issue": 75,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "REVIEW"
     },
     "uditgoenka/autoresearch": {
       "discovered": "2026-04-13T06:41:48Z",
@@ -577,10 +579,12 @@
       "stars": 5411,
       "artifacts": 19,
       "description": "GEO-first SEO skill for Claude Code. Comprehensive AI search optimization for any website — citability scoring, AI crawler analysis, brand authority, schema markup, platform-specific optimization, and PDF reports.  If you want learn how to sell this to real businesses, check out the skool community",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 88,
       "audit_issue": 80,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "CLEAR"
     },
     "gadievron/raptor": {
       "status": "audited",
