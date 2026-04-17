@@ -365,10 +365,12 @@
       "stars": 528,
       "artifacts": 7,
       "description": "🔔 Cross-platform smart notifications plugin for Claude Code. 6 types. Click-to-focus. 1 line installation. Instant. Analyze context. Zero dependencies. webhooks (ntfy, slack, telegram...). Linux, MacOS, Windows.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 63,
       "audit_issue": 59,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "BLOCKED"
     },
     "AgriciDaniel/claude-ads": {
       "discovered": "2026-04-13T06:41:48Z",
@@ -387,10 +389,12 @@
       "stars": 22505,
       "artifacts": 10,
       "description": "🪨 why use many token when few token do trick — Claude Code skill that cuts 65% of tokens by talking like caveman",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 92,
       "audit_issue": 61,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "CLEAR"
     },
     "fcakyon/claude-codex-settings": {
       "discovered": "2026-04-13T06:41:48Z",
@@ -517,10 +521,12 @@
       "stars": 31983,
       "artifacts": 14,
       "description": "AI-powered job search system built on Claude Code. 14 skill modes, Go dashboard, PDF generation, batch processing.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 91,
       "audit_issue": 72,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "BLOCKED"
     },
     "sickn33/antigravity-awesome-skills": {
       "discovered": "2026-04-13T06:41:48Z",
