@@ -633,13 +633,9 @@
       "prs": [],
       "strategy": "progressive",
       "security": "UNKNOWN",
-      "pipeline_prs": [
-        488,
-        489,
-        490,
-        491,
-        492
-      ]
+      "contribution_type": "discussion",
+      "discussion_url": "https://github.com/wshobson/agents/discussions/487",
+      "discussion_filed": "2026-04-17"
     }
   },
   "metadata": {
