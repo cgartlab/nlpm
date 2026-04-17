@@ -517,10 +517,12 @@
       "stars": 31983,
       "artifacts": 14,
       "description": "AI-powered job search system built on Claude Code. 14 skill modes, Go dashboard, PDF generation, batch processing.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 91,
       "audit_issue": 72,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "BLOCKED"
     },
     "sickn33/antigravity-awesome-skills": {
       "discovered": "2026-04-13T06:41:48Z",
