@@ -936,13 +936,15 @@
       "stars": 2415,
       "artifacts": 54,
       "description": "Stop prompting. Start specifying.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 67,
       "audit_issue": 111,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 14.67,
-      "star_anomaly": 0.43
+      "star_anomaly": 0.43,
+      "strategy": "batched",
+      "security": "BLOCKED"
     },
     "centminmod/my-claude-code-setup": {
       "discovered": "2026-04-18T22:52:00Z",
