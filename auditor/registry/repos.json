@@ -975,13 +975,15 @@
       "stars": 1570,
       "artifacts": 393,
       "description": "VibeSkills is a new kind of super skill that organizes 340+ governed skills into one stable AI work system.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 30,
       "audit_issue": 117,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 27.33,
-      "star_anomaly": 0.86
+      "star_anomaly": 0.86,
+      "strategy": "progressive",
+      "security": "UNKNOWN"
     },
     "feiskyer/claude-code-settings": {
       "discovered": "2026-04-18T22:52:00Z",
