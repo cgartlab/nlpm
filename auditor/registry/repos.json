@@ -784,13 +784,15 @@
       "stars": 28660,
       "artifacts": 31,
       "description": "CLI proxy that reduces LLM token consumption by 60-90% on common dev commands. Single Rust binary, zero dependencies",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 88,
       "audit_issue": 93,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 702.0,
-      "star_anomaly": 0.84
+      "star_anomaly": 0.84,
+      "strategy": "batched",
+      "security": "BLOCKED"
     },
     "luongnv89/claude-howto": {
       "discovered": "2026-04-18T22:52:00Z",
