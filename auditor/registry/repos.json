@@ -771,13 +771,15 @@
       "stars": 29671,
       "artifacts": 60,
       "description": "Teams-first Multi-agent orchestration for Claude Code",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 80,
       "audit_issue": 92,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 272.0,
-      "star_anomaly": 0.82
+      "star_anomaly": 0.82,
+      "strategy": "progressive",
+      "security": "REVIEW"
     },
     "rtk-ai/rtk": {
       "discovered": "2026-04-18T22:52:00Z",
