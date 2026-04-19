@@ -949,13 +949,15 @@
       "stars": 2210,
       "artifacts": 31,
       "description": "Shared starter template configuration and CLAUDE.md memory bank system for Claude Code",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 49,
       "audit_issue": 112,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 4.33,
-      "star_anomaly": 1.08
+      "star_anomaly": 1.08,
+      "strategy": "batched",
+      "security": "BLOCKED"
     },
     "rohitg00/pro-workflow": {
       "discovered": "2026-04-18T22:52:00Z",
