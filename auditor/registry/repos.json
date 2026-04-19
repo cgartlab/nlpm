@@ -962,13 +962,15 @@
       "stars": 1912,
       "artifacts": 58,
       "description": "Claude Code learns from your corrections: self-correcting memory that compounds over 50+ sessions. Context engineering, parallel worktrees, agent teams, and 17 battle-tested skills.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 90,
       "audit_issue": 114,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 6.67,
-      "star_anomaly": 0.85
+      "star_anomaly": 0.85,
+      "strategy": "batched",
+      "security": "BLOCKED"
     },
     "foryourhealth111-pixel/Vibe-Skills": {
       "discovered": "2026-04-18T22:52:00Z",
