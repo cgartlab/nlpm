@@ -1084,26 +1084,30 @@
       "stars": 1001,
       "artifacts": 25,
       "description": "🦸 AI 编程超能力 · 中文增强版 — superpowers（116k+ ⭐）完整汉化 + 6 个中国原创 skills，让 Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI 等 16 款 AI 编程工具真正会干活",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 95,
       "audit_issue": 131,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 38.6,
-      "star_anomaly": 1.07
+      "star_anomaly": 1.07,
+      "strategy": "batched",
+      "security": "CLEAR"
     },
     "AgriciDaniel/claude-obsidian": {
       "discovered": "2026-04-18T22:52:00Z",
       "stars": 976,
       "artifacts": 17,
       "description": "Claude + Obsidian knowledge companion. Persistent, compounding wiki vault based on Karpathy's LLM Wiki pattern. /wiki /save /autoresearch",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 91,
       "audit_issue": 132,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 0.0,
-      "star_anomaly": 0.0
+      "star_anomaly": 0.0,
+      "strategy": "single",
+      "security": "BLOCKED"
     },
     "ReScienceLab/opc-skills": {
       "discovered": "2026-04-18T22:52:00Z",
@@ -1125,13 +1129,15 @@
       "stars": 741,
       "artifacts": 31,
       "description": "AI writes code. This automates everything else · 19 plugins, 47 agents, and 40 skills · for Claude Code, OpenCode, Codex, Cursor, Kiro.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 97,
       "audit_issue": 140,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 4.0,
-      "star_anomaly": 0.9
+      "star_anomaly": 0.9,
+      "strategy": "batched",
+      "security": "CLEAR"
     },
     "caliber-ai-org/ai-setup": {
       "discovered": "2026-04-18T22:52:00Z",
