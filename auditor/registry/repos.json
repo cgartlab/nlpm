@@ -1097,13 +1097,15 @@
       "stars": 976,
       "artifacts": 17,
       "description": "Claude + Obsidian knowledge companion. Persistent, compounding wiki vault based on Karpathy's LLM Wiki pattern. /wiki /save /autoresearch",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 91,
       "audit_issue": 132,
       "prs": [],
       "source": "claudepot",
       "star_velocity": 0.0,
-      "star_anomaly": 0.0
+      "star_anomaly": 0.0,
+      "strategy": "single",
+      "security": "BLOCKED"
     },
     "ReScienceLab/opc-skills": {
       "discovered": "2026-04-18T22:52:00Z",
