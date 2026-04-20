@@ -497,12 +497,17 @@
       "stars": 1214,
       "artifacts": 557,
       "description": "The most comprehensive toolkit for Claude Code -- 135 agents, 35 curated skills (+400,000 via SkillKit), 42 commands, 176+ plugins, 20 hooks, 15 rules, 7 templates, 14 MCP configs, 26 companion apps, 52 ecosystem entries, and more.",
-      "status": "audited",
+      "status": "contributed",
       "score": 46,
       "audit_issue": 70,
       "prs": [],
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        318,
+        319,
+        320
+      ]
     },
     "sangrokjung/claude-forge": {
       "discovered": "2026-04-13T06:41:48Z",
