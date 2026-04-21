@@ -306,10 +306,13 @@
       ]
     },
     "Imbad0202/academic-research-skills": {
-      "status": "audited",
+      "status": "contributed",
       "score": 20,
       "strategy": "batched",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        1
+      ]
     },
     "IvanMurzak/Unity-MCP": {
       "status": "audited",
