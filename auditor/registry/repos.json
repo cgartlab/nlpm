@@ -326,28 +326,46 @@
       "security": "REVIEW"
     },
     "ananddtyagi/cc-marketplace": {
-      "status": "audited",
+      "status": "contributed",
       "score": 73,
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
     },
     "ccplugins/awesome-claude-code-plugins": {
-      "status": "audited",
+      "status": "contributed",
       "score": 78,
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        193,
+        194,
+        195,
+        196,
+        197
+      ]
     },
     "czlonkowski/n8n-skills": {
-      "status": "audited",
+      "status": "contributed",
       "score": 93,
       "strategy": "single",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": []
     },
     "coreyhaines31/marketingskills": {
-      "status": "audited",
+      "status": "contributed",
       "score": 96,
       "strategy": "batched",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        247
+      ]
     },
     "dontbesilent2025/dbskill": {
       "status": "audited",
