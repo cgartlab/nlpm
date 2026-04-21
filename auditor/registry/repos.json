@@ -590,7 +590,7 @@
       "stars": 38367,
       "artifacts": 24,
       "description": "A curated list of awesome skills, hooks, slash-commands, agent orchestrators, applications, and plugins for Claude Code by Anthropic",
-      "status": "tracked",
+      "status": "complete",
       "score": 89,
       "audit_issue": 64,
       "prs": [
@@ -639,7 +639,8 @@
         6,
         7
       ],
-      "case_study_candidate": true
+      "case_study_candidate": true,
+      "case_study": "case-studies/2026-04-21-hesreallyhim-awesome-claude-code.md"
     },
     "jeremylongshore/claude-code-plugins-plus-skills": {
       "discovered": "2026-04-13T06:41:48Z",
