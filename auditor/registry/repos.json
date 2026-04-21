@@ -211,10 +211,15 @@
       ]
     },
     "agent-sh/agentsys": {
-      "status": "audited",
+      "status": "contributed",
       "score": 91,
       "strategy": "batched",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        333,
+        334,
+        335
+      ]
     },
     "OthmanAdi/planning-with-files": {
       "status": "audited",
@@ -285,10 +290,15 @@
       "security": "BLOCKED"
     },
     "Lum1104/Understand-Anything": {
-      "status": "audited",
+      "status": "contributed",
       "score": 86,
       "strategy": "single",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        96,
+        97,
+        98
+      ]
     },
     "Imbad0202/academic-research-skills": {
       "status": "audited",
@@ -316,10 +326,14 @@
       ]
     },
     "Orchestra-Research/AI-Research-SKILLs": {
-      "status": "audited",
+      "status": "contributed",
       "score": 89,
       "strategy": "progressive",
-      "security": "REVIEW"
+      "security": "REVIEW",
+      "pipeline_prs": [
+        52,
+        53
+      ]
     },
     "ChrisWiles/claude-code-showcase": {
       "status": "audited",
