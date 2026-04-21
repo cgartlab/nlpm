@@ -337,10 +337,13 @@
       "security": "CLEAR"
     },
     "coreyhaines31/marketingskills": {
-      "status": "audited",
+      "status": "contributed",
       "score": 96,
       "strategy": "batched",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        247
+      ]
     },
     "dontbesilent2025/dbskill": {
       "status": "audited",
