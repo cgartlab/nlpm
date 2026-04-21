@@ -315,10 +315,15 @@
       ]
     },
     "IvanMurzak/Unity-MCP": {
-      "status": "audited",
+      "status": "contributed",
       "score": 82,
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        671,
+        672,
+        673
+      ]
     },
     "Jeffallan/claude-skills": {
       "status": "contributed",
@@ -356,22 +361,36 @@
       "security": "CLEAR"
     },
     "ComposioHQ/awesome-claude-plugins": {
-      "status": "audited",
+      "status": "contributed",
       "score": 88,
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        182,
+        183,
+        184,
+        185,
+        186
+      ]
     },
     "EveryInc/compound-engineering-plugin": {
-      "status": "audited",
+      "status": "contributed",
       "score": 84,
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        624,
+        625,
+        626,
+        627
+      ]
     },
     "Donchitos/Claude-Code-Game-Studios": {
-      "status": "audited",
+      "status": "contributed",
       "score": 82,
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": []
     },
     "xiaolai/grill-for-claude": {
       "status": "audited",
