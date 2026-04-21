@@ -319,10 +319,17 @@
       "security": "REVIEW"
     },
     "ananddtyagi/cc-marketplace": {
-      "status": "audited",
+      "status": "contributed",
       "score": 73,
       "strategy": "progressive",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
     },
     "ccplugins/awesome-claude-code-plugins": {
       "status": "audited",
