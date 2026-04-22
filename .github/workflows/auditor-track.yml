@@ -2,7 +2,7 @@ name: Track PR Status
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Daily 08:00 UTC
+    - cron: '0 */4 * * *'  # Every 4 hours (was daily — bumped for ~50 PRs/day cadence)
   workflow_dispatch:
 
 permissions:
