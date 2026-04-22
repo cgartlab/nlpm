@@ -139,3 +139,4 @@
 {"timestamp":"2026-04-22T00:35:52Z","workflow":"contribute","event":"prs_submitted","run_id":"24753711341","run_number":131,"data":{"repo":"ChrisWiles/claude-code-showcase","pr_count":3}}
 {"timestamp":"2026-04-22T05:03:53Z","workflow":"track","event":"status_check","run_id":"24761127695","run_number":18,"data":{"contributed":31,"tracked":11,"case_study_ready":10}}
 {"timestamp":"2026-04-22T05:18:40Z","workflow":"case-study","event":"published","run_id":"24761156319","run_number":101,"data":{"repo":"jeremylongshore/claude-code-plugins-plus-skills","article_lines":188,"has_cover":true}}
+{"timestamp":"2026-04-22T05:43:50Z","workflow":"track","event":"status_check","run_id":"24762267498","run_number":19,"data":{"contributed":31,"tracked":10,"case_study_ready":11,"rule_adopted":1}}
