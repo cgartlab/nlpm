@@ -33,15 +33,15 @@ pie title Score Distribution — 65 Sampled Files
 
 The bundle breakdown showed meaningful variation:
 
-| Bundle                                   | Files Sampled | Avg Score | Notable                                                                |
-| ---------------------------------------- | ------------- | --------- | ---------------------------------------------------------------------- |
-| antigravity-bundle-devops-cloud          | 7             | 87        | Strongest bundle; aws-serverless, kubernetes, terraform all 87+        |
-| antigravity-bundle-essentials            | 5             | 83        | systematic-debugging and kaizen are standouts                          |
-| antigravity-bundle-typescript-javascript | 5             | 80        | nextjs-app-router stub drags average                                   |
-| antigravity-bundle-security-engineer     | 7             | 80        | Risk labeling inconsistencies across bundle                            |
-| antigravity-bundle-seo-specialist        | 7             | 79        | Extra `---` separators in 2 files; thin content throughout             |
-| antigravity-awesome-skills               | 20            | 81        | Stub skills drag avg; protect-mcp-governance is excellent              |
-| antigravity-awesome-skills-claude        | 4             | 83        | active-directory-attacks well-structured; agent-orchestrator bilingual |
+| Bundle | Files Sampled | Avg Score | Notable |
+|--------|--------------|-----------|---------|
+| antigravity-bundle-devops-cloud | 7 | 87 | Strongest bundle; aws-serverless, kubernetes, terraform all 87+ |
+| antigravity-bundle-essentials | 5 | 83 | systematic-debugging and kaizen are standouts |
+| antigravity-bundle-typescript-javascript | 5 | 80 | nextjs-app-router stub drags average |
+| antigravity-bundle-security-engineer | 7 | 80 | Risk labeling inconsistencies across bundle |
+| antigravity-bundle-seo-specialist | 7 | 79 | Extra `---` separators in 2 files; thin content throughout |
+| antigravity-awesome-skills | 20 | 81 | Stub skills drag avg; protect-mcp-governance is excellent |
+| antigravity-awesome-skills-claude | 4 | 83 | active-directory-attacks well-structured; agent-orchestrator bilingual |
 
 The audit found **8 bugs** and **9 security findings**. The security findings broke down as:
 
