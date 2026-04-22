@@ -355,10 +355,14 @@
       "security": "CLEAR"
     },
     "CloudAI-X/claude-workflow-v2": {
-      "status": "audited",
+      "status": "contributed",
       "score": 93,
       "strategy": "batched",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        15,
+        16
+      ]
     },
     "ComposioHQ/awesome-claude-plugins": {
       "status": "contributed",
