@@ -97,8 +97,10 @@
     "last_updated": "2026-04-10",
     "total_events": 16,
     "total_audits": 10,
-    "total_prs_submitted": 98,
-    "total_prs_merged": 18,
-    "total_prs_rejected": 12
+    "total_prs_submitted": 161,
+    "total_prs_merged": 34,
+    "total_prs_rejected": 11,
+    "total_prs_applied_separately": 5,
+    "updated_at": "2026-04-22T22:15:41.972826Z"
   }
 }
