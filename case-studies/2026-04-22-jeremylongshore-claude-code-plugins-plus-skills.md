@@ -33,13 +33,13 @@ The distribution is lopsided in both directions at once — two repositories wea
 
 **Top penalty patterns:**
 
-| Pattern | Artifacts Affected | Max Penalty |
-|---|---|---|
-| Zero YAML frontmatter — agent/command cannot load | 7 | −70 per file |
-| Shell substitution in YAML `description` field | 1 + 20 backfill | −50 per file |
-| Missing required `name` field | 10 | −25 per file |
-| No `<example>` blocks | 31 | −15 per file |
-| No `allowed-tools` declaration | 33 | −5 per file |
+| Pattern                                           | Artifacts Affected | Max Penalty  |
+| ------------------------------------------------- | ------------------ | ------------ |
+| Zero YAML frontmatter — agent/command cannot load | 7                  | −70 per file |
+| Shell substitution in YAML `description` field    | 1 + 20 backfill    | −50 per file |
+| Missing required `name` field                     | 10                 | −25 per file |
+| No `<example>` blocks                             | 31                 | −15 per file |
+| No `allowed-tools` declaration                    | 33                 | −5 per file  |
 
 **Security summary:**
 

@@ -40,7 +40,11 @@ jobs:
           jq -c '.repos | to_entries[] | select(.value.status == "contributed" or .value.status == "tracked" or .value.status == "complete")' auditor/registry/repos.json | while read -r entry; do
             REPO=$(echo "$entry" | jq -r '.key')
             ISSUE_NUM=$(echo "$entry" | jq -r '.value.audit_issue')
-            echo "Checking PRs for $REPO..."
+            # Snapshot the status BEFORE this loop's updates. We only promote/dispatch
+            # on the first transition; later runs (for rule-adoption rescan) must not
+            # re-fire case-study or downgrade status.
+            CURRENT_STATUS=$(echo "$entry" | jq -r '.value.status')
+            echo "Checking PRs for $REPO... (status=$CURRENT_STATUS)"
 
             # Query only PRs we created (stored in pipeline_prs)
             PR_NUMS=$(echo "$entry" | jq -r '.value.pipeline_prs // [] | .[]')
@@ -124,7 +128,10 @@ jobs:
                '.repos[$name].prs = $prs | .repos[$name].rule_adopted = $rule_adopted' \
                auditor/registry/repos.json > /tmp/reg.json && mv /tmp/reg.json auditor/registry/repos.json
 
-            if [ "$OPEN" -eq 0 ] && [ "$(echo "$PRS" | jq length)" -gt 0 ]; then
+            # Promotion to "tracked" + case-study dispatch is a ONE-SHOT transition.
+            # Only fire when the repo is still "contributed" — repos already "tracked"
+            # or "complete" have passed this gate and must not re-trigger.
+            if [ "$CURRENT_STATUS" = "contributed" ] && [ "$OPEN" -eq 0 ] && [ "$(echo "$PRS" | jq length)" -gt 0 ]; then
               jq --arg name "$REPO" '.repos[$name].status = "tracked"' \
                  auditor/registry/repos.json > /tmp/reg.json && mv /tmp/reg.json auditor/registry/repos.json
 
