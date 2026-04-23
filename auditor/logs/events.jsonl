@@ -237,3 +237,4 @@
 {"timestamp":"2026-04-23T16:44:08Z","workflow":"track","event":"status_check","run_id":"24847072409","run_number":29,"data":{"contributed":49,"tracked":16,"case_study_ready":14,"rule_adopted":2}}
 {"timestamp":"2026-04-23T16:59:37Z","workflow":"case-study","event":"published","run_id":"24847276219","run_number":123,"data":{"repo":"aaron-he-zhu/seo-geo-claude-skills","article_lines":144,"has_cover":true}}
 {"timestamp":"2026-04-23T17:13:27Z","workflow":"case-study","event":"published","run_id":"24847300121","run_number":124,"data":{"repo":"avifenesh/agentsys","article_lines":211,"has_cover":true}}
+{"timestamp":"2026-04-23T20:41:45Z","workflow":"case-study","event":"published","run_id":"24857222695","run_number":125,"data":{"repo":"shanraisshan/claude-code-best-practice","article_lines":131,"has_cover":true}}
