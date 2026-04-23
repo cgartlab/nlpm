@@ -3715,7 +3715,7 @@
       "stars": 1001,
       "artifacts": 25,
       "description": "🦸 AI 编程超能力 · 中文增强版 — superpowers（116k+ ⭐）完整汉化 + 6 个中国原创 skills，让 Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI 等 16 款 AI 编程工具真正会干活",
-      "status": "audited",
+      "status": "contributed",
       "score": 95,
       "audit_issue": 131,
       "prs": [],
@@ -3723,7 +3723,11 @@
       "star_velocity": 38.6,
       "star_anomaly": 1.07,
       "strategy": "batched",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        11,
+        12
+      ]
     },
     "AgriciDaniel/claude-obsidian": {
       "discovered": "2026-04-18T22:52:00Z",
