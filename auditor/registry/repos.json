@@ -3607,7 +3607,47 @@
       "status": "contributed",
       "score": 96,
       "audit_issue": 124,
-      "prs": [],
+      "prs": [
+        {
+          "number": 973,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(skills): remove broken doc references in orca-cli SKILL.md",
+          "updatedAt": "2026-04-23T06:43:17Z",
+          "createdAt": "2026-04-23T06:43:17Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 974,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(scripts): restrict ORCA_ELECTRON_VITE_CLI override to test environments",
+          "updatedAt": "2026-04-23T06:43:49Z",
+          "createdAt": "2026-04-23T06:43:49Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 975,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(deps): pin critical native dependencies to exact versions",
+          "updatedAt": "2026-04-23T06:44:27Z",
+          "createdAt": "2026-04-23T06:44:27Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        }
+      ],
       "source": "claudepot",
       "star_velocity": 118.0,
       "star_anomaly": 1.09,
@@ -3617,7 +3657,8 @@
         973,
         974,
         975
-      ]
+      ],
+      "rule_adopted": false
     },
     "codeaholicguy/ai-devkit": {
       "discovered": "2026-04-18T22:52:00Z",
@@ -3688,7 +3729,34 @@
       "status": "contributed",
       "score": 62,
       "audit_issue": 126,
-      "prs": [],
+      "prs": [
+        {
+          "number": 51,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing frontmatter to engine skill definitions",
+          "updatedAt": "2026-04-23T06:45:39Z",
+          "createdAt": "2026-04-23T06:43:35Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 52,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add upper-bound version pins to engine dependencies",
+          "updatedAt": "2026-04-23T06:47:10Z",
+          "createdAt": "2026-04-23T06:44:20Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        }
+      ],
       "source": "claudepot",
       "star_velocity": 1.0,
       "star_anomaly": 0.47,
@@ -3697,7 +3765,8 @@
       "pipeline_prs": [
         51,
         52
-      ]
+      ],
+      "rule_adopted": false
     },
     "aaron-he-zhu/seo-geo-claude-skills": {
       "discovered": "2026-04-18T22:52:00Z",
@@ -3713,7 +3782,47 @@
       "bugs": 3,
       "quality_issues": 21,
       "security_findings": 2,
-      "prs": [],
+      "prs": [
+        {
+          "number": 10,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(contract-lint): add allowed-tools to enable hash verification",
+          "updatedAt": "2026-04-23T06:43:35Z",
+          "createdAt": "2026-04-23T06:43:35Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 11,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(wiki-lint): add numbered sequential workflow steps",
+          "updatedAt": "2026-04-23T06:44:17Z",
+          "createdAt": "2026-04-23T06:44:17Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 12,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: sync SKILL.md versions to 9.0.1 to match plugin.json",
+          "updatedAt": "2026-04-23T06:45:08Z",
+          "createdAt": "2026-04-23T06:45:08Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        }
+      ],
       "source": "claudepot",
       "star_velocity": 19.0,
       "star_anomaly": 1.07,
@@ -3722,7 +3831,8 @@
         10,
         11,
         12
-      ]
+      ],
+      "rule_adopted": false
     },
     "jnMetaCode/superpowers-zh": {
       "discovered": "2026-04-18T22:52:00Z",
@@ -3732,7 +3842,34 @@
       "status": "contributed",
       "score": 95,
       "audit_issue": 131,
-      "prs": [],
+      "prs": [
+        {
+          "number": 11,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing name field to deprecated command frontmatter",
+          "updatedAt": "2026-04-23T06:43:49Z",
+          "createdAt": "2026-04-23T06:43:49Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 12,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: tighten Node engine constraint from >=14 to >=18",
+          "updatedAt": "2026-04-23T06:44:21Z",
+          "createdAt": "2026-04-23T06:44:21Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        }
+      ],
       "source": "claudepot",
       "star_velocity": 38.6,
       "star_anomaly": 1.07,
@@ -3741,7 +3878,8 @@
       "pipeline_prs": [
         11,
         12
-      ]
+      ],
+      "rule_adopted": false
     },
     "AgriciDaniel/claude-obsidian": {
       "discovered": "2026-04-18T22:52:00Z",
@@ -3781,7 +3919,60 @@
       "status": "contributed",
       "score": 97,
       "audit_issue": 140,
-      "prs": [],
+      "prs": [
+        {
+          "number": 337,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(skills): replace hardcoded developer path in web-auth skill",
+          "updatedAt": "2026-04-23T06:50:43Z",
+          "createdAt": "2026-04-23T06:45:25Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 338,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(skills): replace hardcoded developer path in web-browse skill",
+          "updatedAt": "2026-04-23T06:49:14Z",
+          "createdAt": "2026-04-23T06:45:58Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 339,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(package): scope version script git staging to package.json only",
+          "updatedAt": "2026-04-23T06:48:37Z",
+          "createdAt": "2026-04-23T06:46:24Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 340,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(deps): pin js-yaml to exact version 4.1.1",
+          "updatedAt": "2026-04-23T06:52:52Z",
+          "createdAt": "2026-04-23T06:46:55Z",
+          "outcome": "open",
+          "fingerprints": [],
+          "rule_ids": [],
+          "stale_90d_emitted": false
+        }
+      ],
       "source": "claudepot",
       "star_velocity": 4.0,
       "star_anomaly": 0.9,
@@ -3792,7 +3983,8 @@
         338,
         339,
         340
-      ]
+      ],
+      "rule_adopted": false
     },
     "caliber-ai-org/ai-setup": {
       "discovered": "2026-04-18T22:52:00Z",
