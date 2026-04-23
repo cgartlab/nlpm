@@ -2343,7 +2343,7 @@
       "stars": 2710,
       "artifacts": 48,
       "description": "An improved implementation of the Ralph Wiggum technique for autonomous AI agent orchestration",
-      "status": "audited",
+      "status": "contributed",
       "score": 91,
       "audit_issue": 109,
       "prs": [],
@@ -2351,7 +2351,11 @@
       "star_velocity": 8.0,
       "star_anomaly": 0.57,
       "strategy": "single",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "pipeline_prs": [
+        304,
+        305
+      ]
     },
     "Q00/ouroboros": {
       "discovered": "2026-04-18T22:52:00Z",
