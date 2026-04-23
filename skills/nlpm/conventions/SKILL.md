@@ -413,6 +413,30 @@ Rules not listed in `rule_overrides` use their defaults from `nlpm:scoring`.
 
 ---
 
+## 14. Claude Code Tool Catalog
+
+The following tool names are valid in `tools:` and `allowed-tools:` fields.
+Do NOT flag any of these as "undocumented" or "unknown".
+
+**Built-in tools:**
+- File I/O: `Read`, `Write`, `Edit`, `MultiEdit`, `NotebookEdit`
+- Discovery: `Glob`, `Grep`
+- Execution: `Bash`, `BashOutput`, `KillBash`
+- Agent: `Task`
+- Web: `WebFetch`, `WebSearch`
+- User interaction: `AskUserQuestion`
+- Planning: `TodoWrite`
+- Commands: `SlashCommand`
+
+**MCP tools follow the pattern:** `mcp__<server-name>__<tool-name>`
+Example: `mcp__mermaider__validate_syntax`, `mcp__codex__codex`
+
+Tool names are case-sensitive. Any string matching the patterns above is
+a valid tool reference regardless of whether this document pre-dates the
+tool's introduction to Claude Code.
+
+---
+
 ## Scope Note
 
 This skill covers Claude Code plugin component schemas and conventions. It does NOT cover:

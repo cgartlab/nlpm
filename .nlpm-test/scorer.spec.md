@@ -44,3 +44,38 @@ Expected elements in the output:
 - Penalty values
 - Suggested fixes
 - Table format with columns for severity, rule, line, issue, penalty, fix
+
+## Does Not Invent Findings
+
+Regression scenarios for hallucinated penalty categories. Each was observed
+in the 2026-04-24 marketplace-wide audit; the rubric has no backing for any
+of them.
+
+### Scenario: Does not invent `namespace:` finding
+Given a skill with valid frontmatter but no `namespace:` field
+When scored
+Then no finding mentions `namespace`
+And final score is not reduced for missing namespace
+
+### Scenario: Does not flag AskUserQuestion as undocumented
+Given a command with `allowed-tools: AskUserQuestion, Read`
+When scored
+Then no finding flags AskUserQuestion
+And tools field is treated as valid
+
+### Scenario: Respects documented intentional omissions
+Given agent X with no `skills:` field
+And CLAUDE.md states "agent X has no skills by design"
+When scored
+Then no finding penalizes the missing skills field
+
+### Scenario: Treats plugin.json component fields as paths
+Given plugin.json with `"hooks": "hooks/hooks.json"` (a string, not an array)
+When scored
+Then no finding requests inline hook registration blocks
+
+### Scenario: Does not require engines/minClaudeVersion/main in plugin.json
+Given plugin.json without `engines:`, `minClaudeVersion:`, or `main:`
+When scored
+Then no finding requests any of these fields
+And they are treated as undefined-in-schema (not "missing")

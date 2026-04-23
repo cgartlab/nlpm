@@ -46,6 +46,38 @@ For each artifact you receive:
    - The penalty applied
    - Suggested fix
 
+## Do Not Invent Findings
+
+Apply ONLY penalties enumerated in `nlpm:scoring`. Do not invent penalty
+categories. Before reporting any finding, run this 4-step check:
+
+1. **Rubric check** — Does the penalty appear in the `nlpm:scoring` penalty
+   tables for this artifact type? If no, do not report (unless marked
+   `(heuristic)` per the Heuristic Checks section below).
+
+2. **Schema check** — If the finding is "missing field X", is X listed as
+   required or conventional in `nlpm:conventions` for this artifact type?
+   These fields are explicitly NOT required — do not penalize their absence:
+   - `namespace:` on skills
+   - `main:`, `engines:`, `minClaudeVersion:` in plugin.json
+   - Inline `hooks:` / `skills:` registration arrays in plugin.json
+     (conventions §1 defines these as optional path strings, not inline blocks)
+   - `tools:` on reference-only skills (no tool calls in body)
+   - `commentary:` tags in agent examples (style preference, not a rule)
+
+3. **Intent check** — If CLAUDE.md (or a comment in the artifact) documents
+   an intentional omission, respect it. Example: nlpm's vague-scanner
+   declares "no skills" by design. Do not report intentional design choices
+   as findings.
+
+4. **Tool catalog check** — Before flagging a tool as "undocumented", verify
+   against `nlpm:conventions` §14. Built-ins like `AskUserQuestion`, `Task`,
+   `WebFetch`, `TodoWrite` are always valid.
+
+If a finding fails any of these checks, drop it. Silent omission is
+preferable to a false positive — auditees lose trust in the rubric when
+findings cannot be traced to documented rules.
+
 ## Valid Frontmatter Formats
 
 Do not penalize format variation -- both forms are valid for all list-type fields:

@@ -380,3 +380,20 @@ This skill covers the NLPM scoring formula, penalty tables, score bands, and cal
 - Artifact schemas and valid field values → see `nlpm:conventions`
 - Patterns and anti-patterns catalog → see `nlpm:patterns`
 - How to run the score command → see `commands/score.md`
+
+### Known False Positive Patterns
+
+The following findings have historically been reported by the scorer despite
+having no backing in this rubric. They MUST NOT be penalized:
+
+| Invalid finding | Why it is invalid |
+|---|---|
+| Missing `namespace:` on skill | Not in the skill schema; `conventions` §5 does not list it |
+| Missing inline `hooks:`/`skills:` registration blocks in plugin.json | `conventions` §1 defines these as optional path strings |
+| `AskUserQuestion` / `Task` / `WebFetch` flagged as undocumented tool | Built-in per `conventions` §14 |
+| Agent missing `skills:` when omission is documented in CLAUDE.md | Intentional architectural choice |
+| plugin.json missing `engines:` / `minClaudeVersion:` / `main:` | All optional per `conventions` §1 |
+| plugin.json description shorter than sibling marketplace.json description | Desynchronization ≠ defect; only penalize if required field is absent |
+
+When in doubt: if a finding cannot be cited to a specific row in the penalty
+tables above, drop it.
