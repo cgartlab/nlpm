@@ -1230,3 +1230,5 @@
 {"timestamp":"2026-04-25T00:47:13Z","workflow":"track","event":"status_check","run_id":"24918318556","run_number":37,"data":{"contributed":45,"tracked":13,"case_study_ready":17,"rule_adopted":2}}
 {"timestamp":"2026-04-25T00:52:17Z","workflow":"discover","event":"search_complete","run_id":"24918505596","run_number":5,"data":{"candidates":90,"new":38,"worthy":2}}
 {"timestamp":"2026-04-25T01:03:52Z","workflow":"case-study","event":"published","run_id":"24918396161","run_number":145,"data":{"repo":"luongnv89/claude-howto","article_lines":126,"has_cover":true}}
+{"timestamp":"2026-04-25T04:56:55Z","workflow":"track","event":"finding_outcome","run_id":"24923000210","run_number":38,"data":{"pr":"mikeyobrien/ralph-orchestrator#305","pr_state":"merged","fingerprints":[],"rule_ids":[]}}
+{"timestamp":"2026-04-25T04:57:48Z","workflow":"track","event":"status_check","run_id":"24923000210","run_number":38,"data":{"contributed":45,"tracked":12,"case_study_ready":17,"rule_adopted":2}}

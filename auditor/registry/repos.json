@@ -3553,13 +3553,13 @@
         },
         {
           "number": 305,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-25T02:46:17Z",
+          "closedAt": "2026-04-25T02:46:17Z",
           "title": "security: use npm ci for deterministic installs in test-fresh-install.sh",
-          "updatedAt": "2026-04-23T00:39:31Z",
+          "updatedAt": "2026-04-25T02:46:17Z",
           "createdAt": "2026-04-23T00:39:31Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -5057,7 +5057,8 @@
       "prs": [],
       "discovery_strategy": "topic-tag",
       "case_study": "case-studies/2026-04-06-how-we-helped-gsd.md",
-      "note": "Manually audited 2026-04-06 before auditor pipeline shipped; case study published. Re-discovered by topic-tag search 2026-04-25; corrected to complete."
+      "note": "Manually audited 2026-04-06 before auditor pipeline shipped; case study published. Re-discovered by topic-tag search 2026-04-25; corrected to complete.",
+      "rule_adopted": false
     },
     "github/awesome-copilot": {
       "discovered": "2026-04-25T01:06:48Z",
