@@ -503,7 +503,7 @@
       "security": "BLOCKED"
     },
     "Lum1104/Understand-Anything": {
-      "status": "contributed",
+      "status": "tracked",
       "score": 86,
       "strategy": "single",
       "security": "CLEAR",
@@ -515,45 +515,46 @@
       "prs": [
         {
           "number": 96,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-25T13:00:57Z",
           "title": "fix: expand ${PLUGIN_DIR} with double quotes in hook echo commands",
-          "updatedAt": "2026-04-21T12:27:38Z",
+          "updatedAt": "2026-04-25T13:03:02Z",
           "createdAt": "2026-04-21T12:27:38Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 97,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-25T12:58:20Z",
+          "closedAt": "2026-04-25T12:58:20Z",
           "title": "fix: use printf instead of echo to pipe TOOL_INPUT into grep",
-          "updatedAt": "2026-04-21T12:28:08Z",
+          "updatedAt": "2026-04-25T12:58:20Z",
           "createdAt": "2026-04-21T12:28:08Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 98,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-25T12:55:48Z",
+          "closedAt": "2026-04-25T12:55:48Z",
           "title": "fix: log skipped invalid gitignore patterns to stderr",
-          "updatedAt": "2026-04-21T12:28:47Z",
+          "updatedAt": "2026-04-25T12:55:48Z",
           "createdAt": "2026-04-21T12:28:47Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         }
       ],
-      "rule_adopted": false
+      "rule_adopted": false,
+      "case_study_candidate": true
     },
     "Imbad0202/academic-research-skills": {
       "status": "tracked",
@@ -3647,13 +3648,13 @@
       "prs": [
         {
           "number": 19,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-25T11:06:16Z",
+          "closedAt": "2026-04-25T11:06:16Z",
           "title": "fix: add missing YAML frontmatter to skill-creator subagents",
-          "updatedAt": "2026-04-23T00:38:19Z",
+          "updatedAt": "2026-04-25T11:06:16Z",
           "createdAt": "2026-04-23T00:38:19Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -4627,14 +4628,37 @@
       "status": "contributed",
       "score": 92,
       "audit_issue": 171,
-      "prs": [],
+      "prs": [
+        {
+          "number": 1269,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing `name` field to deprecated command frontmatter",
+          "updatedAt": "2026-04-25T12:18:08Z",
+          "createdAt": "2026-04-25T12:18:08Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:e6271ab9a48cfc704cadc2dddfb17f509d1fa1cc5aba0d1ca068decee95d7346",
+            "sha256:c511375774402242cc32f0540b4931a7a616fc909387abef445c59f0911a85c3",
+            "sha256:75c3899150b26fd7000fafac18d2aea7e1915d1d2a675ba8a2ddaabac67cfcf6"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "CLEAR",
       "commit_sha_at_audit": "6efe32c9e2dd002d0c394e861e0529675d1ab32e",
       "pipeline_prs": [
         1269
-      ]
+      ],
+      "rule_adopted": false
     },
     "0xfurai/claude-code-subagents": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4666,7 +4690,101 @@
       "status": "contributed",
       "score": 83,
       "audit_issue": 174,
-      "prs": [],
+      "prs": [
+        {
+          "number": 145,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: remove doubled uv prefix in install commands (uv uv pip → uv pip)",
+          "updatedAt": "2026-04-25T12:18:45Z",
+          "createdAt": "2026-04-25T12:18:45Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:85a2114ddd0bbc0b1a57803612a39c7e5f7465ece00f99c3d89d0cad4c817fd1",
+            "sha256:1e7a6fffcb89db4fca2708db65903ecc09b220a7dec51d93d9e3d71d4dd89830",
+            "sha256:2e8c2aa952c894ffac127011fe1bf58f6c0a18bca92b4abe7d7c2167f2634fdb",
+            "sha256:e39d1245ffa697465f5f833a15f3d32a800f2dd99c774c7f7e404bcf4ceb3917",
+            "sha256:3dd8b1ed7a4bc5f08bf5cd9b1d2b28f7b67156ea8a84055c13e65a9b95ad3925"
+          ],
+          "rule_ids": [
+            "BUG-invalid-install-cmd",
+            "BUG-invalid-install-cmd",
+            "BUG-invalid-install-cmd",
+            "BUG-invalid-install-cmd",
+            "BUG-invalid-install-cmd"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 146,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: correct uv invocation in latchbio-integration install command",
+          "updatedAt": "2026-04-25T12:19:20Z",
+          "createdAt": "2026-04-25T12:19:20Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:801c2a9c35dcc5a44abcb504ed34d5ae28a7b91e39c02b67b9088ee08a5e6751"
+          ],
+          "rule_ids": [
+            "BUG-invalid-install-cmd"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 147,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: correct scanpy license typo (SD-3-Clause → BSD-3-Clause)",
+          "updatedAt": "2026-04-25T12:19:48Z",
+          "createdAt": "2026-04-25T12:19:48Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:2f25560e64d08256d948e737e3fa93e1a2b0865b5a13a52dee96cb6ea7f9cd22"
+          ],
+          "rule_ids": [
+            "BUG-license-typo"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 148,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: disclose data transmission to openrouter.ai in scientific-schematics",
+          "updatedAt": "2026-04-25T12:21:06Z",
+          "createdAt": "2026-04-25T12:21:06Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:45321922426b0798ea5ce2ca786c9e8e0b29623bf3729ba649d444f9f9dc7215"
+          ],
+          "rule_ids": [
+            "SEC-outbound-api-call"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 149,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: disclose data transmission to api.parallel.ai and openrouter.ai in research-lookup",
+          "updatedAt": "2026-04-25T12:21:48Z",
+          "createdAt": "2026-04-25T12:21:48Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:98640a5ad3e27d2352e3762404176390fca8340cf1cc8a2d6524273e2f284d4e"
+          ],
+          "rule_ids": [
+            "SEC-outbound-api-call"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "progressive",
       "security": "CLEAR",
@@ -4677,7 +4795,8 @@
         147,
         148,
         149
-      ]
+      ],
+      "rule_adopted": false
     },
     "MiniMax-AI/skills": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5065,7 +5184,8 @@
       "strategy": "single",
       "security": "CLEAR",
       "commit_sha_at_audit": "bf58540cf5d5e26f27f4f50d2bc924bfbf004f00",
-      "pipeline_prs": []
+      "pipeline_prs": [],
+      "rule_adopted": false
     },
     "888wing/codetape": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5075,7 +5195,82 @@
       "status": "contributed",
       "score": 88,
       "audit_issue": 208,
-      "prs": [],
+      "prs": [
+        {
+          "number": 1,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing name and description frontmatter to skill/SKILL.md",
+          "updatedAt": "2026-04-25T12:18:05Z",
+          "createdAt": "2026-04-25T12:18:05Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:c0db0771d07024670d41c194065f3fa3ba6869c166b1e2b270ed42a2a5b7136d",
+            "sha256:8fd25517ce6ab9a87e9f1ef656a33f1b39b0e1568ca3a4f22478c4ed957316cc"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 2,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing name and description frontmatter to skills/codetape/SKILL.md",
+          "updatedAt": "2026-04-25T12:18:37Z",
+          "createdAt": "2026-04-25T12:18:37Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:cd8095368f70e8798343cee940703d9dc57af3ff90ddec01b0359fc71e21cf2f",
+            "sha256:55ff6524e4a30bcbe92dc9454ba1bdd607e82f297b9090456906903da548860d"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 3,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(serve): restrict CORS to localhost and replace exec with execFile",
+          "updatedAt": "2026-04-25T12:19:22Z",
+          "createdAt": "2026-04-25T12:19:22Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:9258ddae68006028f240594ba0b17a0191dac6def60edc16981df93f71efeb28",
+            "sha256:7af66356f6477977ba812c86f2878c36602bb1bc6ad7fad5035a4f670c156354"
+          ],
+          "rule_ids": [
+            "SEC-permissive-cors",
+            "SEC-shell-exec"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 4,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(dashboard): pin mermaid CDN to 10.9.5 and add SRI integrity hash",
+          "updatedAt": "2026-04-25T12:20:01Z",
+          "createdAt": "2026-04-25T12:20:01Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:3803a65e278ef53c4be84583f777c2d424ffa86c95b7ddc2e521f2de8e7767a5"
+          ],
+          "rule_ids": [
+            "SEC-unpinned-semver"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
@@ -5085,7 +5280,8 @@
         2,
         3,
         4
-      ]
+      ],
+      "rule_adopted": false
     },
     "anthropics/skills": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5149,7 +5345,76 @@
       "status": "contributed",
       "score": 99,
       "audit_issue": 213,
-      "prs": [],
+      "prs": [
+        {
+          "number": 757,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: correct gws docs +write flags in recipe-post-mortem-setup",
+          "updatedAt": "2026-04-25T12:21:08Z",
+          "createdAt": "2026-04-25T12:19:19Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:7a2087bd83faf7caf5c8954c5d0055864b2f2c656c5ee608f120b2695e87a6ff"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 758,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: replace nonexistent Forms API list method with Drive files list",
+          "updatedAt": "2026-04-25T12:22:30Z",
+          "createdAt": "2026-04-25T12:19:52Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:99765b5c957f40f0ba430c0f67d6df3ab2f4a7012b96f823937471e5d9ea9206"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 759,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add --locked flag to cargo install cargo-llvm-cov in coverage.sh",
+          "updatedAt": "2026-04-25T12:22:25Z",
+          "createdAt": "2026-04-25T12:20:21Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:eb7f32ad08d5f0d22fdf1f65c0eae2ee3f2236db05a42a937d72b955228ebff0"
+          ],
+          "rule_ids": [
+            "SEC-runtime-package-install"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 760,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: pin devDependencies to exact versions in package.json",
+          "updatedAt": "2026-04-25T12:21:56Z",
+          "createdAt": "2026-04-25T12:20:53Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:cc6dd0163e79cb9765bf8cff593f2d0bf97402bce9faf742ea55e61456870ae2"
+          ],
+          "rule_ids": [
+            "SEC-unpinned-semver"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "topic-tag",
       "strategy": "progressive",
       "security": "REVIEW",
@@ -5159,7 +5424,8 @@
         758,
         759,
         760
-      ]
+      ],
+      "rule_adopted": false
     },
     "iOfficeAI/AionUi": {
       "discovered": "2026-04-25T01:06:48Z",
