@@ -4986,44 +4986,56 @@
       "stars": 10609,
       "artifacts": 8,
       "description": "Hindsight: Agent Memory That  Learns",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 94,
       "audit_issue": 202,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "e1c6092785eae1da8f0114d3ee61bc69b210e6f8"
     },
     "webdevtodayjason/sub-agents": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 189,
       "artifacts": 39,
       "description": "Claude Code Sub Agent Manager. A simple Manager for adding Claude Code Sub Agents with hooks and custom slash commands.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 78,
       "audit_issue": 203,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "batched",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "dbbc2fff2baab8e898f625ef5c5bd2efaaea4043"
     },
     "zhsama/claude-sub-agent": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 576,
       "artifacts": 13,
       "description": "AI-driven development workflow system built on Claude Code Sub-Agents.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 72,
       "audit_issue": 204,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "ff1f0256e36c20365c393330cf1017b495996905"
     },
     "0xmariowu/Autosearch": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 13,
       "artifacts": 73,
       "description": "Open-source deep research for coding agents. ",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 92,
       "audit_issue": 205,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "progressive",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "c429ffc4ef93f1f3c42bc5845a82d5be140c0885"
     },
     "2389-research/review-squad": {
       "discovered": "2026-04-25T01:06:48Z",
