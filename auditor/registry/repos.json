@@ -4722,11 +4722,14 @@
       "stars": 22697,
       "artifacts": 33,
       "description": "Production-grade engineering skills for AI coding agents.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 94,
       "audit_issue": 180,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation, topic-tag"
+      "discovery_strategy": "awesome-list-citation, topic-tag",
+      "strategy": "batched",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "1f66d57a5e1b041b11e49a8cdca275aa472f0131"
     },
     "agiletec-inc/airis-mcp-gateway": {
       "discovered": "2026-04-25T01:06:48Z",
