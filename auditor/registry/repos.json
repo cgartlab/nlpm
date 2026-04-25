@@ -5062,11 +5062,14 @@
       "stars": 33166,
       "artifacts": 1222,
       "description": "🌊 The leading agent orchestration platform for Claude. Deploy intelligent multi-agent swarms, coordinate autonomous workflows, and build conversational AI systems. Features    enterprise-grade architecture, distributed swarm intelligence, RAG integration, and native Claude Code / Codex Integration",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 60,
       "audit_issue": 198,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation, topic-tag"
+      "discovery_strategy": "awesome-list-citation, topic-tag",
+      "strategy": "progressive",
+      "security": "UNKNOWN",
+      "commit_sha_at_audit": "01070ede81fa6fbae93d01c347bec1af5d6c17f0"
     },
     "c0x12c/ai-toolkit": {
       "discovered": "2026-04-25T01:06:48Z",
