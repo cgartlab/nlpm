@@ -3641,7 +3641,7 @@
       "stars": 1434,
       "artifacts": 42,
       "description": "Claude Code settings, commands and agents for vibe coding",
-      "status": "contributed",
+      "status": "complete",
       "score": 85,
       "audit_issue": 119,
       "prs": [
@@ -3667,7 +3667,8 @@
       "pipeline_prs": [
         19
       ],
-      "rule_adopted": false
+      "rule_adopted": false,
+      "case_study": "case-studies/2026-04-25-feiskyer-claude-code-settings.md"
     },
     "wuji-labs/nopua": {
       "discovered": "2026-04-18T22:52:00Z",
