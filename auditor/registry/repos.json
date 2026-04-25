@@ -5138,7 +5138,61 @@
       "status": "contributed",
       "score": 78,
       "audit_issue": 203,
-      "prs": [],
+      "prs": [
+        {
+          "number": 9,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing name field to all 20 command frontmatter blocks",
+          "updatedAt": "2026-04-25T18:28:21Z",
+          "createdAt": "2026-04-25T18:28:18Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:341062493ffb42b377b32c8bcceb3e2e6ed2e97ff0fd450b6420a15eb3452837"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 10,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add allowed-tools: Task to 14 agent-dispatch commands",
+          "updatedAt": "2026-04-25T18:29:17Z",
+          "createdAt": "2026-04-25T18:29:17Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:6f6a38c86963d5c5bc001a83b5591a85c93ee59b78ff6bf399d118bedcf36fa0"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 11,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: shadcn-ui-builder — add Bash tool and replace unresolvable MCP reference",
+          "updatedAt": "2026-04-25T18:30:12Z",
+          "createdAt": "2026-04-25T18:30:12Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:7541c23f3472a35b089014d1815a2d75588e31332b83b968287673256da300b6",
+            "sha256:ee487613d6a3603a4df81b546895c0c0b650d90f85bcefef77d8102cec327206"
+          ],
+          "rule_ids": [
+            "BUG-undeclared-tool",
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "REVIEW",
@@ -5147,7 +5201,8 @@
         9,
         10,
         11
-      ]
+      ],
+      "rule_adopted": false
     },
     "zhsama/claude-sub-agent": {
       "discovered": "2026-04-25T01:06:48Z",
