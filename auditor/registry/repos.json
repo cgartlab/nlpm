@@ -1700,9 +1700,14 @@
           "updatedAt": "2026-04-22T04:36:41Z",
           "createdAt": "2026-04-21T00:37:01Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:10e01b456c65a0b277fa6a71fc24b546766e5384dd2921a5f6f720ad3704daaf"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 536,
@@ -1713,9 +1718,18 @@
           "updatedAt": "2026-04-22T04:39:37Z",
           "createdAt": "2026-04-21T00:37:48Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:10f13cbd07301eeac9579feb1e8d61cc215d914d3356ce69c64ec98d5f8b53b7",
+            "sha256:f48b1fae091ff8cfbab4c37d47301bcf3fb32903cc318d659bfd99260b774ce3",
+            "sha256:d3f8297eadf39a6819d5fceedba80107428c9dbbaca7d880c187c71d6bd3e7be",
+            "sha256:9dedaf12fd961e191363bbfda7d349829abcb51f95aceb1f98ff8ab59ff13bd6",
+            "sha256:1c0dcbf3cbad7c0cea08d8d103940d1a5885162ebcb22d2d00cbb36002f64b34"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 537,
@@ -1739,9 +1753,14 @@
           "updatedAt": "2026-04-22T04:40:13Z",
           "createdAt": "2026-04-21T00:38:55Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:17450b84ff8204e92a048fb3c0e393cb3adaddd80c3c3a376ae4c0300f072854"
+          ],
+          "rule_ids": [
+            "SEC-unknown"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 539,
@@ -1976,9 +1995,14 @@
           "updatedAt": "2026-04-21T03:40:37Z",
           "createdAt": "2026-04-20T18:28:40Z",
           "outcome": "applied_separately",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:69c4ba73a0814bb5f0c598a53ec6dc00e1f978bc4fdc47f2108063fdbc2d0631"
+          ],
+          "rule_ids": [
+            "BUG-unclassified"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 294,
@@ -1989,9 +2013,14 @@
           "updatedAt": "2026-04-21T03:40:39Z",
           "createdAt": "2026-04-20T18:29:14Z",
           "outcome": "applied_separately",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:e81efe19034866d7b9ecd208fb068130a2df1d9f0ea4311a3266f8c3f91bf41d"
+          ],
+          "rule_ids": [
+            "BUG-unclassified"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 295,
@@ -2002,9 +2031,14 @@
           "updatedAt": "2026-04-21T03:40:40Z",
           "createdAt": "2026-04-20T18:29:45Z",
           "outcome": "applied_separately",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:55635446580974f6aa75578eb69ee2941523d8ae8f555c1858e14893f2fe42f4"
+          ],
+          "rule_ids": [
+            "BUG-unclassified"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 296,
@@ -2015,9 +2049,14 @@
           "updatedAt": "2026-04-21T03:40:42Z",
           "createdAt": "2026-04-20T18:30:22Z",
           "outcome": "applied_separately",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:f7fc2d9adce1a1736e9f4882c02629be7110ee3f9d2ab206b6474161bd6cfb33"
+          ],
+          "rule_ids": [
+            "BUG-unclassified"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 297,
@@ -2220,9 +2259,14 @@
           "updatedAt": "2026-04-20T17:49:10Z",
           "createdAt": "2026-04-20T12:37:43Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:464e75cab5940d528ac7da8bd35a75b2336f4e663f4e0cf9c2d6724aa62d779f"
+          ],
+          "rule_ids": [
+            "BUG-missing-steps"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 535,
@@ -2233,9 +2277,14 @@
           "updatedAt": "2026-04-20T17:51:15Z",
           "createdAt": "2026-04-20T12:38:37Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:5876defe8fbfc5a7527b226c6b4aeeed24b8cc05fff2cd4049f6c2078c03ad8e"
+          ],
+          "rule_ids": [
+            "BUG-malformed-markdown"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 536,
@@ -2246,9 +2295,15 @@
           "updatedAt": "2026-04-20T17:53:21Z",
           "createdAt": "2026-04-20T12:39:32Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:7d3cba8c6626e7c892899578401179dfb13d29b95b0bdf82dbed4cf80cdb2673",
+            "sha256:4a3ce0949d5165059e15519ec4e90b8e24504b08a14bbe532f3d4807ba3325a8"
+          ],
+          "rule_ids": [
+            "BUG-invalid-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 537,
@@ -2259,9 +2314,14 @@
           "updatedAt": "2026-04-20T17:55:31Z",
           "createdAt": "2026-04-20T12:40:25Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:e7cf764f4213336fa16523b54b7484f23d87102e90fdf1791e913c92b0716e56"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 538,
@@ -2272,9 +2332,14 @@
           "updatedAt": "2026-04-20T17:57:42Z",
           "createdAt": "2026-04-20T12:41:25Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:880df694f479bce8ace194c3c0dee8a4e3789b9194a39e2865d7cf6401f923df"
+          ],
+          "rule_ids": [
+            "SEC-unknown"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         }
       ],
       "strategy": "progressive",
@@ -2716,9 +2781,14 @@
           "updatedAt": "2026-04-17T17:15:48Z",
           "createdAt": "2026-04-17T12:52:39Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:7c25ce1700243af773778c414b9564da7fe84bd17551462ed2cabd907d18f8d4"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 489,
@@ -2729,9 +2799,16 @@
           "updatedAt": "2026-04-17T17:15:49Z",
           "createdAt": "2026-04-17T12:53:31Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:9a293c2cb9bd7e87c89f8d573711a5836b6852135aa43635cd5498a3b9ff64f3",
+            "sha256:a3bb9553d0c2bf3c2e6172db8c749dce146c800fb959ac44be9a619984390874",
+            "sha256:956c24878957b8ab4299943b9452d5890838372d919b5ac9b91e780fd742beb9"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 490,
@@ -2742,9 +2819,16 @@
           "updatedAt": "2026-04-17T17:15:51Z",
           "createdAt": "2026-04-17T12:54:10Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:63a613945859902c21139cdc23746b29acde9c76f1c6c4ac1ad6795824066f81",
+            "sha256:660990d84c42131d62e6f31931db8acef040a9e34e59d29564c7aade4d6f2e6a",
+            "sha256:bfdf5d4ce2938e305411fc5315bb9c4879bd52d7d6c319bc604f6b4cd0afae2d"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 491,
@@ -2755,9 +2839,16 @@
           "updatedAt": "2026-04-17T17:15:52Z",
           "createdAt": "2026-04-17T12:54:49Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:65de6abdf33dd744dac427c76865de7dc2bd254b3e294035e73a4271074f8a0c",
+            "sha256:2420389dc15253037e9c6f48f12743b2f0c793cbb541fb61c09463da4f25169b",
+            "sha256:9864ffd11e12abaf3fb7cb30b09b9d6b23642f9841a6d4a71b858f6c8166f909"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         },
         {
           "number": 492,
@@ -2768,9 +2859,16 @@
           "updatedAt": "2026-04-17T17:15:53Z",
           "createdAt": "2026-04-17T12:55:28Z",
           "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
+          "fingerprints": [
+            "sha256:433ea676d632ba813fe3df625b6090966ec76706d05784d4bf9652a695f1c253",
+            "sha256:10c80decfdaca1eab6ec654dc1b6e5ffaf982b043e5c2c837a73cac4f5592c98",
+            "sha256:1fb7cc126943eed424a7b23cb22ec40a54c227397728cf504cab700d20baa36f"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false,
+          "fingerprints_backfilled": true
         }
       ],
       "strategy": "progressive",
