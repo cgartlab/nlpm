@@ -4865,7 +4865,10 @@
       "discovery_strategy": "awesome-list-citation, topic-tag",
       "strategy": "batched",
       "security": "BLOCKED",
-      "commit_sha_at_audit": "1f66d57a5e1b041b11e49a8cdca275aa472f0131"
+      "commit_sha_at_audit": "1f66d57a5e1b041b11e49a8cdca275aa472f0131",
+      "disclosure_url": "https://github.com/addyosmani/agent-skills/issues/106",
+      "disclosure_filed_at": "2026-04-26T12:26:56Z",
+      "disclosure_filed_by": "manual"
     },
     "agiletec-inc/airis-mcp-gateway": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4876,29 +4879,38 @@
       "score": null,
       "audit_issue": 181,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "f10ac8b2a284fa6421778bab0d245ee54c16c3c2"
     },
     "agent-sh/agnix": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 207,
       "artifacts": 85,
       "description": "The missing linter and lsp for AI coding assistants. Validate CLAUDE.md, AGENTS.md, SKILL.md, hooks, MCP. Plugin for all major IDEs included, with autofixes.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 64,
       "audit_issue": 182,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "progressive",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "24efafb6d670cb6b6c0394afe69c1cdce585534a"
     },
     "backnotprop/plannotator": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 4561,
       "artifacts": 24,
       "description": "Annotate and review coding agent plans and code diffs visually, share with your team, send feedback to agents with one click.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 93,
       "audit_issue": 183,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "batched",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "ef3172e33924d0eb3721573f9283bc6fb50a2603"
     },
     "czlonkowski/n8n-mcp": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4909,7 +4921,10 @@
       "score": null,
       "audit_issue": 184,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "9639f757853149f0cb16663cc8b6b6468f27a25f"
     },
     "disler/claude-code-hooks-mastery": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4948,21 +4963,30 @@
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "BLOCKED",
-      "commit_sha_at_audit": "c0c98d367c55296bfe69e65680625b6db437af02"
+      "commit_sha_at_audit": "c0c98d367c55296bfe69e65680625b6db437af02",
+      "disclosure_url": "https://github.com/eyaltoledano/claude-task-master/issues/1694",
+      "disclosure_filed_at": "2026-04-26T12:26:56Z",
+      "disclosure_filed_by": "manual"
     },
     "iannuttall/claude-agents": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 2046,
       "artifacts": 7,
       "description": "Custom subagents to use with Claude Code.",
-      "status": "discovered",
+      "status": "contributed",
       "score": null,
       "audit_issue": 188,
       "prs": [],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
-      "commit_sha_at_audit": "f7df2c3e7395d163ad52d0793bac8fa7ce0d776a"
+      "commit_sha_at_audit": "f7df2c3e7395d163ad52d0793bac8fa7ce0d776a",
+      "pipeline_prs": [
+        12,
+        13,
+        14,
+        15
+      ]
     },
     "kbwo/ccmanager": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4990,7 +5014,8 @@
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
-      "commit_sha_at_audit": "fa1e131a014576ff8f8919f191a7ca8d8fded39b"
+      "commit_sha_at_audit": "fa1e131a014576ff8f8919f191a7ca8d8fded39b",
+      "pipeline_prs": []
     },
     "krodak/clickup-cli": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5004,7 +5029,10 @@
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
-      "commit_sha_at_audit": "48aeedb5a998df0fb4f5b4502dc01b5b645d8915"
+      "commit_sha_at_audit": "48aeedb5a998df0fb4f5b4502dc01b5b645d8915",
+      "pipeline_prs": [
+        63
+      ]
     },
     "mksglu/context-mode": {
       "discovered": "2026-04-25T01:06:48Z",

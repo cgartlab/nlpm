@@ -889,10 +889,28 @@ jobs:
               echo "Full audit report: ${AUDIT_URL}"
             } > /tmp/disclosure.md
 
+            # Try to file the disclosure on the target repo. The default
+            # GITHUB_TOKEN is scoped to the workflow's own repo, so this
+            # call 403s for third-party targets — which is exactly the
+            # case for every external audit. We capture stderr (no more
+            # silent 2>/dev/null) so the failure is visible, and on
+            # failure we persist the prepared disclosure body to a
+            # tracked queue (auditor/disclosures-pending/<slug>.md) plus
+            # emit a manual_disclosure_pending event. Daily report can
+            # surface the queue depth so xaiolai sees the work building up.
+            #
+            # If a PAT with cross-repo issues:write is later configured
+            # (e.g., as DISCLOSURE_PAT secret), set GH_TOKEN to it for
+            # this single call:
+            #
+            #   GH_TOKEN="${DISCLOSURE_PAT:-$GH_TOKEN}" gh issue create ...
+            #
+            # Until that's wired, the queue is the source of truth.
+            DISCLOSURE_ERR=/tmp/disclosure-err.txt
             DISCLOSURE_URL=$(gh issue create \
               --repo "$TARGET_REPO" \
               --title "Security findings in executable artifacts" \
-              --body-file /tmp/disclosure.md 2>/dev/null) || true
+              --body-file /tmp/disclosure.md 2>"$DISCLOSURE_ERR") || true
 
             if [ -n "$DISCLOSURE_URL" ]; then
               echo "Disclosure filed: $DISCLOSURE_URL"
@@ -901,9 +919,44 @@ jobs:
               log_event "audit" "security_disclosed" "$(jq -cn \
                 --arg repo "$TARGET_REPO" \
                 --arg url "$DISCLOSURE_URL" \
-                '{repo: $repo, disclosure_url: $url}')" || true
+                '{repo: $repo, disclosure_url: $url, disclosure_method: "auto"}')" || true
             else
-              echo "WARNING: could not file disclosure issue on $TARGET_REPO (no fork access or rate-limited)"
+              # Persist the disclosure body for manual filing. Path is
+              # under auditor/ so guard-protected-paths doesn't reject it.
+              mkdir -p auditor/disclosures-pending
+              QUEUE_PATH="auditor/disclosures-pending/${SLUG}.md"
+              {
+                echo "<!--"
+                echo "Auto-prepared disclosure body for $TARGET_REPO."
+                echo "The audit workflow's GITHUB_TOKEN cannot file issues on third-party"
+                echo "repos, so this body sits here pending manual filing:"
+                echo ""
+                echo "  gh issue create --repo $TARGET_REPO \\"
+                echo "    --title 'Security findings in executable artifacts' \\"
+                echo "    --body-file $QUEUE_PATH"
+                echo ""
+                echo "After filing, record the URL with:"
+                echo "  jq '.repos[\"$TARGET_REPO\"] += {disclosure_url: \"<URL>\", disclosure_filed_at: \"<ISO8601>\", disclosure_filed_by: \"manual\"}' \\"
+                echo "    auditor/registry/repos.json > /tmp/r.json && mv /tmp/r.json auditor/registry/repos.json"
+                echo "-->"
+                echo ""
+                cat /tmp/disclosure.md
+              } > "$QUEUE_PATH"
+
+              # Capture the actual gh CLI error so the daily report can
+              # distinguish 403 (PAT missing) from rate-limit etc.
+              ERR_FIRST_LINE=$(head -1 "$DISCLOSURE_ERR" 2>/dev/null || echo "")
+              echo "Disclosure pending: $QUEUE_PATH"
+              echo "  gh CLI error: $ERR_FIRST_LINE"
+
+              gh issue comment "$ISSUE_NUM" \
+                --body "Security disclosure auto-filing failed (default GITHUB_TOKEN cannot create issues on third-party repos). Body queued at \`$QUEUE_PATH\` for manual filing." 2>/dev/null || true
+
+              log_event "audit" "manual_disclosure_pending" "$(jq -cn \
+                --arg repo "$TARGET_REPO" \
+                --arg path "$QUEUE_PATH" \
+                --arg err "$ERR_FIRST_LINE" \
+                '{repo: $repo, queue_path: $path, gh_error: $err}')" || true
             fi
           fi
 
