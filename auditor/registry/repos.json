@@ -1509,13 +1509,13 @@
       "prs": [
         {
           "number": 166,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-26T09:09:37Z",
+          "closedAt": "2026-04-26T09:09:37Z",
           "title": "fix: correct broken repo reference and add name to sync-allowlist",
-          "updatedAt": "2026-04-22T06:44:37Z",
+          "updatedAt": "2026-04-26T09:09:37Z",
           "createdAt": "2026-04-22T06:44:37Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -1526,7 +1526,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: add missing name frontmatter to update-readme, sync-claude-md, load-claude-md",
-          "updatedAt": "2026-04-22T06:45:03Z",
+          "updatedAt": "2026-04-26T09:12:32Z",
           "createdAt": "2026-04-22T06:45:03Z",
           "outcome": "open",
           "fingerprints": [],
@@ -1548,13 +1548,13 @@
         },
         {
           "number": 169,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-26T09:15:47Z",
           "title": "fix: add missing frontmatter to 10 supabase-cli reference skill docs",
-          "updatedAt": "2026-04-22T06:46:24Z",
+          "updatedAt": "2026-04-26T09:15:47Z",
           "createdAt": "2026-04-22T06:46:24Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -1565,7 +1565,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: add path traversal guard in sync_marketplace_to_plugins.py",
-          "updatedAt": "2026-04-22T06:46:51Z",
+          "updatedAt": "2026-04-26T09:13:15Z",
           "createdAt": "2026-04-22T06:46:51Z",
           "outcome": "open",
           "fingerprints": [],
@@ -1802,13 +1802,13 @@
       "prs": [
         {
           "number": 44,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-26T12:03:28Z",
+          "closedAt": "2026-04-26T12:03:28Z",
           "title": "fix: replace word-split tags with domain-specific cybersecurity tags",
-          "updatedAt": "2026-04-21T00:35:54Z",
+          "updatedAt": "2026-04-26T12:03:28Z",
           "createdAt": "2026-04-21T00:35:54Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -1819,7 +1819,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in performing-ssl-tls-security-assessment",
-          "updatedAt": "2026-04-21T00:37:24Z",
+          "updatedAt": "2026-04-26T12:14:24Z",
           "createdAt": "2026-04-21T00:37:24Z",
           "outcome": "open",
           "fingerprints": [],
@@ -1832,7 +1832,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in detecting-aws-cloudtrail-anomalies",
-          "updatedAt": "2026-04-21T00:38:50Z",
+          "updatedAt": "2026-04-26T12:14:26Z",
           "createdAt": "2026-04-21T00:38:50Z",
           "outcome": "open",
           "fingerprints": [],
@@ -1845,7 +1845,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in analyzing-office365-audit-logs-for-compromise",
-          "updatedAt": "2026-04-21T00:40:22Z",
+          "updatedAt": "2026-04-26T12:14:14Z",
           "createdAt": "2026-04-21T00:40:22Z",
           "outcome": "open",
           "fingerprints": [],
@@ -1858,7 +1858,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: fill stub workflow in performing-red-team-with-covenant",
-          "updatedAt": "2026-04-21T00:42:00Z",
+          "updatedAt": "2026-04-26T12:14:20Z",
           "createdAt": "2026-04-21T00:42:00Z",
           "outcome": "open",
           "fingerprints": [],
@@ -3419,13 +3419,13 @@
       "prs": [
         {
           "number": 166,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-26T10:06:39Z",
+          "closedAt": "2026-04-26T10:06:39Z",
           "title": "fix: replace non-existent tool names with correct Claude Code tool names in steering.md",
-          "updatedAt": "2026-04-23T00:40:43Z",
+          "updatedAt": "2026-04-26T10:06:39Z",
           "createdAt": "2026-04-23T00:40:43Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -3458,26 +3458,26 @@
         },
         {
           "number": 169,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-26T10:06:50Z",
+          "closedAt": "2026-04-26T10:06:50Z",
           "title": "fix: correct @ path separator to / in windsurf-skills AGENTS.md",
-          "updatedAt": "2026-04-23T00:43:22Z",
+          "updatedAt": "2026-04-26T10:06:50Z",
           "createdAt": "2026-04-23T00:43:22Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 170,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-26T10:07:00Z",
+          "closedAt": "2026-04-26T10:07:00Z",
           "title": "fix: document {{DEV_GUIDELINES}} placeholder in all 7 platform docs templates",
-          "updatedAt": "2026-04-23T00:45:24Z",
+          "updatedAt": "2026-04-26T10:07:00Z",
           "createdAt": "2026-04-23T00:45:24Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -4976,7 +4976,76 @@
       "status": "contributed",
       "score": null,
       "audit_issue": 188,
-      "prs": [],
+      "prs": [
+        {
+          "number": 12,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing tools declaration to vibe-coding-coach agent",
+          "updatedAt": "2026-04-26T12:25:20Z",
+          "createdAt": "2026-04-26T12:25:20Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:bc3acd0457290846d72d2d96527966fe4025cd4d5e8b4ae5656113676090d853"
+          ],
+          "rule_ids": [
+            "BUG-missing-tools"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 13,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing tools declaration to content-writer agent",
+          "updatedAt": "2026-04-26T12:25:47Z",
+          "createdAt": "2026-04-26T12:25:47Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:b37c6ab4468fd7c737f7bc738060825f49bcaebd4bd1c1328e563d4cdcd79eb2"
+          ],
+          "rule_ids": [
+            "BUG-missing-tools"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 14,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing tools declaration to frontend-designer agent",
+          "updatedAt": "2026-04-26T12:26:12Z",
+          "createdAt": "2026-04-26T12:26:12Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:9475bdb8a8f5b838e74567011dc544192581e00ee7c68c4203284568f7b253ef"
+          ],
+          "rule_ids": [
+            "BUG-missing-tools"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 15,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: remove contradictory Task tool from prd-writer agent",
+          "updatedAt": "2026-04-26T12:26:39Z",
+          "createdAt": "2026-04-26T12:26:39Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:d1b6b2750ecdaf2926f83527bb0a3f10c0fd8a2f588d7b6c1fd97fd3d08d1417"
+          ],
+          "rule_ids": [
+            "BUG-contradictory-tool"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
@@ -4986,7 +5055,8 @@
         13,
         14,
         15
-      ]
+      ],
+      "rule_adopted": false
     },
     "kbwo/ccmanager": {
       "discovered": "2026-04-25T01:06:48Z",
