@@ -4814,11 +4814,14 @@
       "stars": 4595,
       "artifacts": 163,
       "description": "Warcraft III Peon voice notifications (+ more!) for Claude Code, Codex, IDEs, and any AI agent. Stop babysitting your terminal. Employ a Peon today.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 77,
       "audit_issue": 176,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "progressive",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "a3fc765dacc749b8f717e705c906c8f1da9fd0d2"
     },
     "SuperClaude-Org/SuperClaude_Framework": {
       "discovered": "2026-04-25T01:06:48Z",
