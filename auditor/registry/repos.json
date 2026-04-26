@@ -4905,11 +4905,14 @@
       "stars": 18662,
       "artifacts": 8,
       "description": "A MCP for Claude Desktop / Claude Code / Windsurf / Cursor to build n8n workflows for you ",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 81,
       "audit_issue": 184,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "9639f757853149f0cb16663cc8b6b6468f27a25f"
     },
     "disler/claude-code-hooks-mastery": {
       "discovered": "2026-04-25T01:06:48Z",
