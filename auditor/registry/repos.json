@@ -4894,11 +4894,14 @@
       "stars": 4561,
       "artifacts": 24,
       "description": "Annotate and review coding agent plans and code diffs visually, share with your team, send feedback to agents with one click.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 93,
       "audit_issue": 183,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "batched",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "ef3172e33924d0eb3721573f9283bc6fb50a2603"
     },
     "czlonkowski/n8n-mcp": {
       "discovered": "2026-04-25T01:06:48Z",
