@@ -4872,11 +4872,14 @@
       "stars": 151,
       "artifacts": 10,
       "description": "",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 90,
       "audit_issue": 181,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "f10ac8b2a284fa6421778bab0d245ee54c16c3c2"
     },
     "agent-sh/agnix": {
       "discovered": "2026-04-25T01:06:48Z",
