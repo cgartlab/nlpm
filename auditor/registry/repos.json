@@ -4963,11 +4963,14 @@
       "stars": 1031,
       "artifacts": 10,
       "description": "Coding Agent Session Manager for Claude Code / Gemini CLI / Codex CLI / Cursor Agent / Copilot CLI / Cline CLI / OpenCode / Kimi CLI",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 83,
       "audit_issue": 189,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "0c3ad3db5260c026bb37917195cbe95ec5dc867d"
     },
     "kepano/obsidian-skills": {
       "discovered": "2026-04-25T01:06:48Z",
