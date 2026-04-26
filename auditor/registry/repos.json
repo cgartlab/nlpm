@@ -5024,14 +5024,19 @@
       "stars": 32875,
       "artifacts": 14,
       "description": "Use Claude Code as the foundation for coding infrastructure, allowing you to decide how to interact with the model while enjoying updates from Anthropic.",
-      "status": "discovered",
+      "status": "contributed",
       "score": null,
       "audit_issue": 194,
       "prs": [],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
-      "commit_sha_at_audit": "e270dea523b8ac025ab9b7b0708dc170efa52d8a"
+      "commit_sha_at_audit": "e270dea523b8ac025ab9b7b0708dc170efa52d8a",
+      "pipeline_prs": [
+        1361,
+        1362,
+        1363
+      ]
     },
     "nextlevelbuilder/ui-ux-pro-max-skill": {
       "discovered": "2026-04-25T01:06:48Z",
