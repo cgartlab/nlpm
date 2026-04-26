@@ -4883,11 +4883,14 @@
       "stars": 207,
       "artifacts": 85,
       "description": "The missing linter and lsp for AI coding assistants. Validate CLAUDE.md, AGENTS.md, SKILL.md, hooks, MCP. Plugin for all major IDEs included, with autofixes.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 64,
       "audit_issue": 182,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "progressive",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "24efafb6d670cb6b6c0394afe69c1cdce585534a"
     },
     "backnotprop/plannotator": {
       "discovered": "2026-04-25T01:06:48Z",
