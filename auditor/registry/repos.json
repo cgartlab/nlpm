@@ -4892,28 +4892,37 @@
       "stars": 207,
       "artifacts": 85,
       "description": "The missing linter and lsp for AI coding assistants. Validate CLAUDE.md, AGENTS.md, SKILL.md, hooks, MCP. Plugin for all major IDEs included, with autofixes.",
-      "status": "audited",
+      "status": "contributed",
       "score": 64,
       "audit_issue": 182,
       "prs": [],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "progressive",
       "security": "REVIEW",
-      "commit_sha_at_audit": "24efafb6d670cb6b6c0394afe69c1cdce585534a"
+      "commit_sha_at_audit": "24efafb6d670cb6b6c0394afe69c1cdce585534a",
+      "pipeline_prs": [
+        828,
+        829,
+        830
+      ]
     },
     "backnotprop/plannotator": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 4561,
       "artifacts": 24,
       "description": "Annotate and review coding agent plans and code diffs visually, share with your team, send feedback to agents with one click.",
-      "status": "audited",
+      "status": "contributed",
       "score": 93,
       "audit_issue": 183,
       "prs": [],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "REVIEW",
-      "commit_sha_at_audit": "ef3172e33924d0eb3721573f9283bc6fb50a2603"
+      "commit_sha_at_audit": "ef3172e33924d0eb3721573f9283bc6fb50a2603",
+      "pipeline_prs": [
+        613,
+        614
+      ]
     },
     "czlonkowski/n8n-mcp": {
       "discovered": "2026-04-25T01:06:48Z",
