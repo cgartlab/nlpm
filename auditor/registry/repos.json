@@ -5110,14 +5110,17 @@
       "stars": 53665,
       "artifacts": 9,
       "description": "Context7 Platform -- Up-to-date code documentation for LLMs and AI code editors",
-      "status": "discovered",
+      "status": "contributed",
       "score": null,
       "audit_issue": 201,
       "prs": [],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
-      "commit_sha_at_audit": "5d284f215471c341e0e3d9bb4f9c24bb1345ada1"
+      "commit_sha_at_audit": "5d284f215471c341e0e3d9bb4f9c24bb1345ada1",
+      "pipeline_prs": [
+        2508
+      ]
     },
     "vectorize-io/hindsight": {
       "discovered": "2026-04-25T01:06:48Z",
