@@ -4818,7 +4818,10 @@
       "score": null,
       "audit_issue": 176,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "progressive",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "a3fc765dacc749b8f717e705c906c8f1da9fd0d2"
     },
     "SuperClaude-Org/SuperClaude_Framework": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4846,7 +4849,10 @@
       "score": null,
       "audit_issue": 178,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "52883144858f62d6f9b418c00432279f28d119d4"
     },
     "Xquik-dev/x-twitter-scraper": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4857,7 +4863,10 @@
       "score": null,
       "audit_issue": 179,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "batched",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "c9945b1061a0bc14f88cff48402442392f495ac0"
     },
     "addyosmani/agent-skills": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4902,7 +4911,12 @@
       "discovery_strategy": "awesome-list-citation",
       "strategy": "progressive",
       "security": "REVIEW",
-      "commit_sha_at_audit": "24efafb6d670cb6b6c0394afe69c1cdce585534a"
+      "commit_sha_at_audit": "24efafb6d670cb6b6c0394afe69c1cdce585534a",
+      "pipeline_prs": [
+        828,
+        829,
+        830
+      ]
     },
     "backnotprop/plannotator": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4916,7 +4930,11 @@
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "REVIEW",
-      "commit_sha_at_audit": "ef3172e33924d0eb3721573f9283bc6fb50a2603"
+      "commit_sha_at_audit": "ef3172e33924d0eb3721573f9283bc6fb50a2603",
+      "pipeline_prs": [
+        613,
+        614
+      ]
     },
     "czlonkowski/n8n-mcp": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4937,14 +4955,21 @@
       "stars": 3566,
       "artifacts": 40,
       "description": "Master Claude Code Hooks",
-      "status": "audited",
+      "status": "contributed",
       "score": 77,
       "audit_issue": 185,
       "prs": [],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "REVIEW",
-      "commit_sha_at_audit": "052ad1cbd5aeb1ec4a1def22012d1293c6225625"
+      "commit_sha_at_audit": "052ad1cbd5aeb1ec4a1def22012d1293c6225625",
+      "pipeline_prs": [
+        46,
+        47,
+        48,
+        41,
+        43
+      ]
     },
     "expo/skills": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4955,7 +4980,10 @@
       "score": null,
       "audit_issue": 186,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "single",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "93751dadf0494110893a9f7a2091ca14833d8212"
     },
     "eyaltoledano/claude-task-master": {
       "discovered": "2026-04-25T01:06:48Z",
