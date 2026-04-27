@@ -3413,7 +3413,7 @@
       "stars": 3099,
       "artifacts": 290,
       "description": "Spec-driven development (SDD) for your team's workflow. Kiro style commands that enforce structured requirements→design→tasks workflow and steering, transforming how you build with AI. Support Claude Code, Codex, Opencode, Cursor, Github Copilot, Gemini CLI and Windsurf.",
-      "status": "contributed",
+      "status": "complete",
       "score": null,
       "audit_issue": 107,
       "prs": [
@@ -3495,7 +3495,8 @@
         169,
         170
       ],
-      "rule_adopted": false
+      "rule_adopted": false,
+      "case_study": "case-studies/2026-04-27-gotalab-cc-sdd.md"
     },
     "htdt/godogen": {
       "discovered": "2026-04-18T22:52:00Z",
