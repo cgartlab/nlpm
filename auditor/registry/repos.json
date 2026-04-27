@@ -3432,26 +3432,26 @@
         },
         {
           "number": 167,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-26T20:45:30Z",
           "title": "fix: remove write-capable tools from read-only spec-status command",
-          "updatedAt": "2026-04-23T00:41:18Z",
+          "updatedAt": "2026-04-26T20:45:30Z",
           "createdAt": "2026-04-23T00:41:18Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 168,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-26T20:45:30Z",
           "title": "fix: add required frontmatter and structure to gemini-agents/spec-reviewer.md",
-          "updatedAt": "2026-04-23T00:42:57Z",
+          "updatedAt": "2026-04-26T20:45:30Z",
           "createdAt": "2026-04-23T00:42:57Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -5100,7 +5100,80 @@
       "status": "contributed",
       "score": null,
       "audit_issue": 186,
-      "prs": [],
+      "prs": [
+        {
+          "number": 50,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(expo-ui-swift-ui): correct import path from @expo-ui/swift-ui to @expo/ui/swift-ui",
+          "updatedAt": "2026-04-27T00:42:42Z",
+          "createdAt": "2026-04-27T00:36:57Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:0104077816854fea5da4278eb03ba2d6ffc770661839f1a7d1d4b8bb9214bc7c"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 51,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(expo-deployment): unify reference paths to ./references/ (plural)",
+          "updatedAt": "2026-04-27T00:37:22Z",
+          "createdAt": "2026-04-27T00:37:22Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:9b998147e7c2d3937ce0d6536023a6170713099be5cc83df15351e40551a5914"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 52,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(expo-cicd-workflows): add URL allowlist to fetch.js to prevent SSRF",
+          "updatedAt": "2026-04-27T00:37:54Z",
+          "createdAt": "2026-04-27T00:37:54Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:f47a9d7facb678fe7e153596857104e6ddae56d8454fe7e73ed876b85d650e76"
+          ],
+          "rule_ids": [
+            "SEC-path-traversal"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 53,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(expo-cicd-workflows): pin dependency versions to exact semver in package.json",
+          "updatedAt": "2026-04-27T00:38:22Z",
+          "createdAt": "2026-04-27T00:38:22Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:f8633462e204588abfd583d28cb36a58524016e65406500863f1a397b5477af9",
+            "sha256:62585b63b2e4ee7259e6a97a87a868074639d6aa67c15233604d02ea9848ae5e",
+            "sha256:c78e33eb7db6d729f133072f899827b019ce69b9021097d4e1aa466218293b91"
+          ],
+          "rule_ids": [
+            "SEC-unpinned-semver",
+            "SEC-unpinned-semver",
+            "SEC-unpinned-semver"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
@@ -5110,7 +5183,8 @@
         51,
         52,
         53
-      ]
+      ],
+      "rule_adopted": false
     },
     "eyaltoledano/claude-task-master": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5874,7 +5948,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: correct gws docs +write flags in recipe-post-mortem-setup",
-          "updatedAt": "2026-04-25T12:21:08Z",
+          "updatedAt": "2026-04-27T04:35:13Z",
           "createdAt": "2026-04-25T12:19:19Z",
           "outcome": "open",
           "fingerprints": [
@@ -5891,7 +5965,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: replace nonexistent Forms API list method with Drive files list",
-          "updatedAt": "2026-04-25T12:22:30Z",
+          "updatedAt": "2026-04-27T04:35:38Z",
           "createdAt": "2026-04-25T12:19:52Z",
           "outcome": "open",
           "fingerprints": [
@@ -5908,7 +5982,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: add --locked flag to cargo install cargo-llvm-cov in coverage.sh",
-          "updatedAt": "2026-04-25T12:22:25Z",
+          "updatedAt": "2026-04-27T04:36:09Z",
           "createdAt": "2026-04-25T12:20:21Z",
           "outcome": "open",
           "fingerprints": [
@@ -5925,7 +5999,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: pin devDependencies to exact versions in package.json",
-          "updatedAt": "2026-04-25T12:21:56Z",
+          "updatedAt": "2026-04-27T03:53:39Z",
           "createdAt": "2026-04-25T12:20:53Z",
           "outcome": "open",
           "fingerprints": [
@@ -6256,8 +6330,8 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: define model literal and add types prefix in URL Context example",
-          "createdAt": null,
-          "updatedAt": null,
+          "updatedAt": "2026-04-27T03:48:02Z",
+          "createdAt": "2026-04-27T02:30:21Z",
           "outcome": "open",
           "fingerprints": [
             "sha256:3439ae24033ea4eca837d06d4a3e78c2f08ec906b1d97b08486edef14e2937c9"
@@ -6273,8 +6347,8 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: use agent-neutral phrasing for web-fetch fallback in gemini-api-dev",
-          "createdAt": null,
-          "updatedAt": null,
+          "updatedAt": "2026-04-27T03:48:04Z",
+          "createdAt": "2026-04-27T02:31:10Z",
           "outcome": "open",
           "fingerprints": [
             "sha256:fc97b7500e81f2a6ab9c904c9a8cd8f56b2199676b15932ae7566bcb0f99ceac"
@@ -6290,8 +6364,8 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "docs: fix README link text \"thought circulation\" → \"thought signatures\"",
-          "createdAt": null,
-          "updatedAt": null,
+          "updatedAt": "2026-04-27T03:48:06Z",
+          "createdAt": "2026-04-27T02:31:44Z",
           "outcome": "open",
           "fingerprints": [
             "sha256:5798b0c47a62e2886ddbdbd6fbfeed259cbe3c361ece2397e36b2d2b26da52f8"
