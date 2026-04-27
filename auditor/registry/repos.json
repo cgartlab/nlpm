@@ -4802,12 +4802,16 @@
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 11187,
       "artifacts": 30,
-      "description": "",
-      "status": "discovered",
-      "score": null,
+      "description": "MiniMax AI skills collection: mobile dev, media generation, document processing, vision analysis, and presentation tools for Claude Code.",
+      "status": "audited",
+      "score": 89,
       "audit_issue": 175,
       "prs": [],
-      "discovery_strategy": "awesome-list-citation"
+      "discovery_strategy": "awesome-list-citation",
+      "strategy": "batched",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "60aaae52bb2af8162732751a4332f62a5fef518b",
+      "audited_at": "2026-04-27T00:41:00Z"
     },
     "PeonPing/peon-ping": {
       "discovered": "2026-04-25T01:06:48Z",
