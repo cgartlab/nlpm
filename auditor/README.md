@@ -95,14 +95,41 @@ Every good audit deserves a good story. When `case-study-ready` is applied, the 
 
 ## Rules of Engagement
 
-We're guests in other people's repos. Behave accordingly.
+We're guests in other people's repos. Behave accordingly. The four hard
+rules below come directly from the lesson at `google-gemini/gemini-skills#39`
+(markmcd, 2026-04-28). They are encoded into the contribute workflow as
+mechanical gates, not just guidance — see `.github/workflows/auditor-contribute.yml`.
 
-1. **Only submit PRs for verified bugs** — the kind that break things, not the kind that offend your taste
-2. **Never PR convention preferences** — if their YAML works, it's their YAML
-3. **No umbrella issues on the target repo** — the PR body's `nlpm-metadata` block is sufficient provenance. A separate "audit findings" issue duplicates the per-PR signal and pushes evaluation work back onto the maintainer. (Lesson from `google-gemini/gemini-skills#39`, 2026-04-28: per-PR fixes welcome, summary issues burdensome.) Anything not in a PR — deferred items, cross-component drifts, rule-learning notes — stays in our own audit data.
-4. **Max 5 PRs per repo** — a focused visit, not a renovation
-5. **Max 2 repos per week** — good neighbors don't ring every doorbell on the street
-6. **Accept "no" gracefully** — close the PR, say thank you, and take the lesson home
+1. **Only contribute concretely.** Per-PR fixes only. Never an umbrella
+   "audit findings" issue. The PR body's `nlpm-metadata` block carries
+   all provenance. The contribute workflow has a backstop step that
+   closes any stray issue and fails the run, so this rule is mechanical.
+
+2. **High confidence, with evidence.** Only findings marked
+   `confidence: high` in the audit sidecar reach the contribute step —
+   the workflow filters before dispatching the agent. `high` requires
+   the scorer to have reproduced the breakage during the audit pass
+   (ran the snippet, followed the link, parsed the YAML). The agent
+   re-verifies before opening the PR; no reproduction, no PR. Each PR
+   body is three labelled lines: **Bug**, **Evidence**, **Fix**.
+
+3. **Assume the authors' good intent and competence.** Findings about
+   style, naming, content priorities, or anything that could be a
+   deliberate authorial choice are dropped — silently. Default to
+   `medium` confidence when unsure; `medium` never ships. A drop is
+   the system working, not a failure.
+
+4. **Never leave the maintainer with the burden of reviewing our report.**
+   The PR body has no questions, no "is this intentional?", no link to
+   our audit, no "please consider". A maintainer should be able to
+   decide yes/no in 30 seconds.
+
+Plus the operational floor:
+
+5. **Never PR convention preferences** — if their YAML works, it's their YAML
+6. **First contact: max 3 PRs; thereafter max 5** — focused visit, not a renovation
+7. **Max 2 repos per week** — good neighbors don't ring every doorbell on the street
+8. **Accept "no" gracefully** — close the PR, say thank you, take the lesson home. The pushback gate enforces this on subsequent runs.
 
 ## Setup
 

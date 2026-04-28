@@ -111,9 +111,12 @@ The report MUST follow this exact structure:
 
 ## Bugs (PR-worthy)
 
-| # | File | Issue | Impact |
-|---|------|-------|--------|
-<NL bugs only — missing frontmatter, broken references, etc.>
+| # | File | Issue | Confidence | Evidence | Impact |
+|---|------|-------|------------|----------|--------|
+<Only `confidence: high` bugs — those you reproduced during this scoring
+pass. `medium` / `low` bugs go in the JSONL sidecar but NOT in this table:
+the contribute workflow ships only what's listed here. Silent omission
+is preferable to leaving a maintainer to evaluate an unverified finding.>
 
 ## Quality Issues (informational)
 
@@ -143,7 +146,7 @@ empty file.
 Per-line schema (strict JSONL — NOT a JSON array):
 
 ```
-{"category":"...","rule_id":"...","file":"...","line":<int|null>,"severity":"...","penalty":<int|null>,"pattern":"...","description":"...","false_positive":<bool>,"suggested_fix":"..."}
+{"category":"...","rule_id":"...","file":"...","line":<int|null>,"severity":"...","confidence":"...","evidence":"...","penalty":<int|null>,"pattern":"...","description":"...","false_positive":<bool>,"suggested_fix":"..."}
 ```
 
 Field rules:
@@ -162,6 +165,31 @@ Field rules:
 - `line`: integer line number, or `null` for file-level and cross-component
   findings
 - `severity`: one of `critical`, `high`, `medium`, `low`, `info`
+- `confidence`: `high`, `medium`, or `low`. Strict definitions:
+  - `high` — you reproduced the breakage during this scoring pass:
+    ran the snippet and saw the error; followed the link and got 404;
+    parsed the YAML and got a syntax error; opened a tool name in
+    `allowed-tools` and grepped the artifact, finding zero call sites.
+    Also `high`: missing required fields per `skills/nlpm/conventions/`
+    where the schema is unambiguous (no `name:` on a SKILL.md).
+    Only `high` findings reach the contribute step; everything else
+    stays in the audit data for our own learning.
+  - `medium` — likely a bug but you cannot independently verify
+    without environment access (e.g., a model name that may or may
+    not exist; a behavior that depends on the runtime). Default to
+    `medium` when uncertain.
+  - `low` — inferred from cross-comparison or convention drift; the
+    "bug" might be intentional. Sibling-skill divergence, terminology
+    drift, missing convention-but-not-required fields. Never PR'd.
+  - The default for any finding you have not actively reproduced is
+    `medium`. **Silent omission is preferable to a high-confidence
+    false positive**; if you ran a verification step and it didn't
+    resolve cleanly, drop the finding rather than mark it `high`.
+- `evidence`: when `confidence == "high"`, a one-line concrete
+  observation that demonstrates the bug (e.g., `"NameError: name
+  'model_id' is not defined"`, `"link returns 404"`,
+  `"tool 'fetch_url' has zero call sites in the artifact"`). Empty
+  string `""` for `medium` / `low` (those don't ship anyway).
 - `penalty`: negative integer for `nl_quality` rows only, `null` for every
   other category
 - `pattern`: short machine-friendly id (e.g., `missing-frontmatter`,

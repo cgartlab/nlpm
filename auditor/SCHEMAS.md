@@ -38,6 +38,8 @@ Every audit appends one line per finding to `auditor/findings.jsonl`. The audit 
   "file": "scripts/build.js",
   "line": 122,
   "severity": "high",
+  "confidence": "high",
+  "evidence": "new Function() runs against a regex-extracted string; reproducer raises if input is malformed",
   "penalty": null,
   "pattern": "new-Function(dynamic-string)",
   "description": "Regex-extracts ANTIPATTERNS array, evaluates via new Function().",
@@ -61,6 +63,8 @@ Every audit appends one line per finding to `auditor/findings.jsonl`. The audit 
 | `file` | string | yes | Path relative to target repo root |
 | `line` | int \| null | yes | `null` for file-level or cross-component findings |
 | `severity` | enum | yes | One of `critical`, `high`, `medium`, `low`, `info` |
+| `confidence` | enum | yes | One of `high`, `medium`, `low`. **Only `high` findings reach the contribute step**; `medium` / `low` stay in audit data for our own learning. `high` requires the scorer to have reproduced the breakage during the scoring pass — ran the snippet and saw the error, followed the link and got 404, etc. Default is `medium`. Strict definitions in `auditor/prompts/score-artifacts.md` §sidecar. |
+| `evidence` | string | yes | One-line concrete observation when `confidence: high` (e.g., `NameError: name 'model_id' is not defined`, `link returns 404`). Empty string `""` for `medium` / `low`. |
 | `penalty` | int \| null | yes | Negative integer for `nl_quality` findings; `null` otherwise |
 | `pattern` | string | yes | Short machine-friendly id (e.g., `new-Function-eval`, `missing-frontmatter`) |
 | `description` | string | yes | One-line human summary, no newlines |
@@ -68,6 +72,13 @@ Every audit appends one line per finding to `auditor/findings.jsonl`. The audit 
 | `suggested_fix` | string | yes | One-line fix hint, empty string if none |
 | `fp_reason` | string | when `false_positive: true` | One-line explanation of why the finding is invalid in this context |
 | `rule_gap` | string | when `false_positive: true` | One-line hint at what the rule should account for to avoid this misfire |
+
+#### Backward compatibility
+
+Findings emitted before the `confidence` / `evidence` fields were introduced
+(2026-04-28) will not have these keys. Consumers MUST treat missing
+`confidence` as `medium` (default-conservative), so legacy findings cannot
+unintentionally ship as PRs through the contribute filter.
 
 ### `rule_id` namespace conventions
 
