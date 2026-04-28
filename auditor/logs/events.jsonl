@@ -1475,3 +1475,4 @@
 {"timestamp":"2026-04-28T12:46:23Z","workflow":"audit","event":"audit_complete","run_id":"25053251062","run_number":379,"data":{"repo":"uppinote20/claude-dashboard","score":99,"artifacts":6,"strategy":"single"}}
 {"timestamp":"2026-04-28T12:47:11Z","workflow":"audit","event":"findings_aggregated","run_id":"25053259982","run_number":381,"data":{"repo":"mbruhler/claude-orchestration","findings":54,"invalid_lines":0,"self_false_positives":0}}
 {"timestamp":"2026-04-28T12:47:11Z","workflow":"audit","event":"audit_complete","run_id":"25053259982","run_number":381,"data":{"repo":"mbruhler/claude-orchestration","score":82,"artifacts":22,"strategy":"batched"}}
+{"timestamp":"2026-04-28T13:02:40Z","workflow":"case-study","event":"published","run_id":"25053739542","run_number":235,"data":{"repo":"a5c-ai/babysitter","article_lines":143,"has_cover":true}}
