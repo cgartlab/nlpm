@@ -595,26 +595,26 @@
       "prs": [
         {
           "number": 671,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T01:41:36Z",
           "title": "fix(commands): add missing name frontmatter to all speckit commands",
-          "updatedAt": "2026-04-21T18:29:56Z",
+          "updatedAt": "2026-04-28T01:41:48Z",
           "createdAt": "2026-04-21T18:28:13Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 672,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-28T01:43:09Z",
+          "closedAt": "2026-04-28T01:43:09Z",
           "title": "fix(security): replace Invoke-Expression with argument array in run-act-test.ps1",
-          "updatedAt": "2026-04-21T18:31:14Z",
+          "updatedAt": "2026-04-28T01:43:18Z",
           "createdAt": "2026-04-21T18:29:45Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -625,7 +625,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix(security): validate remote URL and escape commit messages in generate-release.ps1",
-          "updatedAt": "2026-04-21T18:34:42Z",
+          "updatedAt": "2026-04-28T02:01:41Z",
           "createdAt": "2026-04-21T18:30:34Z",
           "outcome": "open",
           "fingerprints": [],
@@ -735,19 +735,6 @@
           "title": "fix: correct category skill counts and listings in CLAUDE.md",
           "updatedAt": "2026-04-21T12:27:38Z",
           "createdAt": "2026-04-21T12:27:38Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 53,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix(security): pin npm dependency versions to exact ranges",
-          "updatedAt": "2026-04-21T12:28:12Z",
-          "createdAt": "2026-04-21T12:28:12Z",
           "outcome": "open",
           "fingerprints": [],
           "rule_ids": [],
@@ -2492,71 +2479,71 @@
       "stars": 3612,
       "artifacts": 48,
       "description": "Claude Autoresearch Skill — Autonomous goal-directed iteration for Claude Code. Inspired by Karpathy's autoresearch. Modify → Verify → Keep/Discard → Repeat forever.",
-      "status": "contributed",
+      "status": "tracked",
       "score": 88,
       "audit_issue": 76,
       "prs": [
         {
           "number": 74,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T09:44:55Z",
           "title": "fix: add missing name field to docs-manager OpenCode agent",
-          "updatedAt": "2026-04-20T12:34:19Z",
+          "updatedAt": "2026-04-28T09:44:55Z",
           "createdAt": "2026-04-20T12:34:19Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 75,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T09:44:59Z",
           "title": "fix: add missing name field to all 10 OpenCode commands",
-          "updatedAt": "2026-04-20T12:35:46Z",
+          "updatedAt": "2026-04-28T09:44:59Z",
           "createdAt": "2026-04-20T12:35:46Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 76,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T09:45:02Z",
           "title": "fix: add allowed-tools declaration to all 20 Claude commands",
-          "updatedAt": "2026-04-20T12:36:54Z",
+          "updatedAt": "2026-04-28T09:45:02Z",
           "createdAt": "2026-04-20T12:36:54Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 77,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T09:45:06Z",
           "title": "fix: eliminate shell variable interpolation in python3 sync scripts",
-          "updatedAt": "2026-04-20T12:38:15Z",
+          "updatedAt": "2026-04-28T09:45:06Z",
           "createdAt": "2026-04-20T12:38:15Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 78,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T09:45:09Z",
           "title": "fix: add path safety guard to sync_dir before rm -rf",
-          "updatedAt": "2026-04-20T12:39:26Z",
+          "updatedAt": "2026-04-28T09:45:09Z",
           "createdAt": "2026-04-20T12:39:26Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -2590,45 +2577,45 @@
       "stars": 7505,
       "artifacts": 8,
       "description": "45 tips for getting the most out of Claude Code, from basics to advanced - includes a custom status line script, cutting the system prompt in half, using Gemini CLI as Claude Code's minion, and Claude Code running itself in a container. Also includes the dx plugin.",
-      "status": "contributed",
+      "status": "tracked",
       "score": 94,
       "audit_issue": 78,
       "prs": [
         {
           "number": 21,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-27T23:13:15Z",
           "title": "fix: replace hardcoded author path in upgrade-patches command",
-          "updatedAt": "2026-04-22T12:26:08Z",
+          "updatedAt": "2026-04-27T23:13:15Z",
           "createdAt": "2026-04-22T12:26:08Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 22,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-27T23:13:15Z",
           "title": "fix: add allowed-tools frontmatter to upgrade-patches command",
-          "updatedAt": "2026-04-22T12:26:29Z",
+          "updatedAt": "2026-04-27T23:13:15Z",
           "createdAt": "2026-04-22T12:26:29Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 23,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-27T23:13:16Z",
           "title": "fix: pin cc-safe to known-good version in setup.sh",
-          "updatedAt": "2026-04-22T12:26:52Z",
+          "updatedAt": "2026-04-27T23:13:16Z",
           "createdAt": "2026-04-22T12:26:52Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -4002,32 +3989,32 @@
       "stars": 1001,
       "artifacts": 25,
       "description": "🦸 AI 编程超能力 · 中文增强版 — superpowers（116k+ ⭐）完整汉化 + 6 个中国原创 skills，让 Claude Code / Copilot CLI / Hermes Agent / Cursor / Windsurf / Kiro / Gemini CLI 等 16 款 AI 编程工具真正会干活",
-      "status": "contributed",
+      "status": "tracked",
       "score": 95,
       "audit_issue": 131,
       "prs": [
         {
           "number": 11,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T02:44:01Z",
           "title": "fix: add missing name field to deprecated command frontmatter",
-          "updatedAt": "2026-04-23T06:43:49Z",
+          "updatedAt": "2026-04-28T02:44:01Z",
           "createdAt": "2026-04-23T06:43:49Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 12,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T02:44:07Z",
           "title": "fix: tighten Node engine constraint from >=14 to >=18",
-          "updatedAt": "2026-04-23T06:44:21Z",
+          "updatedAt": "2026-04-28T02:44:07Z",
           "createdAt": "2026-04-23T06:44:21Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -4409,13 +4396,13 @@
         },
         {
           "number": 142,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-27T09:56:43Z",
           "title": "fix(hooks): replace npx -y auto-install fallback with graceful no-op",
-          "updatedAt": "2026-04-22T15:08:33Z",
+          "updatedAt": "2026-04-27T09:56:43Z",
           "createdAt": "2026-04-21T00:37:24Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -4664,19 +4651,19 @@
       "stars": 166779,
       "artifacts": 19,
       "description": "An agentic skills framework & software development methodology that works.",
-      "status": "contributed",
+      "status": "tracked",
       "score": 92,
       "audit_issue": 171,
       "prs": [
         {
           "number": 1269,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-04-28T00:23:54Z",
           "title": "fix: add missing `name` field to deprecated command frontmatter",
-          "updatedAt": "2026-04-25T12:18:08Z",
+          "updatedAt": "2026-04-28T00:23:54Z",
           "createdAt": "2026-04-25T12:18:08Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:e6271ab9a48cfc704cadc2dddfb17f509d1fa1cc5aba0d1ca068decee95d7346",
             "sha256:c511375774402242cc32f0540b4931a7a616fc909387abef445c59f0911a85c3",
@@ -6080,7 +6067,93 @@
       "status": "contributed",
       "score": 89,
       "audit_issue": 215,
-      "prs": [],
+      "prs": [
+        {
+          "number": 6632,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(devops-credentials): use correct Secret type in credential API examples",
+          "updatedAt": "2026-04-27T07:09:30Z",
+          "createdAt": "2026-04-27T07:07:49Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:d7125c5c8c94a753e89aaf150c84e91185af2824559c8e8597bcef64aa04fa7c"
+          ],
+          "rule_ids": [
+            "BUG-incorrect-api-example"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 6633,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(fluid): close unclosed double-quote in Dataset tieredstore YAML template",
+          "updatedAt": "2026-04-27T07:13:02Z",
+          "createdAt": "2026-04-27T07:08:31Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:48e59502353a5665adbede1b06db2a69a4c2002e968ccfb44ef622d00910b90a"
+          ],
+          "rule_ids": [
+            "BUG-yaml-syntax-error"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 6634,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(whizard-logging): correct 'From Step 3' placeholder to 'From Step 2'",
+          "updatedAt": "2026-04-27T07:10:35Z",
+          "createdAt": "2026-04-27T07:09:07Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:866ff4edfa78d47baa05df21199201de19b87960829a9958f0fdab84b666cdc0"
+          ],
+          "rule_ids": [
+            "BUG-incorrect-step-reference"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 6635,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(devops-pipeline): close unclosed bold marker in 'Step 3b' heading",
+          "updatedAt": "2026-04-27T07:12:06Z",
+          "createdAt": "2026-04-27T07:10:02Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:3fea9e06f7927b9e887cb79c522463be8820db21b5629905df31f54e0c92d6b6"
+          ],
+          "rule_ids": [
+            "BUG-broken-markdown"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 6636,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(devops-overview): remove duplicate Project Components ASCII diagram",
+          "updatedAt": "2026-04-27T07:12:54Z",
+          "createdAt": "2026-04-27T07:10:55Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:7baa04098f252c88f3e6494c7405143d88acfc54fb15cd376d7bc40d842c6bfc"
+          ],
+          "rule_ids": [
+            "BUG-duplicate-section"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "topic-tag",
       "strategy": "batched",
       "security": "REVIEW",
@@ -6091,7 +6164,8 @@
         6634,
         6635,
         6636
-      ]
+      ],
+      "rule_adopted": false
     },
     "JimLiu/baoyu-skills": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -6374,7 +6448,7 @@
           "title": "fix: define model literal and add types prefix in URL Context example",
           "updatedAt": "2026-04-28T02:50:58Z",
           "createdAt": "2026-04-27T02:30:21Z",
-          "outcome": "closed_unmerged",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:3439ae24033ea4eca837d06d4a3e78c2f08ec906b1d97b08486edef14e2937c9"
           ],
