@@ -12,11 +12,11 @@ NLPM scored `google-gemini/gemini-skills` on 2026-04-27 at commit `8c95085`. Fou
 
 Three PRs were filed against the target:
 
-| PR | Title | Outcome | Time to resolution |
-|----|-------|---------|---------------------|
-| #36 | URL Context example: undefined `model_id`, bare `GenerateContentConfig` | **closed unmerged** by `markmcd` ("No longer needed.") | ~24h |
-| #37 | Agent-neutral phrasing for web-fetch fallback | **merged** | ~24h |
-| #38 | README link text "thought circulation" → "thought signatures" | **merged** | ~24h |
+| PR  | Title                                                                   | Outcome                                                | Time to resolution |
+| --- | ----------------------------------------------------------------------- | ------------------------------------------------------ | ------------------ |
+| #36 | URL Context example: undefined `model_id`, bare `GenerateContentConfig` | **closed unmerged** by `markmcd` ("No longer needed.") | \~24h              |
+| #37 | Agent-neutral phrasing for web-fetch fallback                           | **merged**                                             | \~24h              |
+| #38 | README link text "thought circulation" → "thought signatures"           | **merged**                                             | \~24h              |
 
 For PR #36 the bug is technically still in the upstream code as of close — the `model_id` variable is undefined in the snippet and `GenerateContentConfig` is not qualified with the `types.` prefix the rest of the file uses. The maintainer's "No longer needed" was a judgment call, not a fix. The right tracking outcome is `closed_unmerged` / `maintainer_rejected`, not `applied_separately`.
 
@@ -53,15 +53,15 @@ These are not opinions. They are the literal disambiguation of markmcd's three-p
 
 What landed in the NLPM repo in direct response, all gateable mechanically rather than relying on prompt-as-promise:
 
-| Change | Where | Mechanism |
-|---|---|---|
-| Umbrella issue removed | `auditor-contribute.yml` step 6 + new backstop step | Prompt forbids it; backstop searches the target for any issue we authored within the run window, closes it with an apology comment, and fails the workflow if found |
-| Real CONTRIBUTING.md reading | `auditor-contribute.yml` step 2 | Fetches CONTRIBUTING.md / `.github/CONTRIBUTING.md` / PR template / CoC; if "discuss in an issue first" appears anywhere, the agent stops and exits without opening PRs |
-| Pushback gate | new step in `auditor-contribute.yml` | On entry, scans `auditor/logs/events.jsonl` for `maintainer_rejected` or `pr_comments_snapshot(closed_unmerged)` matching the target repo. Hits → `pushback_gated` status + label, all later steps skip via `if: steps.pushback_gate.outputs.gated != 'true'` |
-| First-contact PR cap | `auditor-contribute.yml` step 5 | Reduced from 5 to 3 if `gh pr list --author $CONTRIBUTE_AUTHOR_EMAIL` returns zero |
-| Confidence gate | `auditor/prompts/score-artifacts.md` adds `confidence` and `evidence` fields; `auditor-contribute.yml` filters to `confidence == high` only | Missing `confidence` defaults to `medium` for legacy audits — they cannot accidentally ship |
-| Reproduction-required PR step | `auditor-contribute.yml` step 5b | Hard gate: agent must reproduce the bug (run the snippet, curl the link, parse the YAML) before opening the PR. No reproduction, drop the finding silently |
-| Tightened PR body | `auditor-contribute.yml` step 5h | Three labelled lines: **Bug**, **Evidence**, **Fix**. No questions, no audit-link, no marketing. Disclosure shortened to "drive-by fix from NLPM, reviewed and reproduced before submission" |
+| Change                        | Where                                                                                                                                       | Mechanism                                                                                                                                                                                                                                                     |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Umbrella issue removed        | `auditor-contribute.yml` step 6 + new backstop step                                                                                         | Prompt forbids it; backstop searches the target for any issue we authored within the run window, closes it with an apology comment, and fails the workflow if found                                                                                           |
+| Real CONTRIBUTING.md reading  | `auditor-contribute.yml` step 2                                                                                                             | Fetches CONTRIBUTING.md / `.github/CONTRIBUTING.md` / PR template / CoC; if "discuss in an issue first" appears anywhere, the agent stops and exits without opening PRs                                                                                       |
+| Pushback gate                 | new step in `auditor-contribute.yml`                                                                                                        | On entry, scans `auditor/logs/events.jsonl` for `maintainer_rejected` or `pr_comments_snapshot(closed_unmerged)` matching the target repo. Hits → `pushback_gated` status + label, all later steps skip via `if: steps.pushback_gate.outputs.gated != 'true'` |
+| First-contact PR cap          | `auditor-contribute.yml` step 5                                                                                                             | Reduced from 5 to 3 if `gh pr list --author $CONTRIBUTE_AUTHOR_EMAIL` returns zero                                                                                                                                                                            |
+| Confidence gate               | `auditor/prompts/score-artifacts.md` adds `confidence` and `evidence` fields; `auditor-contribute.yml` filters to `confidence == high` only | Missing `confidence` defaults to `medium` for legacy audits — they cannot accidentally ship                                                                                                                                                                   |
+| Reproduction-required PR step | `auditor-contribute.yml` step 5b                                                                                                            | Hard gate: agent must reproduce the bug (run the snippet, curl the link, parse the YAML) before opening the PR. No reproduction, drop the finding silently                                                                                                    |
+| Tightened PR body             | `auditor-contribute.yml` step 5h                                                                                                            | Three labelled lines: **Bug**, **Evidence**, **Fix**. No questions, no audit-link, no marketing. Disclosure shortened to "drive-by fix from NLPM, reviewed and reproduced before submission"                                                                  |
 
 Plus two adjacent fixes that surfaced during the work:
 
@@ -89,12 +89,12 @@ Two things to note about the reply itself: (1) ownership is in the human voice, 
 
 ## Blast radius — what's still in flight
 
-| Question | Status |
-|---|---|
-| Other repos got the same umbrella-issue treatment? | **22 still open** out of 31 ever filed. We are leaving them; closing retroactively would generate more noise than it removes. The pattern is now blocked at source for all future audits. |
-| `nlpm:patterns` and `nlpm:rules` "loaded by agents" — were they actually? | No. Reclassified as "Reference (loaded on demand)" in CLAUDE.md. The on-demand loading via `nlpm:scoring`'s scope-note cross-references continues to work. |
-| The pushback gate — is gemini-skills behind it now? | Yes. The PR #36 close emitted a `pr_comments_snapshot(closed_unmerged)`. Any future contribute run targeting `google-gemini/gemini-skills` short-circuits at the new gate; status flips to `pushback_gated` and the agent never runs. |
-| The confidence gate — does it shrink throughput? | By design. If the audit produces zero high-confidence findings, the contribute step doesn't run at all (no LLM cost on a no-op) and the issue is labelled `no-high-confidence-findings`. That is the right outcome, not a failure. |
+| Question                                                                  | Status                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Other repos got the same umbrella-issue treatment?                        | **22 still open** out of 31 ever filed. We are leaving them; closing retroactively would generate more noise than it removes. The pattern is now blocked at source for all future audits.                                             |
+| `nlpm:patterns` and `nlpm:rules` "loaded by agents" — were they actually? | No. Reclassified as "Reference (loaded on demand)" in CLAUDE.md. The on-demand loading via `nlpm:scoring`'s scope-note cross-references continues to work.                                                                            |
+| The pushback gate — is gemini-skills behind it now?                       | Yes. The PR #36 close emitted a `pr_comments_snapshot(closed_unmerged)`. Any future contribute run targeting `google-gemini/gemini-skills` short-circuits at the new gate; status flips to `pushback_gated` and the agent never runs. |
+| The confidence gate — does it shrink throughput?                          | By design. If the audit produces zero high-confidence findings, the contribute step doesn't run at all (no LLM cost on a no-op) and the issue is labelled `no-high-confidence-findings`. That is the right outcome, not a failure.    |
 
 ## What this engagement was worth
 
