@@ -6782,11 +6782,14 @@
       "stars": 646,
       "artifacts": 7,
       "description": "Find the ghost tokens. Fix them. Survive compaction. Avoid context quality decay. ",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 98,
       "audit_issue": 231,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "single",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "e80f11f2070eaa55e51945288404fb2a23f06f14"
     },
     "AgriciDaniel/claude-blog": {
       "discovered": "2026-04-25T01:06:48Z",

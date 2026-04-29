@@ -1571,3 +1571,5 @@
 {"timestamp":"2026-04-29T16:39:22Z","workflow":"track","event":"finding_outcome","run_id":"25121444386","run_number":65,"data":{"pr":"dontbesilent2025/dbskill#11","pr_state":"merged","fingerprints":[],"rule_ids":[]}}
 {"timestamp":"2026-04-29T16:39:23Z","workflow":"track","event":"finding_outcome","run_id":"25121444386","run_number":65,"data":{"pr":"dontbesilent2025/dbskill#12","pr_state":"merged","fingerprints":[],"rule_ids":[]}}
 {"timestamp":"2026-04-29T16:44:21Z","workflow":"track","event":"status_check","run_id":"25121444386","run_number":65,"data":{"contributed":54,"tracked":20,"case_study_ready":20,"rule_adopted":2}}
+{"timestamp":"2026-04-29T18:41:03Z","workflow":"audit","event":"findings_aggregated","run_id":"25126885676","run_number":410,"data":{"repo":"alexgreensh/token-optimizer","findings":9,"invalid_lines":0,"self_false_positives":2}}
+{"timestamp":"2026-04-29T18:41:03Z","workflow":"audit","event":"audit_complete","run_id":"25126885676","run_number":410,"data":{"repo":"alexgreensh/token-optimizer","score":98,"artifacts":9,"strategy":"single"}}
