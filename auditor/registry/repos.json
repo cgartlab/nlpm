@@ -4639,11 +4639,14 @@
       "stars": 1,
       "artifacts": 27,
       "description": "",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 36,
       "audit_issue": 169,
       "prs": [],
-      "discovery_strategy": "plugin-manifest-content"
+      "discovery_strategy": "plugin-manifest-content",
+      "strategy": "batched",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "46939d689b94c35975f8ec284c21301022f87b95"
     },
     "SukinShetty/Nemp-memory": {
       "discovered": "2026-04-25T01:06:48Z",
