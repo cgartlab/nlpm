@@ -6630,15 +6630,25 @@
       "commit_sha_at_audit": "c35a5588a5158b5b404a14fb10469b2b6dc1952b"
     },
     "parcadei/Continuous-Claude-v3": {
-      "discovered": "2026-04-25T01:06:48Z",
-      "stars": 3731,
-      "artifacts": 191,
-      "description": "Context management for Claude Code. Hooks maintain state via ledgers and handoffs. MCP execution without context pollution. Agent orchestration with isolated context windows.",
-      "status": "discovered",
-      "score": null,
-      "audit_issue": 221,
+      "discovered": "2026-04-29T00:00:00Z",
+      "stars": 1200,
+      "artifacts": 94,
+      "description": "Continuous Claude v3 — multi-agent Claude Code extension with hooks, skills, PostgreSQL memory, TLDR code intelligence, math sandbox, and handoff continuity system.",
+      "status": "audited",
+      "score": 78,
+      "commit_sha": "d07ff4b06b62f43771bc0c927d0211b734d6149e",
+      "audit_date": "2026-04-29",
+      "strategy": "progressive",
+      "security": "UNKNOWN",
+      "bugs": 18,
+      "quality_issues": 34,
+      "security_findings": 4,
+      "report": "auditor/audits/parcadei-Continuous-Claude-v3.md",
+      "findings_sidecar": "auditor/audits/parcadei-Continuous-Claude-v3.findings.jsonl",
+      "pipeline_prs": [],
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "rule_adopted": false,
+      "commit_sha_at_audit": "d07ff4b06b62f43771bc0c927d0211b734d6149e"
     },
     "KhazP/vibe-coding-prompt-template": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -6940,8 +6950,8 @@
   },
   "metadata": {
     "last_discovery": "2026-04-29T03:09:01Z",
-    "total_discovered": 184,
-    "total_audited": 11,
+    "total_discovered": 185,
+    "total_audited": 12,
     "total_contributed": 6
   }
 }
