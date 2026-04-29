@@ -6609,11 +6609,14 @@
       "stars": 4893,
       "artifacts": 5,
       "description": "CC Workflow Studio",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 87,
       "audit_issue": 219,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "075946f80fb53fc7bf12bde44e4d374d53431092"
     },
     "antfu/skills": {
       "discovered": "2026-04-25T01:06:48Z",
