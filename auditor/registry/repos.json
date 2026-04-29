@@ -6587,11 +6587,14 @@
       "stars": 15339,
       "artifacts": 10,
       "description": "Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 74,
       "audit_issue": 217,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "1ccde06843ae57c51e005900658f0e8c34e17627"
     },
     "tirth8205/code-review-graph": {
       "discovered": "2026-04-25T01:06:48Z",
