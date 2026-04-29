@@ -6587,33 +6587,42 @@
       "stars": 15339,
       "artifacts": 10,
       "description": "Ghostty-based macOS terminal with vertical tabs and notifications for AI coding agents",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 74,
       "audit_issue": 217,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "1ccde06843ae57c51e005900658f0e8c34e17627"
     },
     "tirth8205/code-review-graph": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 12954,
       "artifacts": 7,
       "description": "Local knowledge graph for Claude Code. Builds a persistent map of your codebase so Claude reads only what matters — 6.8× fewer tokens on reviews and up to 49× on daily coding tasks.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 95,
       "audit_issue": 218,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "single",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "0919071a9ba353e604981059e99ee2ed98768092"
     },
     "breaking-brake/cc-wf-studio": {
       "discovered": "2026-04-25T01:06:48Z",
       "stars": 4893,
       "artifacts": 5,
       "description": "CC Workflow Studio",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 87,
       "audit_issue": 219,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "075946f80fb53fc7bf12bde44e4d374d53431092"
     },
     "antfu/skills": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -6655,11 +6664,14 @@
       "stars": 2278,
       "artifacts": 6,
       "description": "Templates and workflow for generating PRDs, Tech Designs, and MVP and more using LLMs for AI IDEs",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 80,
       "audit_issue": 222,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "e063721c7917b0205557178092efab43eba3c77a"
     },
     "RKiding/Awesome-finance-skills": {
       "discovered": "2026-04-25T01:06:48Z",
