@@ -6793,11 +6793,14 @@
       "stars": 562,
       "artifacts": 27,
       "description": "Claude Code skill ecosystem for blog content creation, optimization, and management. Dual-optimized for Google rankings and AI citations.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 92,
       "audit_issue": 232,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "batched",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "bc734cbc7786dc0ce090a94fee14f2d1bacbe6d7"
     },
     "memvid/claude-brain": {
       "discovered": "2026-04-25T01:06:48Z",
