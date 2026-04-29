@@ -6760,11 +6760,14 @@
       "stars": 721,
       "artifacts": 27,
       "description": "Claude Code Skill Factory — A powerful open-source toolkit for building and deploying production-ready Claude Skills, Code Agents, custom Slash Commands, and LLM Prompts at scale. Easily generate structured skill templates, automate workflow integration, and accelerate AI agent development with a clean, developer-friendly setup.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 80,
       "audit_issue": 229,
       "prs": [],
-      "discovery_strategy": "topic-tag"
+      "discovery_strategy": "topic-tag",
+      "strategy": "batched",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "ba18b31703542d9d7eda5f9ba94f0df65a59dddf"
     },
     "alirezarezvani/claude-code-tresor": {
       "discovered": "2026-04-25T01:06:48Z",
