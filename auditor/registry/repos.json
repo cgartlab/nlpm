@@ -278,7 +278,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "security: replace new Function() eval with direct ESM import",
-          "updatedAt": "2026-04-10T14:31:58Z",
+          "updatedAt": "2026-04-29T01:14:35Z",
           "createdAt": "2026-04-10T14:31:55Z",
           "outcome": "open",
           "fingerprints": [],
@@ -287,13 +287,13 @@
         },
         {
           "number": 93,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-04-29T01:09:55Z",
+          "closedAt": "2026-04-29T01:09:55Z",
           "title": "security: use JSON.stringify for selector escaping in devtools panel",
-          "updatedAt": "2026-04-10T14:32:15Z",
+          "updatedAt": "2026-04-29T01:09:55Z",
           "createdAt": "2026-04-10T14:32:11Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -4962,10 +4962,66 @@
       "stars": 207,
       "artifacts": 85,
       "description": "The missing linter and lsp for AI coding assistants. Validate CLAUDE.md, AGENTS.md, SKILL.md, hooks, MCP. Plugin for all major IDEs included, with autofixes.",
-      "status": "contributed",
+      "status": "tracked",
       "score": 64,
       "audit_issue": 182,
-      "prs": [],
+      "prs": [
+        {
+          "number": 828,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-04-28T13:27:47Z",
+          "title": "fix: sync plugin.json version and rule count with npm package [skip changelog]",
+          "updatedAt": "2026-04-28T13:27:47Z",
+          "createdAt": "2026-04-26T18:18:39Z",
+          "outcome": "rejected",
+          "fingerprints": [
+            "sha256:039a69bf4b89f3c3870ada215f3e64ad1129439e652b03a561aa6f8f28652fe9"
+          ],
+          "rule_ids": [
+            "CC-stale-count"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 829,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-04-28T13:27:49Z",
+          "title": "fix: update stale rule count from 405 to 414 in plugin and skill files [skip changelog]",
+          "updatedAt": "2026-04-28T13:27:49Z",
+          "createdAt": "2026-04-26T18:19:20Z",
+          "outcome": "rejected",
+          "fingerprints": [
+            "sha256:17a15f4663964c5b99248ee3ec99e2e6752239bb65de9fae862630077829e60e",
+            "sha256:2936ce241191d0834e2443a2c76895a07bb3de3c64b3cb1c973e209f9f970a98",
+            "sha256:c125b644c2d53270450c67dd0f6cf9c29388d961bbfa79ca84e0e0f33c7846e7"
+          ],
+          "rule_ids": [
+            "CC-stale-count",
+            "CC-stale-count",
+            "CC-stale-count"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 830,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-04-28T13:27:51Z",
+          "title": "fix: add missing allowed-tools to plugin/skills/agnix/SKILL.md [skip changelog]",
+          "updatedAt": "2026-04-28T13:27:51Z",
+          "createdAt": "2026-04-26T18:19:56Z",
+          "outcome": "rejected",
+          "fingerprints": [
+            "sha256:efa1ee83d78ac53a9e14b6d00a6c080e65a396f742aebf8a0079bdef0a9eaec9"
+          ],
+          "rule_ids": [
+            "CC-orphan-component"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "progressive",
       "security": "REVIEW",
@@ -4974,7 +5030,8 @@
         828,
         829,
         830
-      ]
+      ],
+      "rule_adopted": false
     },
     "backnotprop/plannotator": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -4984,7 +5041,42 @@
       "status": "contributed",
       "score": 93,
       "audit_issue": 183,
-      "prs": [],
+      "prs": [
+        {
+          "number": 613,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing instruction body to opencode plannotator-last command",
+          "updatedAt": "2026-04-26T18:26:17Z",
+          "createdAt": "2026-04-26T18:20:48Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:76544d68a446869602e6c8ca3dc364e478a4b0516b88890e139ec39c59661bac"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 614,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-04-28T22:15:30Z",
+          "title": "fix: pin @pierre/diffs to exact version 1.1.12",
+          "updatedAt": "2026-04-28T22:15:30Z",
+          "createdAt": "2026-04-26T18:21:29Z",
+          "outcome": "rejected",
+          "fingerprints": [
+            "sha256:2f3b13d852f10c41afa303ee4fd0a03d1aa46f469b608ab56f3e299abf6ec89b"
+          ],
+          "rule_ids": [
+            "SEC-unpinned-semver"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "REVIEW",
@@ -4992,7 +5084,8 @@
       "pipeline_prs": [
         613,
         614
-      ]
+      ],
+      "rule_adopted": false
     },
     "czlonkowski/n8n-mcp": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5371,17 +5464,40 @@
       "stars": 57,
       "artifacts": 5,
       "description": "ClickUp CLI for AI agents",
-      "status": "contributed",
+      "status": "tracked",
       "score": 95,
       "audit_issue": 191,
-      "prs": [],
+      "prs": [
+        {
+          "number": 63,
+          "state": "CLOSED",
+          "mergedAt": null,
+          "closedAt": "2026-04-27T09:01:25Z",
+          "title": "fix(deps): pin production dependencies to exact versions",
+          "updatedAt": "2026-04-27T09:01:26Z",
+          "createdAt": "2026-04-26T12:19:19Z",
+          "outcome": "rejected",
+          "fingerprints": [
+            "sha256:fbd5ceede95eea14be5cb9de9632263c1f2f4ba28609c408754f37e502046917",
+            "sha256:6666ba333142cdddd09c6ae0b18f4882c4c1a3a1f2ae36e77623d63262526f45",
+            "sha256:2ba0b359442688fb7897360ae4d08bca93ea648a37bda9735b18695157ec1615"
+          ],
+          "rule_ids": [
+            "SEC-unpinned-semver",
+            "SEC-unpinned-semver",
+            "SEC-unpinned-semver"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
       "commit_sha_at_audit": "48aeedb5a998df0fb4f5b4502dc01b5b645d8915",
       "pipeline_prs": [
         63
-      ]
+      ],
+      "rule_adopted": false
     },
     "mksglu/context-mode": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5405,7 +5521,82 @@
       "status": "contributed",
       "score": 83,
       "audit_issue": 193,
-      "prs": [],
+      "prs": [
+        {
+          "number": 80,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add YAML frontmatter to llm-as-judge agent files",
+          "updatedAt": "2026-04-26T06:43:07Z",
+          "createdAt": "2026-04-26T06:43:07Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:a3bd793c450299af37da3e5328485a5e14b98fa453eaf28ebf54babdc848665e",
+            "sha256:deb9dd74a4c87c1906aaa63c7084cef47b7190e7ebce8cb161583aae837559d4",
+            "sha256:eed45fdeaf772ea8dbba7e2904bdcabab6ab06c3cf25756a639e91085f98164d",
+            "sha256:e3a35252e9c653bc2581883b959d49b07cc69c47d0f01db34731aa104e7227f9"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 81,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: remove GitHub token from git clone URL in sandbox_manager.py",
+          "updatedAt": "2026-04-26T06:52:49Z",
+          "createdAt": "2026-04-26T06:45:32Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:4895ce99fa8a490a71dfa6fb7e999f5a3ca9b933cb5a6079a01a1b82221b443d"
+          ],
+          "rule_ids": [
+            "SEC-credential-in-url"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 82,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: tighten production dependency ranges from ^ to ~ in package.json",
+          "updatedAt": "2026-04-26T06:53:52Z",
+          "createdAt": "2026-04-26T06:46:30Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:d1c01a3b5ad2e85dff67b7cd400aa0b8b692b6b5bc72d146601e927f8710cb80"
+          ],
+          "rule_ids": [
+            "SEC-unpinned-semver"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 83,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: validate custom install path in install.sh to prevent path traversal",
+          "updatedAt": "2026-04-26T06:54:52Z",
+          "createdAt": "2026-04-26T06:47:42Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:276888e06e0f33e703a6a0f1ee1486419c19fe99ff6a7c1804df014accefc92a"
+          ],
+          "rule_ids": [
+            "SEC-path-traversal"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "batched",
       "security": "CLEAR",
@@ -5415,7 +5606,8 @@
         81,
         82,
         83
-      ]
+      ],
+      "rule_adopted": false
     },
     "musistudio/claude-code-router": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5425,7 +5617,65 @@
       "status": "contributed",
       "score": 79,
       "audit_issue": 194,
-      "prs": [],
+      "prs": [
+        {
+          "number": 1361,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "docs: fix default port in EN docs (8080 → 3456)",
+          "updatedAt": "2026-04-26T06:50:19Z",
+          "createdAt": "2026-04-26T06:50:19Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:e7f19b9065eff45460cf37ca2b742aa7de14879101e82eba23f45beafb7b91ff",
+            "sha256:2e8cd28acec42b1f46890f53d8a6dfd98ca5713f30f5ef1795d64d5380d3067b",
+            "sha256:23b1cb3b8e6086f80c780f67d53f99071bcb8910ee988ef18f9a376498dd2324"
+          ],
+          "rule_ids": [
+            "CC-terminology-drift",
+            "CC-terminology-drift",
+            "CC-terminology-drift"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 1362,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "docs: fix Router separator in zh-CN preset example (: → ,)",
+          "updatedAt": "2026-04-26T06:51:08Z",
+          "createdAt": "2026-04-26T06:51:08Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:6095d71866351b1ea0996b8ed38917b1811ce212567d0c5b3ef8a646c6b7862a"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 1363,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "docs: fix locale prefix in zh-CN statusline related-command links",
+          "updatedAt": "2026-04-26T06:51:56Z",
+          "createdAt": "2026-04-26T06:51:56Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:789a4a2bcc3fab3a65aeccaccbb834a807d504c1e6806f13d0a6ce56411100d1",
+            "sha256:002d9c9d3f02971d82e5f4cb9ff286841ef89fad08be747202525a6d3b5c1bc6"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference",
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
@@ -5434,7 +5684,8 @@
         1361,
         1362,
         1363
-      ]
+      ],
+      "rule_adopted": false
     },
     "nextlevelbuilder/ui-ux-pro-max-skill": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5554,7 +5805,77 @@
       "status": "contributed",
       "score": 66,
       "audit_issue": 196,
-      "prs": [],
+      "prs": [
+        {
+          "number": 43,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing name field to all command frontmatter blocks",
+          "updatedAt": "2026-04-26T06:50:27Z",
+          "createdAt": "2026-04-26T06:44:42Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:4af23bf072e36b2979143f3e52669e8e78542485954947a0c2d50dad17f59e6c",
+            "sha256:2daf056c710efb21e6486e0048e363a2e85b616e1f8a57ad388d5fa548b954b2",
+            "sha256:0f5442dbb02f929f5bf6521757b21d9f0e6735ba23f89e32854e080a846304ce",
+            "sha256:246883c8040808ad46861cb4bad595a4d3cbcb20dee4786794cf9e96d0f20f41",
+            "sha256:215e83a1c2762313d9024544e5942264a835082713b1146da64fa5e50a6ee9b4",
+            "sha256:49749297f09c043f7e3200490408a7f894d1d46934c4ee52488f3dad70228957",
+            "sha256:43c735808c8c6c856fb0b07bdf17509095c76a27f10547700cfa935f191cddc1"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 47,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: rewrite share.md as a proper command template with YAML frontmatter",
+          "updatedAt": "2026-04-26T06:52:01Z",
+          "createdAt": "2026-04-26T06:52:01Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:6ffb6e306b52951802022a728d81dae5243bdd0b99934272c73601a8fbee95cd",
+            "sha256:7050f13294bf0989b308e8350a9fb2426ba1e0b94818a320166e00827d7fa997"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter",
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 45,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: harden install-pi.sh and share.sh against supply-chain and data-exposure risks",
+          "updatedAt": "2026-04-26T06:52:47Z",
+          "createdAt": "2026-04-26T06:46:35Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:92b81b560bcdefebd5c7c00180ee5cfb34843731ce5033d6fddd8fc7b9979885",
+            "sha256:6359292c71ed77518913d6a07aabe986e1400417c3c23baf0ec4dc10835175be",
+            "sha256:1558f7793581c26a7db2fa00f6c80449c6d637f6e960836c550eca0be1329436"
+          ],
+          "rule_ids": [
+            "SEC-network-fetch-external-code",
+            "SEC-network-deploy-public",
+            "SEC-path-delimiter-injection"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
@@ -5563,7 +5884,8 @@
         43,
         47,
         45
-      ]
+      ],
+      "rule_adopted": false
     },
     "peterkrueck/Claude-Code-Development-Kit": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5667,14 +5989,35 @@
       "status": "contributed",
       "score": 82,
       "audit_issue": 201,
-      "prs": [],
+      "prs": [
+        {
+          "number": 2508,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix(plugin): add missing name and allowed-tools to docs command frontmatter",
+          "updatedAt": "2026-04-26T05:49:54Z",
+          "createdAt": "2026-04-26T00:37:50Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:de76bede1ce4edcdb14d261df159c1b414d78757f705174626648a9f9ed345d0",
+            "sha256:c2f552d3c220e979d92596e9e0fe52fdeb0436bdcae135c57b8aaccefa15fe33"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter",
+            "BUG-undeclared-tool"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
       "commit_sha_at_audit": "5d284f215471c341e0e3d9bb4f9c24bb1345ada1",
       "pipeline_prs": [
         2508
-      ]
+      ],
+      "rule_adopted": false
     },
     "vectorize-io/hindsight": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -5772,7 +6115,42 @@
       "status": "contributed",
       "score": 72,
       "audit_issue": 204,
-      "prs": [],
+      "prs": [
+        {
+          "number": 3,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: add missing name field to agent-workflow command frontmatter",
+          "updatedAt": "2026-04-25T18:20:40Z",
+          "createdAt": "2026-04-25T18:17:18Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:f1dd6943ed50dc82642b42b34518339ef8885a3c204d27e5e3e7374fa97a020d"
+          ],
+          "rule_ids": [
+            "BUG-missing-frontmatter"
+          ],
+          "stale_90d_emitted": false
+        },
+        {
+          "number": 4,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: align refactor-agent frontmatter name with filename and CLAUDE.md",
+          "updatedAt": "2026-04-25T18:21:33Z",
+          "createdAt": "2026-04-25T18:17:52Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:9abbea89a6a69c1e78d6ae2bec5bd82c0244a4ac43a7edea0a1f1fffbdf3a03a"
+          ],
+          "rule_ids": [
+            "BUG-broken-reference"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "awesome-list-citation",
       "strategy": "single",
       "security": "CLEAR",
@@ -5780,7 +6158,8 @@
       "pipeline_prs": [
         3,
         4
-      ]
+      ],
+      "rule_adopted": false
     },
     "0xmariowu/Autosearch": {
       "discovered": "2026-04-25T01:06:48Z",
@@ -6529,7 +6908,25 @@
       "status": "contributed",
       "score": 58,
       "audit_issue": 239,
-      "prs": [],
+      "prs": [
+        {
+          "number": 603,
+          "state": "OPEN",
+          "mergedAt": null,
+          "closedAt": null,
+          "title": "fix: remove stray colon in --cluster-only dict literal (SyntaxError)",
+          "updatedAt": "2026-04-29T03:36:19Z",
+          "createdAt": "2026-04-29T03:36:19Z",
+          "outcome": "open",
+          "fingerprints": [
+            "sha256:c5ff2beccc8af5662eed24d04172989e05b28f479a497c821383ec4fa0eb9fbd"
+          ],
+          "rule_ids": [
+            "BUG-syntax-error"
+          ],
+          "stale_90d_emitted": false
+        }
+      ],
       "discovery_strategy": "manual-override",
       "strategy": "single",
       "security": "REVIEW",
@@ -6537,7 +6934,8 @@
       "pipeline_prs": [
         603
       ],
-      "audit_note": "Discovery probe missed this repo because artifacts are at non-canonical paths (graphify/skill*.md, AGENTS.md). Probe-gap fix shipped as v0.7.18."
+      "audit_note": "Discovery probe missed this repo because artifacts are at non-canonical paths (graphify/skill*.md, AGENTS.md). Probe-gap fix shipped as v0.7.18.",
+      "rule_adopted": false
     }
   },
   "metadata": {
