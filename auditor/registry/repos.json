@@ -5048,11 +5048,14 @@
       "stars": 506,
       "prs": [],
       "artifacts": 98,
-      "score": null,
+      "score": 65,
       "discovered": "2026-04-25T00:52:11Z",
       "description": "A Claude Code plugin that turns your terminal into an autonomous research lab — literature survey, experiment execution, paper writing, all in one pipeline.",
-      "status": "discovered",
-      "audit_issue": 155
+      "status": "audited",
+      "audit_issue": 155,
+      "strategy": "progressive",
+      "security": "REVIEW",
+      "commit_sha_at_audit": "6baece9f13324c209592124ebc213289336f26c3"
     },
     "Q00/ouroboros": {
       "stars": 2415,
