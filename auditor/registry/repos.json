@@ -4847,10 +4847,15 @@
       "discovered": "2026-04-25T01:06:48Z",
       "security": "REVIEW",
       "audit_issue": 235,
-      "status": "audited",
+      "status": "contributed",
       "stars": 336,
       "discovery_strategy": "topic-tag",
-      "prs": []
+      "prs": [],
+      "pipeline_prs": [
+        12,
+        13,
+        14
+      ]
     },
     "Yeachan-Heo/oh-my-claudecode": {
       "artifacts": 60,
