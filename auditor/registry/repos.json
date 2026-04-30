@@ -635,7 +635,7 @@
       "source": "claudepot",
       "rule_adopted": false,
       "description": "An improved implementation of the Ralph Wiggum technique for autonomous AI agent orchestration",
-      "status": "tracked",
+      "status": "complete",
       "audit_issue": 109,
       "strategy": "single",
       "artifacts": 48,
@@ -672,7 +672,8 @@
         }
       ],
       "star_velocity": 8.0,
-      "case_study_candidate": true
+      "case_study_candidate": true,
+      "case_study": "case-studies/2026-04-30-mikeyobrien-ralph-orchestrator.md"
     },
     "jnuyens/gsd-plugin": {
       "stars": 9,
