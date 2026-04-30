@@ -3379,12 +3379,15 @@
       "artifacts": 51,
       "description": "Production-ready development workflows for Claude Code, powered by specialized AI agents.",
       "audit_issue": 238,
-      "status": "discovered",
+      "status": "audited",
       "stars": 320,
-      "score": null,
+      "score": 91,
       "discovered": "2026-04-25T01:06:48Z",
       "discovery_strategy": "topic-tag",
-      "prs": []
+      "prs": [],
+      "strategy": "batched",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "905dbe85aae1ff8d359639a2b348f830ed2dbcd9"
     },
     "c0x12c/ai-toolkit": {
       "commit_sha_at_audit": "78cda132785763559418f0bb6fefd4223ea9bbfa",
