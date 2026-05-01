@@ -77,6 +77,7 @@ def classify_rule(metrics: dict) -> str:
     maintainer_rejected = metrics["maintainer_rejected"]
     downstream = metrics["downstream_suppressions"]
     merged = metrics["merged"]
+    closed_unmerged = metrics.get("closed_unmerged", 0)
     verified_total = metrics.get("verified_total", 0)
     verified_fixed = metrics.get("verified_fixed", 0)
 
@@ -99,9 +100,17 @@ def classify_rule(metrics: dict) -> str:
     if verified_total >= 3:
         if verified_fixed / verified_total < 0.5:
             return "noisy"
-    elif contributed >= 3 and merged / contributed < 0.5:
+    else:
         # Fall back to PR-level signal when re-audit hasn't accumulated yet.
-        return "noisy"
+        # Use resolved-only rate (merged / (merged + closed_unmerged)) so that
+        # open PRs don't count against the rule. The previous formula
+        # (merged / contributed) flagged BUG-missing-frontmatter as noisy on
+        # 2026-04-30 with 21 contributed but 21 still open — penalizing the
+        # rule for "not yet" rather than "no". Open PRs are pending; only
+        # resolved ones reflect maintainer judgment.
+        resolved = merged + closed_unmerged
+        if resolved >= 3 and merged / resolved < 0.5:
+            return "noisy"
 
     return "healthy"
 

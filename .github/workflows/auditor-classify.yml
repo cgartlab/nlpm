@@ -16,6 +16,13 @@ on:
 
 permissions:
   contents: write
+  # claude-code-action requires OIDC for authentication (it fetches a
+  # short-lived token via GitHub's OIDC endpoint rather than embedding
+  # a long-lived secret in the runner). Without `id-token: write` the
+  # action fails immediately with "Could not fetch an OIDC token".
+  # Observed: 5 consecutive daily failures (2026-04-26 through -04-30)
+  # silently dropped every maintainer comment from being classified.
+  id-token: write
 
 concurrency:
   group: nlpm-classify

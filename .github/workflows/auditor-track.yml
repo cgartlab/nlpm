@@ -35,7 +35,11 @@ jobs:
           # or `\`, double-check it renders literally in grep.
           #
           # "applied_separately" = PR closed unmerged, but maintainer comment indicates fix was applied
-          APPLIED_PATTERNS='applied in|applied directly|applied to|applied as|merged into|fixed in release|fixed in v|fixed on main|included in|will be in|already in|already fixed'
+          # The "closing in favor of #N" / "consolidated fix in #N" / "covered by #N" group
+          # was added 2026-05-01 after agent-sh/agnix#828-830: avifenesh closed three of our PRs
+          # with "the issue you flagged is real. Closing in favor of the consolidated structural
+          # fix in #840" — a clear applied_separately signal that the previous regex didn't catch.
+          APPLIED_PATTERNS='applied in|applied directly|applied to|applied as|merged into|fixed in release|fixed in v|fixed on main|included in|will be in|already in|already fixed|closing in favor of|consolidated.*fix|covered by #[0-9]+|superseded by #[0-9]+|addressed (in|by) #[0-9]+|handled in #[0-9]+|favor of #[0-9]+|will be (addressed|handled|fixed) in'
           # "rule_adopted" = maintainer opened a hardening/backfill PR that goes beyond our scope.
           # "sibling" intentionally excluded: too generic (e.g. "sibling PRs #123-#125" in
           # a comment about naming conventions is not rule-adoption).

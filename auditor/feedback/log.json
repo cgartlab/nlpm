@@ -198,7 +198,7 @@
       "verified_persists": 0,
       "verify_rate": null,
       "introduced_since_audit": 12,
-      "state": "noisy"
+      "state": "healthy"
     },
     "BUG-malformed-syntax": {
       "total_hits": 0,
@@ -679,7 +679,7 @@
       "verified_persists": 0,
       "verify_rate": null,
       "introduced_since_audit": 0,
-      "state": "noisy"
+      "state": "healthy"
     },
     "BUG-contradictory-tool": {
       "total_hits": 1,
@@ -1455,9 +1455,9 @@
     "total_events": 16,
     "total_audits": 10,
     "total_prs_submitted": 273,
-    "total_prs_merged": 75,
+    "total_prs_merged": 76,
     "total_prs_rejected": 48,
     "total_prs_applied_separately": 6,
-    "updated_at": "2026-04-30T22:18:56.771015Z"
+    "updated_at": "2026-05-01T02:30:33.701676Z"
   }
 }
