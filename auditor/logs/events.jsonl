@@ -1818,3 +1818,4 @@
 {"timestamp":"2026-05-03T04:03:06Z","workflow":"case-study","event":"published","run_id":"25269029051","run_number":243,"data":{"repo":"safishamsi/graphify","article_lines":145,"has_cover":true}}
 {"timestamp":"2026-05-03T04:47:46Z","workflow":"classify","event":"classifications_emitted","run_id":"25270161850","run_number":12,"data":{"classifications":0,"invalid":0,"no_dissent":true}}
 {"timestamp":"2026-05-03T05:19:27Z","workflow":"track","event":"status_check","run_id":"25270623934","run_number":86,"data":{"contributed":49,"tracked":24,"case_study_ready":25,"rule_adopted":2}}
+{"timestamp":"2026-05-03T08:46:59Z","workflow":"track","event":"status_check","run_id":"25274501844","run_number":87,"data":{"contributed":49,"tracked":24,"case_study_ready":25,"rule_adopted":2}}
