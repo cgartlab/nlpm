@@ -270,9 +270,14 @@ jobs:
             DIRNAME=$(dirname "$filepath")
 
             # Check structural fields
-            HAS_NAME=$(echo "$FRONTMATTER" | grep -c '^name:' || echo 0)
-            HAS_DESC=$(echo "$FRONTMATTER" | grep -c '^description:' || echo 0)
-            HAS_MODEL=$(echo "$FRONTMATTER" | grep -c '^model:' || echo 0)
+            # `grep -c` outputs 0 to stdout AND exits 1 when zero matches —
+            # `|| echo 0` would then double-emit "0\n0", making downstream
+            # `[ "$HAS_X" -eq 0 ]` comparisons error with "integer expression
+            # expected". Suppress the failure with `|| true` so only grep's
+            # stdout count survives.
+            HAS_NAME=$(echo "$FRONTMATTER" | grep -c '^name:' || true)
+            HAS_DESC=$(echo "$FRONTMATTER" | grep -c '^description:' || true)
+            HAS_MODEL=$(echo "$FRONTMATTER" | grep -c '^model:' || true)
             HAS_TOOLS=$(echo "$FRONTMATTER" | grep -cE '^(tools:|allowed-tools:)' || echo 0)
 
             # Determine type from path
@@ -364,7 +369,14 @@ jobs:
           MAX_FILES=100
           TOTAL_AVAILABLE=$(cat "$BATCH_DIR"/batch-*.txt 2>/dev/null | wc -l | tr -d ' ')
           FILE_LIST=$(cat "$BATCH_DIR"/batch-*.txt 2>/dev/null | head -n "$MAX_FILES")
-          AUDITED_COUNT=$(printf '%s\n' "$FILE_LIST" | grep -c '.' || echo 0)
+          # See case-study.yml line 310 for the same bug. `grep -c` outputs
+          # `0` to stdout AND exits 1 when zero matches — the previous
+          # `|| echo 0` fallback then ran *in addition* to grep's `0`, so
+          # the captured value was `"0\n0"`, breaking the $GITHUB_OUTPUT
+          # write below ("Invalid format '0'") and `[ "$AUDITED_COUNT" -gt N ]`
+          # comparisons further down. Suppress grep's failure with `|| true`.
+          AUDITED_COUNT=$(printf '%s\n' "$FILE_LIST" | grep -c '.' 2>/dev/null || true)
+          AUDITED_COUNT=${AUDITED_COUNT:-0}
 
           if [ "$TOTAL_AVAILABLE" -gt "$MAX_FILES" ]; then
             echo "NOTE: capping file list at $MAX_FILES of $TOTAL_AVAILABLE total files"
@@ -836,7 +848,8 @@ jobs:
           gh issue edit "$ISSUE_NUM" --add-label "audit-complete" --remove-label "audit-ready" 2>/dev/null || true
 
           # Post summary comment on the tracking issue
-          BUG_COUNT=$(sed -n '/## Bugs/,/## Quality/p' "$REPORT" 2>/dev/null | grep -c '^| [0-9]' || echo "0")
+          BUG_COUNT=$(sed -n '/## Bugs/,/## Quality/p' "$REPORT" 2>/dev/null | grep -c '^| [0-9]' || true)
+          BUG_COUNT=${BUG_COUNT:-0}
           REPORT_URL="https://github.com/${GITHUB_REPOSITORY}/blob/main/auditor/audits/${SLUG}.md"
           REPORT_PREVIEW=$(head -50 "$REPORT" 2>/dev/null || echo "Report unavailable")
 

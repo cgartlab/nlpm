@@ -307,7 +307,20 @@ jobs:
           # the shared prompt expects a flat file list.
           MAX_FILES=100
           FILE_LIST=$(cat /tmp/re-artifacts-*.txt 2>/dev/null | head -n "$MAX_FILES")
-          AUDITED_COUNT=$(printf '%s\n' "$FILE_LIST" | grep -c '.' || echo 0)
+          # `grep -c PATTERN` writes the count to stdout AND exits 1 on zero
+          # matches. The previous `|| echo 0` fallback then ran *in addition*
+          # to grep's `0`, so the captured value was `"0\n0"` — written to
+          # $GITHUB_OUTPUT it produced two lines, the second one without a
+          # `key=` prefix → "Invalid format '0'" runner error and the
+          # case-study workflow died at this step. Observed concretely on
+          # safishamsi/graphify after PR #603 merged: graphify's default
+          # branch transitioned v3 → v6 between audit and re-audit, so the
+          # original audited file paths exist in zero of the v6 tree, the
+          # find pipeline returns empty, $FILE_LIST is empty, and grep -c
+          # hits the zero-match path. Fix: suppress grep's failure exit so
+          # only its stdout count survives, then default empty → 0.
+          AUDITED_COUNT=$(printf '%s\n' "$FILE_LIST" | grep -c '.' 2>/dev/null || true)
+          AUDITED_COUNT=${AUDITED_COUNT:-0}
           echo "audited_count=$AUDITED_COUNT" >> "$GITHUB_OUTPUT"
 
           if [ "$TOTAL" -le 20 ]; then STRATEGY="single";
@@ -940,7 +953,8 @@ jobs:
           fi
 
           # Count GitHub links as a sanity check
-          LINK_COUNT=$(grep -c 'https://github.com/' "$ARTICLE" || echo 0)
+          LINK_COUNT=$(grep -c 'https://github.com/' "$ARTICLE" || true)
+          LINK_COUNT=${LINK_COUNT:-0}
           echo "Total GitHub links: $LINK_COUNT"
 
           # Check for duplicate consecutive links (common polish artifact)
