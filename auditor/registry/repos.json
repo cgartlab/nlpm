@@ -7156,10 +7156,13 @@
       "stars": 3188,
       "artifacts": 5,
       "description": "Deploy Your Frontend in a Single Command. Claude Code Skills supported.",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 93,
       "audit_issue": 240,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "2aa7180aa89db4ad9ee5dbb976155fdf3a6b7371"
     },
     "nexu-io/open-design": {
       "discovered": "2026-05-04T06:59:10Z",
