@@ -7176,10 +7176,13 @@
       "stars": 5485,
       "artifacts": 3,
       "description": "Claude Code skill to support Android app's reverse engineering",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 92,
       "audit_issue": 242,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "6a31ed3fa2fc96d2366e057dcf13bbf5c2bdcdaa"
     },
     "ZeframLou/call-me": {
       "discovered": "2026-05-05T00:52:16Z",
