@@ -768,10 +768,13 @@
       "artifacts": 4,
       "description": "A plugin for Claude Code and Codex that turns your codebase into an autoresearch loop — discovers what to measure, instruments the benchmark, then runs tree search with parallel subagents.",
       "stars": 645,
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 98,
       "discovered": "2026-05-05T00:52:16Z",
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "e2dc7c42fcce9f9ee1fb1e9a66c1eb41310fa1aa"
     },
     "stablyai/orca": {
       "audit_issue": 124,
