@@ -7301,6 +7301,17 @@
       "score": null,
       "audit_issue": 252,
       "prs": []
+    },
+    "openai/symphony": {
+      "discovered": "2026-05-05T02:23:41Z",
+      "stars": 21320,
+      "artifacts": 6,
+      "description": "Symphony turns project work into isolated, autonomous implementation runs, allowing teams to manage work instead of supervising coding agents.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 253,
+      "prs": [],
+      "discovery_strategy": "manual-override"
     }
   },
   "metadata": {
