@@ -1845,3 +1845,4 @@
 {"timestamp":"2026-05-04T20:41:09Z","workflow":"track","event":"status_check","run_id":"25342056061","run_number":96,"data":{"contributed":49,"tracked":24,"case_study_ready":25,"rule_adopted":2}}
 {"timestamp":"2026-05-04T22:20:52Z","workflow":"daily-report","event":"report_generated","run_id":"25346683929","run_number":30,"data":{"total_repos":186}}
 {"timestamp":"2026-05-05T00:49:37Z","workflow":"discover","event":"search_complete","run_id":"25351804783","run_number":9,"data":{"candidates":90,"new":34,"worthy":0,"oversized":0}}
+{"timestamp":"2026-05-05T00:52:50Z","workflow":"discover","event":"search_complete","run_id":"25351883555","run_number":10,"data":{"candidates":90,"new":34,"worthy":11,"oversized":0}}

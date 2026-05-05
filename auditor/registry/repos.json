@@ -7170,12 +7170,122 @@
       "score": 98,
       "prs": [],
       "discovered": "2026-04-25T01:06:48Z"
+    },
+    "SimoneAvogadro/android-reverse-engineering-skill": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 5485,
+      "artifacts": 3,
+      "description": "Claude Code skill to support Android app's reverse engineering",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 242,
+      "prs": []
+    },
+    "ZeframLou/call-me": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 2590,
+      "artifacts": 3,
+      "description": "Minimal plugin that lets Claude Code call you on the phone.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 243,
+      "prs": []
+    },
+    "axtonliu/axton-obsidian-visual-skills": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 2669,
+      "artifacts": 3,
+      "description": "Visual Skills Pack for Obsidian: generate Canvas, Excalidraw, and Mermaid diagrams from text with Claude Code",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 244,
+      "prs": []
+    },
+    "evo-hq/evo": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 645,
+      "artifacts": 4,
+      "description": "A plugin for Claude Code and Codex that turns your codebase into an autoresearch loop — discovers what to measure, instruments the benchmark, then runs tree search with parallel subagents.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 245,
+      "prs": []
+    },
+    "hamelsmu/claude-review-loop": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 655,
+      "artifacts": 4,
+      "description": "Claude Code plugin: automated code review loop with Codex",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 246,
+      "prs": []
+    },
+    "hellowind777/hello2cc": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 651,
+      "artifacts": 3,
+      "description": "Native-first Claude Code plugin for third-party models with silent Agent model injection and output styles.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 247,
+      "prs": []
+    },
+    "jarrodwatts/claude-hud": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 21673,
+      "artifacts": 3,
+      "description": "A Claude Code plugin that shows what's happening - context usage, active tools, running agents, and todo progress",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 248,
+      "prs": []
+    },
+    "m1heng/claude-plugin-weixin": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 556,
+      "artifacts": 4,
+      "description": "",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 249,
+      "prs": []
+    },
+    "refly-ai/refly": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 7272,
+      "artifacts": 3,
+      "description": "The first open-source agent skills builder. Define skills by vibe workflow, run on Claude Code, Cursor, Codex & more. Build Clawdbot 🦞· APIs for Lovable · Bots for Slack & Lark/Feishu · Skills are infrastructure, not prompts.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 250,
+      "prs": []
+    },
+    "twostraws/SwiftUI-Agent-Skill": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 3806,
+      "artifacts": 3,
+      "description": "SwiftUI agent skill for Claude Code, Codex, and other AI tools.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 251,
+      "prs": []
+    },
+    "wasp-lang/open-saas": {
+      "discovered": "2026-05-05T00:52:16Z",
+      "stars": 14349,
+      "artifacts": 3,
+      "description": "A 100% free modern JS SaaS boilerplate (React, NodeJS, Prisma). Full-featured: Auth (email, google, github, slack, MS), Email sending, Background jobs, Landing page, Payments (Stripe, Polar.sh), Shadcn UI, S3 file upload. AI-ready with tailored AGENTS.md, skills, and Claude Code plugin. One cmd deploy. Powered by Wasp full-stack framework.",
+      "status": "discovered",
+      "score": null,
+      "audit_issue": 252,
+      "prs": []
     }
   },
   "metadata": {
     "total_audited": 12,
-    "last_discovery": "2026-05-04T06:59:10Z",
-    "total_discovered": 187,
+    "last_discovery": "2026-05-05T00:52:16Z",
+    "total_discovered": 198,
     "total_contributed": 6
   }
 }
