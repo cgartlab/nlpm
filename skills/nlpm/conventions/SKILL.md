@@ -154,28 +154,67 @@ Two or more `<example>` blocks with diverse scenarios is the minimum for reliabl
 
 ## 5. Skill Structure
 
-Skills provide reference knowledge to agents and commands.
+SKILL.md is a **cross-tool open standard** (Agent Skills spec, stewarded
+by the Agentic AI Foundation under the Linux Foundation). Anthropic
+published the spec on 2025-12-18; OpenAI/Microsoft/Google adopted within
+48 hours. By March 2026, 32 tools (Claude Code, Codex, Gemini CLI,
+Cursor, Kiro, Continue, etc.) read the same SKILL.md format.
 
-**Path conventions:**
+**Authoritative reference:** https://agentskills.io/specification
+
+**Required frontmatter (per the open spec):**
+- `name` — string; 1-64 chars, lowercase + hyphens only, MUST match
+  parent directory name. No leading/trailing/consecutive hyphens.
+- `description` — string; 1-1024 chars; should describe what the skill
+  does AND when to use it.
+
+**Optional frontmatter (per the open spec):**
+- `license` — license name or reference to a bundled file
+- `compatibility` — environment requirements (max 500 chars; e.g.,
+  "Designed for Claude Code", "Requires Python 3.14+ and uv")
+- `metadata` — arbitrary key-value mapping (`author`, `version`, etc.
+  go here, NOT as top-level fields)
+- `allowed-tools` — space-separated tool list (experimental; e.g.,
+  `Bash(git:*) Read`)
+
+**Path conventions (Claude Code):**
 - Single plugin skill: `skills/<name>/SKILL.md`
 - Multi-skill plugin: `skills/<plugin>/<name>/SKILL.md`
+- Project-scoped: `.claude/skills/<name>/SKILL.md`
 
-**Frontmatter:**
-- `name` — string (required)
-- `description` — string (required); used for discovery and triggering
-- `version` — semver string (optional)
-- `globs` — string array (optional); file patterns this skill applies to
+**Path conventions (other tools — all are valid skill paths per the open
+spec):**
+- Codex: `.codex/skills/<name>/SKILL.md` (older) or `.agents/skills/<name>/SKILL.md` (canonical)
+- Continue: `.continue/skills/<name>/SKILL.md`
+- Kiro: `.kiro/skills/<name>/SKILL.md`
+- Gemini CLI: `.gemini/skills/<name>/SKILL.md`
 
-**Body rules:**
-- Under 500 lines — exceeding this creates context bloat
-- Reference material only — no imperative instructions (those belong in commands/agents)
+NLPM scoring applies the **universal spec rules** to all SKILL.md files
+regardless of path. Claude-Code-specific extensions (e.g., the `model:`
+field on agents, `## Output` section preferences) apply ONLY to files at
+Claude-canonical paths.
+
+**Body rules (recommendations, not spec requirements):**
+- Keep under 500 lines — exceeding creates context bloat (spec recommends
+  under 5000 tokens for the body, with overflow in `references/`)
+- Reference material — imperatives belong in commands/agents
 - Include a scope note: what this skill covers and what it does NOT cover
 - Cross-reference related skills with their `plugin:skill` identifiers
 
-**Supporting directories (optional):**
-- `references/` — external docs, specifications, examples
-- `examples/` — concrete worked examples
-- `scripts/` — helper scripts referenced by hooks or commands
+The spec explicitly says "no format restrictions" on the body — do NOT
+penalize SKILL.md files for missing `## Output` or other section
+conventions. Those are Claude-Code-style preferences, not spec violations.
+
+**Supporting directories (per the spec):**
+- `scripts/` — executable code (Python, Bash, JavaScript)
+- `references/` — additional docs loaded on demand (REFERENCE.md,
+  FORMS.md, domain-specific files)
+- `assets/` — templates, images, data files
+
+**Progressive disclosure:**
+1. Metadata (~100 tokens): name + description loaded at startup for ALL skills
+2. Instructions (<5000 tokens): full SKILL.md body loaded when activated
+3. Resources: scripts/references/assets loaded only when needed
 
 ---
 

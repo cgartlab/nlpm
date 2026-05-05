@@ -52,9 +52,11 @@ For example, to read `./agents/counter.md`, use the Read tool on
 Score each file on a 100-point scale. Start at 100, subtract penalties:
 
 - Missing required frontmatter (`name`, `description`): -25 each
+- **SKILL.md only** — `name` field MUST match the parent directory name
+  (per agentskills.io spec); mismatch is a bug not a quality issue: -25
 - Missing example blocks on agents: -15 (zero examples) or -5 (one example)
 - Model not declared on agents: -5
-- Missing output format: -10
+- **Commands only** — Missing output format: -10
 - Missing `allowed-tools` on commands: -5
 - Multi-step commands without numbered steps: -10
 - No empty-input handling on commands: -10
@@ -64,6 +66,23 @@ Score each file on a 100-point scale. Start at 100, subtract penalties:
 - `Write`/`Edit` on read-only agents: -10
 - Unused tools declared: -3 each
 - Scalar-string `tools` format is valid — do NOT penalize
+
+**Penalties that DO NOT apply to SKILL.md** (cross-tool open spec at
+agentskills.io is authoritative; only `name` and `description` are
+required, plus optional `license`, `compatibility`, `metadata`,
+`allowed-tools`):
+
+- "Missing `## Output` section" — NOT a spec requirement. Skills are
+  reference material; the spec body has no format restrictions. Do
+  NOT penalize. The 2026-05-05 openai/symphony audit applied this
+  penalty 5 times across 6 spec-compliant skills, dragging scores
+  10 points below true quality. Drop it.
+- "Missing `version` field on SKILL.md" — NOT in the spec. `version`
+  is optional inside the `metadata` map, not a top-level field. Do
+  NOT penalize SKILL.md for missing `version`. (For `plugin.json`,
+  version IS Claude Code-conventional; that's a separate rule.)
+- "Missing `model:` field on SKILL.md" — `model` is an agent field,
+  not a skill field. Don't apply it to skills.
 
 Before reporting any finding, run this 5-step check (same gate as the scorer
 agent — `agents/scorer.md`):
@@ -79,11 +98,24 @@ agent — `agents/scorer.md`):
    **`name:` on commands** (Claude Code commands register by filename;
    `description:` is the only required command field per
    `skills/nlpm/conventions/` §2).
-3. **Path scope check** — Claude Code artifact paths only. Do NOT emit
-   `BUG-missing-frontmatter` or any other Claude Code schema bug on files
-   under `.cursor/`, `.opencode/`, `.continue/`, `.aider/`, `.codeium/`,
-   `.copilot/`, or any other non-Claude tooling directory — those follow
-   different schemas. Valid Claude Code artifact paths:
+3. **Path scope check** — Two tiers of artifact paths:
+
+   **Tier 1 — Cross-tool SKILL.md (open spec at agentskills.io).** SKILL.md
+   files at any of these layouts are scored against the universal Agent
+   Skills spec; do NOT apply Claude-Code-specific overlays (no `## Output`
+   penalty, no `version` penalty, no `model` penalty):
+   - `.codex/skills/<name>/SKILL.md` (OpenAI Codex; older convention)
+   - `.agents/skills/<name>/SKILL.md` (Codex canonical, also used by other tools)
+   - `.continue/skills/<name>/SKILL.md` (Continue)
+   - `.cursor/skills/<name>/SKILL.md` (Cursor — when present)
+   - `.kiro/skills/<name>/SKILL.md` (AWS Kiro)
+   - `.gemini/skills/<name>/SKILL.md` (Google Gemini CLI)
+   - Any other `<tool-prefix>/skills/<name>/SKILL.md` — recognize, score
+     against universal spec, don't reject as off-schema.
+
+   **Tier 2 — Claude Code-specific paths.** Apply both spec-level checks
+   AND Claude Code conventions (`model:` on agents, `## Output` preferences,
+   `version` on plugin.json, etc.). Valid Claude Code paths:
    - `.claude/commands/**/*.md`, `commands/**/*.md` (plugin commands)
    - `.claude/agents/**/*.md`, `agents/**/*.md` (plugin agents)
    - `.claude/skills/**/SKILL.md`, `skills/**/SKILL.md`

@@ -67,17 +67,29 @@ categories. Before reporting any finding, run this 5-step check:
    - `name:` on commands (filename-based registration; only `description:`
      is required per `nlpm:conventions` §2)
 
-3. **Path scope check** — Apply Claude Code schema rules ONLY to Claude Code
-   artifact paths. Do not flag files under `.cursor/`, `.opencode/`,
-   `.continue/`, `.aider/`, `.codeium/`, `.copilot/`, or other non-Claude
-   tooling directories — those follow different schemas. Valid Claude Code
-   artifact paths:
+3. **Path scope check** — two tiers:
+
+   **Tier 1 — Cross-tool SKILL.md (open spec at agentskills.io).** SKILL.md
+   files at tool-namespaced paths are scored against the universal Agent
+   Skills spec; do NOT apply Claude-Code-specific overlays:
+   - `.codex/skills/<name>/SKILL.md`, `.agents/skills/<name>/SKILL.md`
+   - `.continue/skills/`, `.cursor/skills/`, `.kiro/skills/`, `.gemini/skills/`
+   - Any `<tool>/skills/<name>/SKILL.md` layout
+   These ARE skill paths — score them per the open spec (only `name` and
+   `description` required; `license`, `compatibility`, `metadata`,
+   `allowed-tools` are documented optional). Do NOT penalize them for
+   missing `## Output` section, missing `version`, or missing `model:`.
+
+   **Tier 2 — Claude Code-specific paths.** Apply both spec-level checks
+   AND Claude Code conventions:
    - `.claude/commands/**/*.md`, `commands/**/*.md`
    - `.claude/agents/**/*.md`, `agents/**/*.md`
    - `.claude/skills/**/SKILL.md`, `skills/**/SKILL.md`
    - `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`
    - `hooks/hooks.json`, `.mcp.json`, `CLAUDE.md`
-   Files outside these paths are not NLPM-governed regardless of extension.
+
+   Files outside both tiers (e.g., `.cursorrules`, `.opencode/commands/`)
+   follow tool-specific non-skill schemas — drop the finding silently.
 
 4. **Intent check** — If CLAUDE.md (or a comment in the artifact) documents
    an intentional omission, respect it. Example: nlpm's vague-scanner
