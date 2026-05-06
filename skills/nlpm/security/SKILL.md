@@ -218,6 +218,68 @@ with an `fp_reason` explaining the trust path. The reproduction gate at
 the contribute step will drop it; the rule still gets the self-learning
 signal.
 
+## Public-by-Design Identifiers (drop SEC-hardcoded-api-key matches)
+
+Many "API keys" embedded in client-side code are PUBLIC BY DESIGN —
+they identify a project to a third-party SDK but carry no privileged
+access. Flagging them as hardcoded secrets is a category error: the
+maintainer cannot remove the value without breaking the integration,
+and the value is already visible to any browser that visits the site.
+
+**Drop `SEC-hardcoded-api-key` findings silently when ALL of these apply:**
+
+| Filter | What to drop |
+|--------|--------------|
+| File is under `public/`, `static/`, `assets/`, `dist/`, `build/`, `_site/`, or other published-output directories | Anything served directly to browsers is, by construction, public. The maintainer can't make it private without redesigning the integration. |
+| Key matches a known-public-by-design pattern | See list below. |
+| Filename indicates client-side initialization (`posthog.js`, `gtag.js`, `analytics.js`, `mixpanel.js`, `sentry.js`, `clarity.js`, etc.) | Analytics SDKs require client-side identifiers to function. |
+
+**Known-public-by-design key patterns:**
+
+| Provider | Pattern | Example |
+|----------|---------|---------|
+| PostHog | starts with `phc_` (project key) | `phc_xxxxx...` |
+| PostHog | passed to `posthog.init(KEY, ...)` from a `<script>` tag | any value |
+| Google Analytics | `G-XXXXXXX` (GA4 Measurement ID) | `G-1A2B3C4D5E` |
+| Google Analytics | `UA-XXXXXX-X` (Universal Analytics) | `UA-12345-1` |
+| Google Tag Manager | `GTM-XXXXXXX` | `GTM-ABCDE12` |
+| Mixpanel | passed to `mixpanel.init(TOKEN)` from a `<script>` tag | any 32-hex |
+| Sentry | DSN with `https://` prefix in browser-side code | `https://abc@o123.ingest.sentry.io/456` |
+| Reo | `reo.js` clientID, passed to `Reo.init` | any value |
+| Clarity | passed to `clarity.init` or `(c,l,a,r,i,t,y)` snippet | any value |
+| Amplitude | passed to `amplitude.init(API_KEY, ...)` from `<script>` | any value |
+| Hotjar | numeric `hjid` in `_hjSettings` | numeric |
+| Segment | `analytics.load(WRITE_KEY)` from a `<script>` tag | any value |
+| LogRocket | `LogRocket.init(APP_ID)` from a `<script>` tag | any value |
+| Stripe | publishable key starts with `pk_live_` or `pk_test_` | `pk_live_xxxxx` |
+| Algolia | `searchOnly` key in client config (not admin key) | any value |
+
+**Public DSN/CSP-safe identifiers** in `meta` tags, `<script src>` URLs,
+or ESM imports are also public by design.
+
+**What still IS a finding** (never drop):
+
+- Stripe **secret** keys (`sk_live_`, `sk_test_`)
+- AWS access keys (`AKIA...`, `ASIA...`)
+- GitHub PATs (`ghp_`, `gho_`, `ghu_`, `ghs_`, `ghr_`)
+- OpenAI keys (`sk-...`, `sk-proj-...`)
+- Anthropic keys (`sk-ant-...`)
+- Database connection URLs with embedded credentials
+- Private keys (`-----BEGIN ...PRIVATE KEY-----`)
+- Twilio Auth Tokens, SendGrid API keys, etc. — server-side credentials
+- Any key matched in a server-side path (`api/`, `server/`, `backend/`,
+  `routes/`, `lib/server/`, files NOT under public output dirs)
+
+The discipline: ask "if this key were swapped tomorrow, would the
+end-user-visible product break?" If yes (analytics, tag managers,
+SDK identifiers), it's public-by-design — drop. If no (auth, write
+operations, admin endpoints), it's a real secret — flag.
+
+Finding source: 2026-05-05 audit of `wasp-lang/open-saas` flagged 3
+PostHog/Reo public keys in `opensaas-sh/blog/public/scripts/`. All 3
+were correctly self-FP'd by the scorer. Adding this filter prevents
+the audit cycle from being burned on the same false positive shape.
+
 ## Finding Validation
 
 After the pre-match filter, verify each surviving Critical or High result:
