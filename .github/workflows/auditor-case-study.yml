@@ -1067,8 +1067,19 @@ jobs:
           DATE=$(date +%Y-%m-%d)
           mkdir -p case-studies/images
 
-          # Generate via DALL-E
-          curl -s https://api.openai.com/v1/images/generations \
+          # Generate via DALL-E. Capture both stdout (response JSON) and
+          # the HTTP status separately so we can surface the actual
+          # failure mode instead of silently dropping it. The previous
+          # `2>/dev/null` plus python that exits 0 on missing-data swallowed
+          # API errors entirely — kubesphere + code-yeongyu both had
+          # cover-gen "succeed" in 0.3 seconds with no diagnostic on
+          # 2026-05-06 to -07. Likely root cause: OPENAI_API_KEY auth
+          # or quota. Make it visible.
+          API_RESP=/tmp/openai-resp.json
+          API_HTTP=/tmp/openai-http.txt
+          curl -sS https://api.openai.com/v1/images/generations \
+            -o "$API_RESP" \
+            -w '%{http_code}' \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $OPENAI_API_KEY" \
             -d '{
@@ -1077,16 +1088,37 @@ jobs:
               "n": 1,
               "size": "1536x1024",
               "quality": "high"
-            }' | python3 -c "
+            }' > "$API_HTTP" || true
+          HTTP_CODE=$(cat "$API_HTTP" 2>/dev/null || echo "000")
+          echo "OpenAI image API HTTP status: $HTTP_CODE"
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Cover image generation failed — HTTP $HTTP_CODE."
+            # Print first 500 chars of response so the failure mode (auth /
+            # quota / billing / model-not-found / content policy) is
+            # diagnosable from the workflow log without re-running.
+            echo "Response body (first 500 chars):"
+            head -c 500 "$API_RESP" 2>/dev/null || echo "  (no response body)"
+            echo ""
+          else
+            python3 - "$API_RESP" <<'PYEOF' || echo "Cover image generation failed — could not extract image from response"
           import sys, json, base64
-          data = json.load(sys.stdin)
+          path = sys.argv[1]
+          with open(path) as f:
+              data = json.load(f)
           if 'data' in data and data['data']:
               img = data['data'][0]
               if 'b64_json' in img:
                   with open('/tmp/cover-raw.png', 'wb') as f:
                       f.write(base64.b64decode(img['b64_json']))
                   print('saved')
-          " 2>/dev/null || echo "Cover image generation failed"
+              else:
+                  print('Cover image generation failed — response had no b64_json')
+          else:
+              print('Cover image generation failed — response had no data field')
+              print(json.dumps(data)[:500])
+          PYEOF
+          fi
 
           # Convert PNG to WebP (cwebp first, fall back to PIL, fall back to raw PNG copy).
           # WebP at q=85 averages ~7-11% of original PNG size on the
