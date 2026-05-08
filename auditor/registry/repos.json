@@ -7001,7 +7001,7 @@
       "status": "tracked"
     },
     "Q00/ouroboros": {
-      "score": 67,
+      "score": 69,
       "discovered": "2026-04-18T22:52:00Z",
       "artifacts": 54,
       "star_velocity": 14.67,
@@ -7013,7 +7013,8 @@
       "star_anomaly": 0.43,
       "prs": [],
       "source": "claudepot",
-      "stars": 2415
+      "stars": 2415,
+      "commit_sha_at_audit": "7022117f7584c750b35b2f33c632fe5a744d3ee8"
     },
     "agent-sh/agentsys": {
       "security": "CLEAR",

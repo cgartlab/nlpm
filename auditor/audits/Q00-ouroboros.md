@@ -1,181 +1,199 @@
 # NLPM Audit: Q00/ouroboros
-**Date**: 2026-04-19  |  **Artifacts**: 56  |  **Strategy**: batched
-**NL Score**: 67/100
+**Date**: 2026-04-06  |  **Artifacts**: 58  |  **Strategy**: batched
+**NL Score**: 69/100
 **Security**: BLOCKED
-**Bugs**: 36  |  **Quality Issues**: 48  |  **Security Findings**: 14
-
----
+**Bugs**: 45  |  **Quality Issues**: 64  |  **Security Findings**: 8
 
 ## NL Score Summary
-
 | File | Type | Score | Top Issue |
 |------|------|-------|-----------|
-| src/ouroboros/agents/research-agent.md | Agent | 20 | No frontmatter, no output format |
-| src/ouroboros/agents/ontologist.md | Agent | 20 | No frontmatter, no output format |
-| src/ouroboros/agents/analysis-agent.md | Agent | 20 | No frontmatter, no output format |
-| src/ouroboros/agents/breadth-keeper.md | Agent | 20 | No frontmatter, no output format |
-| src/ouroboros/agents/code-executor.md | Agent | 20 | No frontmatter, no output format |
-| src/ouroboros/agents/seed-closer.md | Agent | 20 | No frontmatter, no output format |
-| src/ouroboros/agents/advocate.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/architect.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/codebase-explorer.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/consensus-reviewer.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/contrarian.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/evaluator.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/hacker.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/judge.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/ontology-analyst.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/qa-judge.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/researcher.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/seed-architect.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/semantic-evaluator.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/simplifier.md | Agent | 30 | No frontmatter |
-| src/ouroboros/agents/socratic-interviewer.md | Agent | 30 | No frontmatter |
-| commands/evolve.md | Command | 85 | No allowed-tools; {{ARGUMENTS}} empty input unhandled |
-| commands/interview.md | Command | 85 | No allowed-tools; {{ARGUMENTS}} empty input unhandled |
-| commands/welcome.md | Command | 90 | No allowed-tools |
-| CLAUDE.md | Dev Config | 78 | Non-standard NL artifact; dev-only routing table |
-| .claude-plugin/plugin.json | Plugin Config | 82 | Metadata-only, no NL structure |
-| hooks/hooks.json | Hooks Config | 85 | Valid; triggers unguarded Python scripts on every event |
-| skills/help/SKILL.md | Skill | 88 | Reference-only; no interactive behaviour |
-| skills/interview/SKILL.md | Skill | 88 | Version-check curl in hot path; very complex |
-| skills/openclaw/SKILL.md | Skill | 88 | Hard-wires external MCP dependency |
-| skills/pm/SKILL.md | Skill | 88 | Heavy MCP dependency without graceful fallback |
-| skills/publish/SKILL.md | Skill | 88 | User-supplied TARGET_REPO unquoted in shell |
-| skills/ralph/SKILL.md | Skill | 88 | Pseudocode loop; references MCP tools not always present |
-| skills/seed/SKILL.md | Skill | 88 | Dual-path good; star prompt in success path adds noise |
-| skills/brownfield/SKILL.md | Skill | 90 | Clear; no significant issues |
-| skills/cancel/SKILL.md | Skill | 90 | Good; CLI mode only, no MCP fallback needed |
-| skills/evolve/SKILL.md | Skill | 90 | Good dual-path structure |
-| skills/run/SKILL.md | Skill | 90 | Good monitoring options; complexity warranted |
-| skills/seed/SKILL.md | Skill | 90 | (see row above — reordered; tied score) |
-| skills/setup/SKILL.md | Skill | 88 | curl-pipe-sh in troubleshooting section |
-| skills/tutorial/SKILL.md | Skill | 90 | Good progressive disclosure |
-| skills/update/SKILL.md | Skill | 90 | Solid; clear install-method detection |
-| skills/welcome/SKILL.md | Skill | 90 | gh star API call; flow well-structured |
-| skills/qa/SKILL.md | Skill | 92 | Two-mode pattern clear; good example |
-| skills/unstuck/SKILL.md | Skill | 92 | Good persona table; MCP + fallback both present |
-| skills/evaluate/SKILL.md | Skill | 92 | 3-stage explanation accurate; good fallback |
-| skills/status/SKILL.md | Skill | 93 | Best-in-class: extra mcp_tool/mcp_args frontmatter |
-| commands/cancel.md | Command | 95 | No allowed-tools (minor) |
-| commands/evaluate.md | Command | 95 | No allowed-tools (minor) |
-| commands/help.md | Command | 95 | No allowed-tools (minor) |
-| commands/ralph.md | Command | 95 | No allowed-tools (minor) |
-| commands/run.md | Command | 95 | No allowed-tools (minor) |
-| commands/seed.md | Command | 95 | No allowed-tools (minor) |
-| commands/setup.md | Command | 95 | No allowed-tools (minor) |
-| commands/status.md | Command | 95 | No allowed-tools (minor) |
-| commands/tutorial.md | Command | 95 | No allowed-tools (minor) |
-| commands/unstuck.md | Command | 95 | No allowed-tools (minor) |
-
-**Weighted average**: (570 agents + 1210 commands + 1705 skills + 245 system) / 56 = **67/100**
-
----
+| src/ouroboros/agents/research-agent.md | agent | 20 | Missing name+description frontmatter, no model, no examples, no output format |
+| src/ouroboros/agents/ontologist.md | agent | 20 | Missing name+description frontmatter, no model, no examples, no output format |
+| src/ouroboros/agents/analysis-agent.md | agent | 20 | Missing name+description frontmatter, no model, no examples, no output format |
+| src/ouroboros/agents/breadth-keeper.md | agent | 20 | Missing name+description frontmatter, no model, no examples, no output format |
+| src/ouroboros/agents/code-executor.md | agent | 20 | Missing name+description frontmatter, no model, no examples, no output format |
+| src/ouroboros/agents/seed-closer.md | agent | 20 | Missing name+description frontmatter, no model, no examples, no output format |
+| src/ouroboros/agents/semantic-evaluator.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/advocate.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/hacker.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/simplifier.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/codebase-explorer.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/contrarian.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/consensus-reviewer.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/socratic-interviewer.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/judge.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/architect.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/evaluator.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/qa-judge.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/ontology-analyst.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/seed-architect.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| src/ouroboros/agents/researcher.md | agent | 30 | Missing name+description frontmatter, no model, no examples |
+| commands/evolve.md | command | 85 | No allowed-tools; takes {{ARGUMENTS}} without empty-input handling |
+| commands/interview.md | command | 85 | No allowed-tools; takes {{ARGUMENTS}} without empty-input handling |
+| commands/welcome.md | command | 85 | No allowed-tools; takes {{ARGUMENTS}} without empty-input handling |
+| skills/setup/SKILL.md | skill | 90 | Stale counts (15 skills, 9 agents) in success message; curl-pipe-sh instruction |
+| skills/pm/SKILL.md | skill | 90 | pbcopy in Step 4 is macOS-only; mixed-language output string (Korean) |
+| skills/publish/SKILL.md | skill | 90 | "logical implementation units" vague grouping guidance in Step 6 |
+| skills/evolve/SKILL.md | skill | 92 | Minor: MCP tool prefix docs may drift vs actual registered names |
+| skills/brownfield/SKILL.md | skill | 92 | Minor quality |
+| skills/update/SKILL.md | skill | 92 | Minor quality |
+| skills/help/SKILL.md | skill | 92 | Minor quality |
+| .claude-plugin/plugin.json | manifest | 92 | Minor: no version constraints on mcpServers |
+| skills/tutorial/SKILL.md | skill | 93 | Minor quality |
+| skills/ralph/SKILL.md | skill | 93 | Minor quality |
+| commands/run.md | command | 95 | No allowed-tools declared |
+| commands/tutorial.md | command | 95 | No allowed-tools declared |
+| commands/evaluate.md | command | 95 | No allowed-tools declared |
+| commands/cancel.md | command | 95 | No allowed-tools declared |
+| commands/setup.md | command | 95 | No allowed-tools declared |
+| commands/seed.md | command | 95 | No allowed-tools declared |
+| commands/status.md | command | 95 | No allowed-tools declared |
+| commands/unstuck.md | command | 95 | No allowed-tools declared |
+| commands/ralph.md | command | 95 | No allowed-tools declared |
+| commands/help.md | command | 95 | No allowed-tools declared |
+| tests/fixtures/router/skills/frontmatter-body/run/SKILL.md | skill | 95 | Test fixture — intentional body mismatch |
+| skills/welcome/SKILL.md | skill | 95 | Clean |
+| skills/qa/SKILL.md | skill | 95 | Clean |
+| skills/resume-session/SKILL.md | skill | 95 | Clean |
+| skills/status/SKILL.md | skill | 95 | Clean |
+| skills/run/SKILL.md | skill | 95 | Minor: frontmatter mcp_tool=ouroboros_execute_seed vs step 3 uses ouroboros_start_execute_seed |
+| skills/unstuck/SKILL.md | skill | 95 | Clean |
+| skills/seed/SKILL.md | skill | 95 | Clean |
+| skills/cancel/SKILL.md | skill | 95 | Clean |
+| skills/evaluate/SKILL.md | skill | 95 | Clean |
+| skills/interview/SKILL.md | skill | 95 | Clean |
+| skills/auto/SKILL.md | skill | 95 | Clean |
+| CLAUDE.md | config | 88 | Dev-only file; includes stale agent list (omits wonder/reflect referenced elsewhere) |
+| hooks/hooks.json | hook | 95 | Clean |
 
 ## Security Scan
-
 | Severity | Count |
 |----------|-------|
 | Critical | 2 |
-| High | 2 |
-| Medium | 7 |
-| Low | 3 |
+| High | 1 |
+| Medium | 4 |
+| Low | 1 |
 
 ### Execution Surface Inventory
-
 | Surface | Files |
 |---------|-------|
-| Hooks | hooks/hooks.json (3 hooks: SessionStart, UserPromptSubmit, PostToolUse) |
-| Scripts — Python | scripts/session-start.py, scripts/keyword-detector.py, scripts/drift-monitor.py, scripts/version-check.py, scripts/ralph.py, scripts/ralph-rewind.py, scripts/sync-plugin-version.py |
-| Scripts — Shell | scripts/install.sh, scripts/mcp-serve.sh, scripts/ralph.sh |
-| MCP Config | .mcp.json (uvx ouroboros-ai[mcp,claude] mcp serve) |
-| Plugin Manifest | .claude-plugin/plugin.json |
+| Hooks | hooks/hooks.json (3 hook entries: SessionStart, UserPromptSubmit, PostToolUse) |
+| Scripts | scripts/drift-monitor.py, scripts/keyword-detector.py, scripts/session-start.py, scripts/version-check.py, scripts/sync-plugin-version.py, scripts/ralph.py, scripts/ralph-rewind.py, scripts/ralph.sh, scripts/mcp-serve.sh, scripts/install.sh |
+| MCP configs | .mcp.json (repo-level), plugin.json references .mcp.json |
+| Package manifest | pyproject.toml (no postinstall scripts found) |
 
 ### Security Findings
-
 | # | Severity | File | Line | Pattern | Description |
 |---|----------|------|------|---------|-------------|
-| 1 | CRITICAL | scripts/install.sh | 3 | curl-pipe-bash | Usage comment documents and promotes `curl -fsSL .../install.sh \| bash` as the official install method. Any compromise of the raw GitHub URL allows arbitrary code execution on user machines. |
-| 2 | CRITICAL | skills/setup/SKILL.md | ~162 | curl-pipe-shell | Troubleshooting path instructs users to run `curl -LsSf https://astral.sh/uv/install.sh \| sh` without integrity check. Appears again at ~line 566 in the uvx troubleshooting block. |
-| 3 | HIGH | scripts/ralph.sh | 101 | git add -A auto-commit | `git add -A` stages and commits every file in the working tree (including `.env`, secrets, private keys) automatically with no user confirmation after each evolutionary generation. |
-| 4 | HIGH | scripts/ralph.sh | 133, 137 | git clean -fd | `git checkout "$prev_tag" -- .` followed by `git clean -fd` destroys all untracked files without user confirmation during rollback. Unrecoverable data loss if user had unsaved work outside git. |
-| 5 | MEDIUM | hooks/hooks.json | 1–40 | Broad hook triggers | Three hooks fire Python scripts on *every* SessionStart, *every* UserPromptSubmit, and *every* Write/Edit. No matcher scoping beyond `"*"`. Scripts consume stdin/stdout of the hook pipeline, creating a permanent execution surface. |
-| 6 | MEDIUM | scripts/version-check.py | 74–75 | External network call | `urllib.request.urlopen("https://pypi.org/pypi/ouroboros-ai/json")` on every session start (via hooks). If PyPI is compromised or MITM'd, the version string influences update prompts shown to users. |
-| 7 | MEDIUM | skills/interview/SKILL.md | ~33 | External network call | Step 0 version check runs `curl -s --max-time 3 https://api.github.com/repos/Q00/ouroboros/releases/latest` on every `ooo interview` invocation. Slow networks add 3 s latency; failed parses are silently swallowed. |
-| 8 | MEDIUM | skills/welcome/SKILL.md | 215 | Social API manipulation | On user consent, executes `gh api -X PUT /user/starred/Q00/ouroboros` — stars the project's own GitHub repo via the authenticated `gh` CLI. Consent flow is presented as a required step, not a clearly optional one. |
-| 9 | MEDIUM | skills/setup/SKILL.md | 80 | Social API manipulation | Same `gh api -X PUT /user/starred/Q00/ouroboros` pattern in setup wizard. Both options ("Star on GitHub" and "Skip for now") save `{"star_asked": true}`, obscuring whether "Skip" truly skips or just records that the ask happened. |
-| 10 | MEDIUM | .mcp.json | 1–8 | MCP broad command | MCP server configured as `uvx --from ouroboros-ai[mcp,claude] ouroboros mcp serve` — runs a PyPI-sourced package with no pinned version or hash verification. Package compromise → MCP server compromise. |
-| 11 | MEDIUM | skills/publish/SKILL.md | ~213 | Shell injection surface | `gh issue create -R <TARGET_REPO>` uses user-supplied `TARGET_REPO` without quoting in shell context. Malicious repo names containing spaces or shell metacharacters could alter the `gh` command. |
-| 12 | LOW | scripts/install.sh | 233 | PATH modification | `export PATH="$p:$PATH"` prepends user-writable directories (`~/.local/bin`, `~/.cargo/bin`) to PATH. Executable shadowing is possible if those directories contain rogue binaries. |
-| 13 | LOW | scripts/install.sh | multiple | Unpinned dependency versions | `--with "claude-agent-sdk>=0.1.0"`, `--with "anthropic>=0.52.0"` use open-ended version ranges. Future breaking or malicious releases within those ranges install automatically. |
-| 14 | LOW | hooks/hooks.json | 1–40 | Verbose hook scope | `UserPromptSubmit` hook fires on every prompt — keyword-detector.py processes every message the user types. Low performance/privacy risk but creates a persistent monitoring surface. |
-
----
+| 1 | Critical | skills/setup/SKILL.md | 185 | curl-pipe-sh | Skill instructs Claude to present `curl -LsSf https://astral.sh/uv/install.sh \| sh` inside a Bash code block. Claude Code may execute this directly when the user chooses "set up now", piping an external shell script into sh without integrity verification. |
+| 2 | Critical | scripts/install.sh | 3 | curl-pipe-bash | The script is designed to be invoked via `curl -fsSL https://raw.githubusercontent.com/Q00/ouroboros/main/scripts/install.sh \| bash` (documented in line 3 comment and confirmed by project README). Any compromise of the GitHub repository or CDN delivers arbitrary code to installing users. |
+| 3 | High | scripts/install.sh | 118 | curl-pipe-sh (echo) | `echo "Or switch to uv (recommended): curl -LsSf https://astral.sh/uv/install.sh \| sh"` — script instructs users to pipe a second external script into sh, compounding supply-chain risk. |
+| 4 | Medium | scripts/version-check.py | 74 | network-call | `urllib.request.urlopen('https://pypi.org/pypi/ouroboros-ai/json', ...)` — outbound HTTPS call to PyPI on every session start (via session-start.py). Benign intent but creates a mandatory external dependency in the hook path. |
+| 5 | Medium | scripts/session-start.py | 27 | network-call | Dynamically loads and executes version-check.py on every SessionStart hook, triggering a PyPI network call; failure modes are silently swallowed. |
+| 6 | Medium | skills/interview/SKILL.md | 33 | network-call | `curl -s --max-time 3 https://api.github.com/repos/Q00/ouroboros/releases/latest \| grep ...` — outbound curl to GitHub API (not piped to shell, but introduces a network dependency into every interview invocation). |
+| 7 | Medium | .mcp.json | 4 | unpinned-dependency | `"--from", "ouroboros-ai[mcp,claude]"` — no version constraint. A future breaking release of ouroboros-ai will silently break existing installs. |
+| 8 | Low | hooks/hooks.json | 9,18,29 | path-interpolation | Hook commands use `${CLAUDE_PLUGIN_ROOT}` without quoting in the JSON value; a CLAUDE_PLUGIN_ROOT containing spaces or special characters could alter script resolution. |
 
 ## Bugs (PR-worthy)
-
 | # | File | Issue | Impact |
 |---|------|-------|--------|
-| 1 | All 21 `src/ouroboros/agents/*.md` | Missing required `---\nname: <name>\ndescription: <desc>\n---` frontmatter. None of the 21 agent files contain YAML frontmatter. | Blocks native Claude Code agent registration. Agents only work via the custom CLAUDE.md "read file" workaround, making them invisible to the plugin system's agent dispatcher. |
-| 2 | All 13 `commands/*.md` | Missing `allowed-tools:` declaration in frontmatter. Every command uses the `Read` tool (to load its SKILL.md) but declares no tools. | Claude Code cannot validate or enforce tool permissions for these commands. Users may see unexpected permission prompts or tool denials. |
-| 3 | commands/evolve.md | Has `{{ARGUMENTS}}` template variable but no guard for empty invocation (`ooo evolve` with no argument). | If user runs bare `ooo evolve`, the skill receives an empty string as the evolutionary context, causing undefined interview behaviour. |
-| 4 | commands/interview.md | Same issue — `{{ARGUMENTS}}` with no empty-input handling. | Bare `ooo interview` passes empty context to `ouroboros_interview` MCP tool, which may error or produce a degenerate interview. |
-| 5 | Agents directory | `wonder.md` and `reflect.md` agents are referenced in the CLAUDE.md `ooo evolve` agent table and skills/setup/SKILL.md preview block but are absent from `src/ouroboros/agents/`. | Skills that reference these agents in fallback mode (Path B) will silently fail when Claude attempts to read the missing files. |
-
----
+| 1 | src/ouroboros/agents/research-agent.md | Missing `name` frontmatter field | Agent will not register; orchestrators cannot reference it by name |
+| 2 | src/ouroboros/agents/research-agent.md | Missing `description` frontmatter field | Agent discovery and help text broken |
+| 3 | src/ouroboros/agents/semantic-evaluator.md | Missing `name` frontmatter field | Agent not registerable |
+| 4 | src/ouroboros/agents/semantic-evaluator.md | Missing `description` frontmatter field | Agent discovery broken |
+| 5 | src/ouroboros/agents/advocate.md | Missing `name` frontmatter field | Agent not registerable |
+| 6 | src/ouroboros/agents/advocate.md | Missing `description` frontmatter field | Agent discovery broken |
+| 7 | src/ouroboros/agents/hacker.md | Missing `name` frontmatter field | Agent not registerable |
+| 8 | src/ouroboros/agents/hacker.md | Missing `description` frontmatter field | Agent discovery broken |
+| 9 | src/ouroboros/agents/simplifier.md | Missing `name` frontmatter field | Agent not registerable |
+| 10 | src/ouroboros/agents/simplifier.md | Missing `description` frontmatter field | Agent discovery broken |
+| 11 | src/ouroboros/agents/ontologist.md | Missing `name` frontmatter field | Agent not registerable |
+| 12 | src/ouroboros/agents/ontologist.md | Missing `description` frontmatter field | Agent discovery broken |
+| 13 | src/ouroboros/agents/codebase-explorer.md | Missing `name` frontmatter field | Agent not registerable |
+| 14 | src/ouroboros/agents/codebase-explorer.md | Missing `description` frontmatter field | Agent discovery broken |
+| 15 | src/ouroboros/agents/contrarian.md | Missing `name` frontmatter field | Agent not registerable |
+| 16 | src/ouroboros/agents/contrarian.md | Missing `description` frontmatter field | Agent discovery broken |
+| 17 | src/ouroboros/agents/consensus-reviewer.md | Missing `name` frontmatter field | Agent not registerable |
+| 18 | src/ouroboros/agents/consensus-reviewer.md | Missing `description` frontmatter field | Agent discovery broken |
+| 19 | src/ouroboros/agents/analysis-agent.md | Missing `name` frontmatter field | Agent not registerable |
+| 20 | src/ouroboros/agents/analysis-agent.md | Missing `description` frontmatter field | Agent discovery broken |
+| 21 | src/ouroboros/agents/breadth-keeper.md | Missing `name` frontmatter field | Agent not registerable |
+| 22 | src/ouroboros/agents/breadth-keeper.md | Missing `description` frontmatter field | Agent discovery broken |
+| 23 | src/ouroboros/agents/socratic-interviewer.md | Missing `name` frontmatter field | Agent not registerable; skills/interview/SKILL.md references it by name |
+| 24 | src/ouroboros/agents/socratic-interviewer.md | Missing `description` frontmatter field | Agent discovery broken |
+| 25 | src/ouroboros/agents/judge.md | Missing `name` frontmatter field | Agent not registerable |
+| 26 | src/ouroboros/agents/judge.md | Missing `description` frontmatter field | Agent discovery broken |
+| 27 | src/ouroboros/agents/architect.md | Missing `name` frontmatter field | Agent not registerable |
+| 28 | src/ouroboros/agents/architect.md | Missing `description` frontmatter field | Agent discovery broken |
+| 29 | src/ouroboros/agents/evaluator.md | Missing `name` frontmatter field | Agent not registerable; skills/evaluate/SKILL.md references it |
+| 30 | src/ouroboros/agents/evaluator.md | Missing `description` frontmatter field | Agent discovery broken |
+| 31 | src/ouroboros/agents/qa-judge.md | Missing `name` frontmatter field | Agent not registerable; skills/qa/SKILL.md references it |
+| 32 | src/ouroboros/agents/qa-judge.md | Missing `description` frontmatter field | Agent discovery broken |
+| 33 | src/ouroboros/agents/ontology-analyst.md | Missing `name` frontmatter field | Agent not registerable |
+| 34 | src/ouroboros/agents/ontology-analyst.md | Missing `description` frontmatter field | Agent discovery broken |
+| 35 | src/ouroboros/agents/code-executor.md | Missing `name` frontmatter field | Agent not registerable |
+| 36 | src/ouroboros/agents/code-executor.md | Missing `description` frontmatter field | Agent discovery broken |
+| 37 | src/ouroboros/agents/seed-architect.md | Missing `name` frontmatter field | Agent not registerable; skills/seed/SKILL.md references it |
+| 38 | src/ouroboros/agents/seed-architect.md | Missing `description` frontmatter field | Agent discovery broken |
+| 39 | src/ouroboros/agents/researcher.md | Missing `name` frontmatter field | Agent not registerable |
+| 40 | src/ouroboros/agents/researcher.md | Missing `description` frontmatter field | Agent discovery broken |
+| 41 | src/ouroboros/agents/seed-closer.md | Missing `name` frontmatter field | Agent not registerable; skills/interview/SKILL.md references it |
+| 42 | src/ouroboros/agents/seed-closer.md | Missing `description` frontmatter field | Agent discovery broken |
+| 43 | skills/setup/SKILL.md | CLAUDE.md preview block references `wonder` and `reflect` agents that have no corresponding files in src/ouroboros/agents/ | If users copy the preview block, the agent references resolve to nothing |
+| 44 | skills/run/SKILL.md | Frontmatter declares `mcp_tool: ouroboros_execute_seed` but Step 3 instructs calling `ouroboros_start_execute_seed` | Name mismatch — one will fail depending on which the router uses |
+| 45 | skills/pm/SKILL.md | Step 4 uses `pbcopy` which is macOS-only; no cross-platform fallback | Skill silently fails on Linux/Windows users |
 
 ## Security Fixes (PR-worthy, Medium/Low only)
-
-*(Critical and High findings #1–4 require private disclosure, NOT public PRs.)*
-
 | # | File | Issue | Suggested Fix |
 |---|------|-------|---------------|
-| 1 | skills/publish/SKILL.md ~line 213 | `TARGET_REPO` interpolated unquoted in `gh issue create -R <TARGET_REPO>` | Quote all uses: `-R "$TARGET_REPO"`. Also validate format matches `owner/repo` regex before use. |
-| 2 | scripts/install.sh line 233 | `export PATH="$p:$PATH"` with user-writable dirs | Append instead of prepend: `export PATH="$PATH:$p"`. Prepending opens shadow attack if `~/.local/bin` is writeable by other processes. |
-| 3 | .mcp.json | No pinned version for `ouroboros-ai[mcp,claude]` in uvx args | Pin to explicit version: `"--from", "ouroboros-ai[mcp,claude]==0.28.8"`. Update on each release. |
-| 4 | skills/welcome/SKILL.md line 215, skills/setup/SKILL.md line 80 | GitHub star prompt presented ambiguously — both options save `star_asked: true`, making "Skip" indistinguishable from consent | Make "Skip" truly skip (don't save `star_asked`) and label options clearly as "Yes, star the repo" / "No thanks". |
-| 5 | hooks/hooks.json | `UserPromptSubmit` matcher is `"*"` — fires on every message | Scope matcher to `"ooo *"` to limit execution to relevant prompts, reducing attack surface and latency. |
-| 6 | scripts/install.sh multiple | Open-ended version ranges `>=0.1.0`, `>=0.52.0` for `claude-agent-sdk` and `anthropic` | Pin to specific compatible versions (e.g. `==0.1.x`) or add upper bound. |
-
----
+| 1 | scripts/version-check.py | Outbound PyPI call on every session start adds latency and a network dependency to the hook path | Move the version check to a background thread or increase cache TTL; consider making it opt-in via a prefs flag |
+| 2 | skills/interview/SKILL.md | curl to GitHub API on every interview invocation for a version check | Move this check to session-start.py where caching is already implemented; remove from interview skill |
+| 3 | .mcp.json | `ouroboros-ai[mcp,claude]` unpinned | Pin to a minimum version range: `"ouroboros-ai[mcp,claude]>=0.36.0,<1.0.0"` |
+| 4 | hooks/hooks.json | `${CLAUDE_PLUGIN_ROOT}` unquoted in command string | Wrap the path in double-quotes: `"command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/...\""`  — already partially done, verify all three hook entries |
 
 ## Quality Issues (informational)
-
 | # | File | Issue | Penalty |
 |---|------|-------|---------|
-| 1 | All 21 agents | Zero example blocks. No single agent file contains an `## Example` section with sample input/output. | −15 each = −315 total across agent tier |
-| 2 | All 21 agents | No model tier declared. Agents contain no `model:` frontmatter or inline model guidance. Callers must guess tier. | −5 each = −105 total |
-| 3 | research-agent.md, ontologist.md, analysis-agent.md, breadth-keeper.md, code-executor.md, seed-closer.md | No output format section. Six agents describe behaviour but specify no output structure. | −10 each = −60 total |
-| 4 | skills/interview/SKILL.md | Version check (Step 0) runs a blocking curl call on every interview invocation. On rate-limited or slow networks, this adds 3 s latency before the interview begins. Silent failure is the intended path but the happy-path friction is unnecessary. | Quality (UX) |
-| 5 | skills/seed/SKILL.md, skills/welcome/SKILL.md, skills/setup/SKILL.md | GitHub star prompt injected at the end of core workflow steps (seed generation, onboarding, setup). Blurs product quality signals with growth-hacking mechanics — users may feel manipulated. | Quality (trust) |
-| 6 | agents/socratic-interviewer.md | Detailed STOP CONDITIONS and BREADTH CONTROL sections are high quality — but duplicated almost verbatim in skills/interview/SKILL.md Path B. Divergence risk as one is updated without the other. | Quality (DRY) |
-| 7 | skills/ralph/SKILL.md | Loop pseudocode uses Python async/await syntax (`await start_evolve_step(...)`) in a markdown skill context. Claude cannot execute async Python natively; this requires the MCP tool mapping table below the pseudocode to be understood implicitly. Confusing without clear callout. | Quality (clarity) |
-| 8 | skills/setup/SKILL.md | "Conversion Metrics Track" checklist at line ~587 reads as internal A/B testing instrumentation left in a user-facing skill file. Leaks product-team framing to end users. | Quality (polish) |
-
----
+| 1 | src/ouroboros/agents/* (all 21) | No `model` declared; runtime uses default | -5 each |
+| 2 | src/ouroboros/agents/* (all 21) | No example blocks; zero invocation examples | -15 each |
+| 3 | src/ouroboros/agents/research-agent.md | No output format defined | -10 |
+| 4 | src/ouroboros/agents/ontologist.md | No output format defined | -10 |
+| 5 | src/ouroboros/agents/analysis-agent.md | No output format defined | -10 |
+| 6 | src/ouroboros/agents/breadth-keeper.md | No output format defined; only lists questions | -10 |
+| 7 | src/ouroboros/agents/code-executor.md | No output format defined | -10 |
+| 8 | src/ouroboros/agents/seed-closer.md | No output format defined | -10 |
+| 9 | commands/* (all 13) | No `allowed-tools` field in frontmatter | -5 each |
+| 10 | commands/evolve.md | Takes {{ARGUMENTS}} without empty-input handling | -10 |
+| 11 | commands/interview.md | Takes {{ARGUMENTS}} without empty-input handling | -10 |
+| 12 | commands/welcome.md | Takes {{ARGUMENTS}} without empty-input handling | -10 |
+| 13 | skills/setup/SKILL.md | Success message says "Skills Registered: 15 workflow skills" but 20+ skills exist | stale count |
+| 14 | skills/setup/SKILL.md | Step 4 verification comment says "Should show 12+ skills"; actual count is 21 | stale count |
+| 15 | skills/setup/SKILL.md | Success message says "Agents Available: 9 specialized agents"; actual bundled count is 21 | stale count |
+| 16 | skills/pm/SKILL.md | Korean string `(Clipboard에 복사되었습니다)` in English-facing output; inconsistent locale | cosmetic |
+| 17 | skills/publish/SKILL.md | "logical implementation units" grouping in Step 6 is vague; no grouping heuristics given | -2 |
+| 18 | skills/run/SKILL.md | `view: "summary"` / `view: "compact"` / `view: "full"` naming inconsistency — step 6 uses all three without defining which is default for ouroboros_job_wait | cosmetic |
 
 ## Cross-Component
-
 **Broken references:**
-- `wonder.md` and `reflect.md` referenced in CLAUDE.md's agent catalog and in the setup SKILL.md CLAUDE.md preview block (`<!-- ooo:START -->`) but absent from `src/ouroboros/agents/`. Skills that attempt Path B fallback for these agents will fail silently.
-- All 13 commands reference `${CLAUDE_PLUGIN_ROOT}/skills/...` — this variable is injected by the Claude Code plugin runtime. In dev mode (CLAUDE.md routing), it resolves correctly. In any other execution context, unresolved variable → silent failure.
+- `skills/setup/SKILL.md` CLAUDE.md preview block lists `wonder` and `reflect` as core agents (agents directory contains neither). These appear to be internal MCP Python module roles, not standalone agent markdown files. Every copy of the setup block propagates the stale reference.
+- `skills/interview/SKILL.md` cites `src/ouroboros/agents/seed-closer.md` as the closure readiness source of truth. The file exists and is well-formed, but lacks the required `name`/`description` frontmatter, so a plugin router that validates frontmatter before loading would reject it.
 
-**Orphaned components:**
-- `skills/openclaw/SKILL.md` defines routing for the OpenClaw bot runtime (`ouroboros_channel_workflow` MCP tool, Discord `channel_id`/`guild_id`/`user_id` context). No corresponding command file exists in `commands/`. The skill is reachable only via CLAUDE.md keyword matching, creating an undocumented entrypoint.
-- `commands/` directory is missing files for `pm`, `qa`, `update`, `brownfield`, and `publish` — all five commands are listed in `skills/help/SKILL.md` and CLAUDE.md routing but have no corresponding `commands/*.md` file. These commands exist only via CLAUDE.md dev-mode routing and will not be registered as plugin slash commands.
+**Stale counts:**
+- `skills/setup/SKILL.md` reports 15 skills and 9 agents in its completion message; actual counts are 21 skills and 21 agents.
+- `skills/help/SKILL.md` agent table lists 9 agents; 21 are present.
 
-**Architectural inconsistency:**
-- Agents are designed to be "loaded on demand by reading the file" (per CLAUDE.md), but Claude Code's plugin system expects agents to have frontmatter for native `ouroboros:agent-name` resolution. The current design works only because CLAUDE.md explicitly tells Claude to read agent files directly — bypassing the plugin system entirely. This means `ouroboros:qa-judge`, `ouroboros:evaluator`, etc. referenced in skills will only resolve correctly when CLAUDE.md is loaded in scope. In clean plugin-only contexts, these references fail.
+**MCP tool name drift:**
+- `skills/run/SKILL.md` frontmatter: `mcp_tool: ouroboros_execute_seed`; body Step 3: `ouroboros_start_execute_seed`. These are different tool names — the router and the skill body are inconsistent.
 
-**Version consistency:**
-- plugin.json reports version `0.28.8`. The setup SKILL.md `<!-- ooo:VERSION:0.28.8 -->` marker matches. Welcome SKILL.md hardcodes `"welcomeVersion": "0.14.0"` at line 216 — stale mismatch with current version.
-
----
+**Consistency wins:**
+- All skills that reference agents load them from `src/ouroboros/agents/<name>.md`, matching `CLAUDE.md` dev-mode instructions. ✓
+- `.mcp.json` exists and is well-formed; `plugin.json` correctly points to it. ✓
+- All command files delegate to matching `skills/<name>/SKILL.md`; all skill files exist. ✓
 
 ## Recommendation
 
 **BLOCKED — do not submit PRs. File private security report.**
 
-Two critical security findings (curl-pipe-bash install pattern, curl-pipe-shell in setup skill) require private disclosure before any contribution. The automated `git add -A` and `git clean -fd` in ralph.sh are HIGH-severity operational risks that could cause data loss for users running evolutionary loops.
+The `curl -LsSf https://astral.sh/uv/install.sh | sh` instruction in `skills/setup/SKILL.md` will be directly executed by Claude Code when a user chooses to set up the MCP backend. The `install.sh` curl-pipe-bash design exposes all installers to supply-chain compromise. Both findings must be addressed (e.g., move uv install to a documented out-of-band step, add checksum verification, and add a subresource integrity check) before any PR activity.
 
-**After security gate clears**, the highest-value NL fix is a single PR adding YAML frontmatter to all 21 agent files — this unblocks native Claude Code agent registration and raises the aggregate NL score from 67 to approximately 83. The missing commands (`pm`, `qa`, `update`, `brownfield`, `publish`) should also be added as thin wrapper command files to complete the plugin's command surface.
+Once the Critical and High findings are resolved, the large volume of NL bugs (missing agent frontmatter) are straightforward mechanical fixes that would benefit significantly from a single PR adding `name` and `description` to all 21 agent files. That fix alone would raise the NL score by ~15 points.
