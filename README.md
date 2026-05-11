@@ -4,6 +4,8 @@ Natural-Language Programming Manager -- discover, score, check, and fix NL artif
 
 Part of the [xiaolai Claude plugin marketplace](https://github.com/xiaolai/claude-plugin-marketplace).
 
+NLPM is the only validator in the Claude Code plugin ecosystem that systematically checks **manifest-vs-disk consistency** — the bug class where a SKILL.md exists on disk but is silently missing from `plugin.json` (and therefore invisible after `claude plugin install`). Verified across 8+ tools including Anthropic's official `plugin-validator` and the Linux Foundation's `skills-ref`. See [`analysis/ecosystem-gap.md`](analysis/ecosystem-gap.md) for the research.
+
 ## What it does
 
 NLPM treats natural language artifacts as **programs that can be linted**. Just as ESLint scores JavaScript and ruff scores Python, NLPM scores the markdown files that drive AI behavior: skills, agents, commands, rules, hooks, prompts, CLAUDE.md, and memory files.
@@ -21,7 +23,7 @@ Eight commands, each doing one thing:
 | `/nlpm:init` | Initialize NLPM for a project |
 | `/nlpm:security-scan` | Scan plugins for security risks in executable artifacts |
 
-Claude-native -- no Codex, no external models, no API keys, no runtime dependencies.
+Claude-native slash commands (no API keys, no Codex, no external models) plus a standalone Python 3.11+ validator for pre-commit hooks and CI.
 
 ## Installation
 
@@ -37,6 +39,8 @@ claude plugin install nlpm@xiaolai --scope user
 
 ## Quick Start
 
+In Claude Code:
+
 ```
 /nlpm:ls                    # see what NL artifacts you have
 /nlpm:score                 # score them all
@@ -46,6 +50,15 @@ claude plugin install nlpm@xiaolai --scope user
 /nlpm:fix                   # auto-fix what's fixable
 /nlpm:trend                 # track score history over time
 /nlpm:test                  # run NL-TDD specs
+```
+
+From CI or a pre-commit hook (no Claude Code required):
+
+```bash
+curl -fsSL -o /usr/local/bin/nlpm-check \
+  https://raw.githubusercontent.com/xiaolai/nlpm-for-claude/main/bin/nlpm-check
+chmod +x /usr/local/bin/nlpm-check
+nlpm-check .               # exit 1 on high-confidence findings
 ```
 
 ## For plugin/skill authors — standalone validator
@@ -186,6 +199,33 @@ scripts/
   check-artifact.sh NL artifact classifier for the PostToolUse hook
 
 .nlpm-test/         Self-test specs (dogfooding NL-TDD)
+
+bin/                Standalone author surface (v0.8.0+)
+  nlpm-check        Pure-Python validator for pre-commit / CI / pre-publish
+
+tests/              Python unittest suite for bin/nlpm-check
+  test_nlpm_check.py
+
+templates/          Drop-in author templates
+  pre-commit-nlpm.sh             git pre-commit hook
+  workflows/nlpm-check.yml       GitHub Actions workflow
+
+docs/
+  for-authors.md    Full guide for plugin/skill authors
+
+analysis/
+  ecosystem-gap.md                  Why this validator exists (stable ref)
+  scope-expansion-2026-05.md        Author-surface plan
+  2026-05-11-why-obvious-bugs-persist.md   Original research snapshot
+
+auditor/            Self-evolution pipeline (GitHub Actions + data)
+  audits/           Per-repo audit reports and findings sidecars
+  findings.jsonl    Append-only audit findings (joined by fingerprint)
+  logs/events.jsonl Lifecycle events + outcome signals
+  registry/         Repo tracking database
+  scripts/          Shared GHA helpers
+  prompts/          Shared rubric prompts
+  reports/          Daily pipeline reports
 ```
 
 ## Tips
@@ -196,6 +236,7 @@ scripts/
 - **Do not chase 100.** 85+ is excellent. The last 5-10 points are diminishing returns.
 - **R01 is the most common penalty.** "appropriate", "relevant", "as needed" each cost -2. Replace with measurable criteria.
 - **Auto-fix handles the mechanical stuff.** Focus your energy on descriptions, examples, and scope notes.
+- **Pre-commit + slash commands together.** Run `nlpm-check` in your pre-commit hook for the deterministic checks; let `/nlpm:score` handle the judgment calls inside Claude Code.
 
 ## Troubleshooting
 
@@ -209,9 +250,12 @@ scripts/
 
 ## Case Studies
 
-- [When the Linter Met Its Match](case-studies/2026-04-06-how-we-helped-gsd.md) -- Auditing the 48k-star `gsd-build/get-shit-done` project: 80 files scored, 5 PRs accepted, and the false-positive that improved NLPM itself.
-- [Four bytes of quoting, approved by two OpenAI engineers](case-studies/2026-04-07-openai-codex-plugin-cc.md) -- Auditing `openai/codex-plugin-cc`: 13 artifacts, 93/100 Gold tier, two shell-injection fixes reviewed and merged by OpenAI contributors in 39 hours.
-- [The frontmatter tax: 19 silent registration failures in a 33,000-star plugin collection](case-studies/2026-04-18-wshobson-agents.md) -- Auditing `wshobson/agents`: 100 artifacts sampled of 509, 5 PRs batched and agentically merged in 13 seconds. (Companion [learnings debrief](case-studies/2026-04-18-wshobson-agents-learnings.md) covers the sampling blind spot and pipeline race bugs surfaced by this run.)
+25+ case studies in [`case-studies/`](case-studies/) from the auditor pipeline. A few representative ones:
+
+- [The frontmatter tax: 19 silent registration failures in a 33,000-star plugin collection](case-studies/2026-04-24-wshobson-agents.md) — `wshobson/agents`, 100 artifacts sampled of 509, 5 PRs batched and agentically merged in 13 seconds. (Companion [learnings debrief](case-studies/2026-04-18-wshobson-agents-learnings.md).)
+- [Four bytes of quoting, approved by two OpenAI engineers](case-studies/2026-04-07-openai-codex-plugin-cc.md) — `openai/codex-plugin-cc`, 93/100 Gold tier, two shell-injection fixes merged by OpenAI contributors in 39 hours.
+- [Auditing kubesphere/kubesphere](case-studies/2026-05-07-kubesphere-kubesphere.md) — 16k-star repo, 18 findings including duplicate sections and broken YAML, surfaced by manifest-vs-disk and cross-component checks the other validators don't run.
+- [When the Linter Met Its Match](case-studies/2026-04-06-how-we-helped-gsd.md) — `gsd-build/get-shit-done`, 80 files scored, 5 PRs accepted, plus the false-positive that improved NLPM itself.
 
 ## Auditor — Self-Evolution Pipeline
 
@@ -225,9 +269,9 @@ discover (weekly) → audit → contribute PRs → track merges → write case s
                                          update NLPM rules → audit better
 ```
 
-8 workflows: `auditor-discover`, `auditor-batch-processor`, `auditor-audit`, `auditor-contribute`, `auditor-track`, `auditor-case-study`, `auditor-daily-report`, `auditor-integration-test`. Human-in-the-loop via issue labels at 3 decision points.
+13 workflows in [`.github/workflows/auditor-*.yml`](.github/workflows/): discover, batch-processor, audit, contribute, track, case-study, classify, daily-report, suppressions, refine-rules, docs-diff, rule-review, integration-test. Human-in-the-loop via issue labels at the audit, contribute, and rule-refinement decision points.
 
-See [auditor/README.md](auditor/README.md) for full documentation.
+See [auditor/README.md](auditor/README.md) for the full pipeline documentation and [auditor/SCHEMAS.md](auditor/SCHEMAS.md) for the data contracts.
 
 ## Prerequisites
 
