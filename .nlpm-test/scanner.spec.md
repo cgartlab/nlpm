@@ -9,7 +9,7 @@ min_score: 85
 Required fields:
 - description: present with 2+ example blocks
 - model: haiku
-- tools: includes Read, Glob, Grep (no Write or Edit)
+- tools: includes Read, Glob (no Write, Edit, or Grep — scanner uses Glob for discovery and Read for line counting; grep-style content matching is not required)
 - skills: includes nlpm:conventions
 
 ## Triggers On
