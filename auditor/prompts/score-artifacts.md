@@ -226,6 +226,18 @@ Field rules:
     `allowed-tools` and grepped the artifact, finding zero call sites.
     Also `high`: missing required fields per `skills/nlpm/conventions/`
     where the schema is unambiguous (no `name:` on a SKILL.md).
+    Also `high`: **manifest-vs-disk diff** — when a plugin manifest
+    (`.claude-plugin/plugin.json` or similar) declares an array of
+    skills/agents/commands AND a disk file exists at a canonical
+    artifact path that's missing from that array, the gap is
+    deterministic: jq the array, find the files, diff. No judgment
+    required, reproduction takes 5 seconds. Mark as `high` and
+    populate `evidence` with the concrete diff (e.g., "plugin.json
+    skills array has 13 entries; disk has 17 SKILL.md files under
+    skills/; 4 misc/* directories missing from manifest"). The
+    2026-05-11 mattpocock/skills audit found 4 such bugs and the
+    scorer marked them all `medium` — under-confident on a class
+    of bug where the gap IS the evidence.
     Only `high` findings reach the contribute step; everything else
     stays in the audit data for our own learning.
   - `medium` — likely a bug but you cannot independently verify

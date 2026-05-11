@@ -101,6 +101,17 @@ categories. Before reporting any finding, run this 5-step check:
    against `nlpm:conventions` §14. Built-ins like `AskUserQuestion`, `Task`,
    `WebFetch`, `TodoWrite` are always valid.
 
+6. **Confidence-high for manifest-vs-disk diffs** — When the finding is
+   "X declared in plugin.json's skills/agents/commands array but missing
+   from disk" OR "Y exists on disk at a canonical path but missing from
+   the manifest array", mark the finding as `confidence: high`. The gap
+   is deterministic — list the manifest entries, list the disk files,
+   diff. No judgment required. Populate `evidence` with the concrete
+   diff. This class of bug was under-classified as `medium` in past
+   audits (mattpocock/skills 2026-05-11: 4 unregistered skills marked
+   medium, dropped from contribute — the bugs were textbook reproducible
+   but the scorer was over-conservative).
+
 If a finding fails any of these checks, drop it. Silent omission is
 preferable to a false positive — auditees lose trust in the rubric when
 findings cannot be traced to documented rules.

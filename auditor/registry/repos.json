@@ -1245,11 +1245,13 @@
       "rule_adopted": false
     },
     "mattpocock/skills": {
-      "status": "audited",
+      "status": "complete",
       "score": 98,
       "strategy": "batched",
       "security": "CLEAR",
-      "commit_sha_at_audit": "9fecab929abb904c68ce3366a1781df31ab22832"
+      "commit_sha_at_audit": "HEAD-at-2026-05-11",
+      "issue_filed_url": "https://github.com/mattpocock/skills/issues/164",
+      "issue_filed_reason": "mattpocock/skills does not accept PRs; 4 BUG-unregistered-skill findings filed as issue per repo policy"
     },
     "muratcankoylan/Agent-Skills-for-Context-Engineering": {
       "artifacts": 21,
