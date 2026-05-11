@@ -178,8 +178,8 @@ Per the research, the only validator I found that systematically does cross-comp
 | **Manifest entries vs disk files** | **✗** | **✗** | **✗** | **✗** | **✓** |
 | Orphaned components | ✗ | ✗ | ✗ | ✗ | ✓ |
 | `allowed-tools` vs call sites | ✗ | ✗ | ✗ | ✗ | ✓ |
-| Pre-commit hook | ✗ | ✗ | ✗ | ✓ | not yet |
-| GitHub Actions template | ✗ | ✗ | ✗ | partial | not yet |
+| Pre-commit hook | ✗ | ✗ | ✗ | ✓ | ✓ (shipped v0.8.0) |
+| GitHub Actions template | ✗ | ✗ | ✗ | partial | ✓ (shipped v0.8.0) |
 
 The gap that lets mattpocock's bug through is the manifest-vs-disk row. **One validator in the ecosystem catches it. That's NLPM.**
 

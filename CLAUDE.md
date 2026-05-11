@@ -55,23 +55,40 @@ Each command does one thing -- no flags (except `--changed` on score).
 - hooks/hooks.json -- PostToolUse command hook on Write|Edit|MultiEdit
 - scripts/check-artifact.sh -- classifies written file, emits advisory only for NL artifacts
 
+## Standalone Author Surface (v0.8.0+)
+
+- bin/nlpm-check -- pure-Python (stdlib only) deterministic validator; the
+  subset of /nlpm:check that runs without Claude Code installed. Used in
+  pre-commit hooks, CI, and pre-publish scripts.
+- tests/test_nlpm_check.py -- unittest suite for the binary (run via
+  `python3 -m unittest tests.test_nlpm_check`)
+- templates/pre-commit-nlpm.sh -- drop-in git pre-commit hook template
+- templates/workflows/nlpm-check.yml -- drop-in GitHub Actions workflow
+- docs/for-authors.md -- author-facing guide
+- analysis/ecosystem-gap.md -- stable research reference
+- analysis/scope-expansion-2026-05.md -- the full author-surface plan
+
 ## Self-Tests
 
 - .nlpm-test/ -- spec files for all 5 agents (dogfooding NL-TDD)
+- tests/ -- Python unittest suite for bin/nlpm-check
 
 ## Build & Run
 
-No build step. Pure markdown plugin. Install with:
+No build step. Markdown plugin + single-file Python binary. Install with:
 ```
 claude plugin install nlpm@xiaolai --scope project
 ```
 
 Test by running `/nlpm:ls` on any project with NL artifacts.
 Run `/nlpm:test` to verify agent specs pass.
+Run `python3 -m unittest tests.test_nlpm_check` to verify the binary.
 
 ## Prerequisites
 
-None. No Python, Node.js, or compiled dependencies.
+- Slash commands (/nlpm:*) -- none. Pure markdown.
+- Standalone bin/nlpm-check -- Python 3.11+ (stdlib only; no pip install).
+- Auditor workflows -- CLAUDE_CODE_OAUTH_TOKEN, PAT_TOKEN, OPENAI_API_KEY secrets.
 
 ## Development
 
