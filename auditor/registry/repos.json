@@ -7369,10 +7369,13 @@
       "stars": 3355,
       "artifacts": 74,
       "description": "Jetbrains Claude Code and Codex GUI Plugin",
-      "status": "discovered",
-      "score": null,
+      "status": "audited",
+      "score": 96,
       "audit_issue": 257,
-      "prs": []
+      "prs": [],
+      "strategy": "single",
+      "security": "CLEAR",
+      "commit_sha_at_audit": "49b2d31237b8a9ca4ca600d71907a613a1816260"
     }
   }
 }
