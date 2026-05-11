@@ -1763,39 +1763,39 @@
       "prs": [
         {
           "number": 327,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-05-11T18:55:26Z",
+          "closedAt": "2026-05-11T18:55:27Z",
           "title": "fix: add missing YAML frontmatter to all 82 plugin command files",
-          "updatedAt": "2026-04-22T12:33:30Z",
+          "updatedAt": "2026-05-11T18:55:27Z",
           "createdAt": "2026-04-22T12:28:34Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 328,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-05-11T18:55:31Z",
+          "closedAt": "2026-05-11T18:55:31Z",
           "title": "fix(hooks): validate file_path stays within project directory",
-          "updatedAt": "2026-04-22T12:31:53Z",
+          "updatedAt": "2026-05-11T18:55:31Z",
           "createdAt": "2026-04-22T12:29:28Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
         },
         {
           "number": 329,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-05-11T18:55:36Z",
+          "closedAt": "2026-05-11T18:55:36Z",
           "title": "fix(hooks): verify tmux socket exists before trusting TMUX env var",
-          "updatedAt": "2026-04-22T12:33:10Z",
+          "updatedAt": "2026-05-11T18:55:36Z",
           "createdAt": "2026-04-22T12:30:29Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -1804,7 +1804,7 @@
       "strategy": "progressive",
       "score": 46,
       "stars": 1214,
-      "status": "contributed",
+      "status": "tracked",
       "pipeline_prs": [
         327,
         328,
@@ -1815,7 +1815,8 @@
       "discovered": "2026-04-13T06:41:48Z",
       "rule_adopted": false,
       "description": "The most comprehensive toolkit for Claude Code -- 135 agents, 35 curated skills (+400,000 via SkillKit), 42 commands, 176+ plugins, 20 hooks, 15 rules, 7 templates, 14 MCP configs, 26 companion apps, 52 ecosystem entries, and more.",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "case_study_candidate": true
     },
     "mukul975/Anthropic-Cybersecurity-Skills": {
       "prs": [
