@@ -5,7 +5,7 @@
   "color": "success",
   "isError": false,
   "extras": {
-    "checked_at": "2026-05-11T08:34:07+00:00",
+    "checked_at": "2026-05-11T08:35:19+00:00",
     "nlpm_version": "0.8.2",
     "findings": {
       "high": 0,
