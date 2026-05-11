@@ -1,5 +1,7 @@
 # nlpm
 
+[![Validated by NLPM](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/xiaolai/nlpm-for-claude/main/nlpm-badge.json)](https://github.com/xiaolai/nlpm-for-claude/blob/main/nlpm-badge.json)
+
 Natural-Language Programming Manager -- discover, score, check, and fix NL artifacts with Claude-native intelligence.
 
 Part of the [xiaolai Claude plugin marketplace](https://github.com/xiaolai/claude-plugin-marketplace).

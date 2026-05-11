@@ -95,7 +95,33 @@ curl -fsSL -o .github/workflows/nlpm-check.yml \
 
 Commit. Every push and PR now runs `nlpm-check`. No secrets required.
 
-### 4. Publishing — release script
+### 4. Showing a "Validated by NLPM" badge
+
+The GHA workflow template publishes `nlpm-badge.json` to the repo root on every push to `main`. Add this to your README:
+
+```markdown
+![Validated by NLPM](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/YOUR-USER/YOUR-REPO/main/nlpm-badge.json)
+```
+
+The badge auto-updates each push to `main`:
+
+| State | Color | Message |
+|---|---|---|
+| Clean | green | `0 issues · v0.8.x` |
+| Advisory | yellow | `0 high · N advisory` (medium/low findings only) |
+| Failing | red | `N high issues` |
+
+The JSON payload includes a `manifest_disk_consistent` boolean and the SHA-stamped `checked_at` timestamp under `extras` for downstream verification.
+
+To run it manually (e.g., the first time, before CI catches up):
+
+```bash
+nlpm-check --json . | nlpm-badge > nlpm-badge.json
+git add nlpm-badge.json
+git commit -m "chore: add nlpm-badge.json"
+```
+
+### 5. Publishing — release script
 
 Add to your publish script (npm publish, release-please, manual):
 
