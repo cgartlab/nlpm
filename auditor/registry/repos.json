@@ -5863,13 +5863,13 @@
         },
         {
           "number": 673,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-05-10T23:41:55Z",
           "title": "fix(security): validate remote URL and escape commit messages in generate-release.ps1",
-          "updatedAt": "2026-04-28T02:01:41Z",
+          "updatedAt": "2026-05-10T23:41:55Z",
           "createdAt": "2026-04-21T18:30:34Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
