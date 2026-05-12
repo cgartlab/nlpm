@@ -30,29 +30,46 @@ from datetime import datetime, timezone
 def build_badge(check_output: dict) -> dict:
     """Map nlpm-check JSON output to a shields-endpoint badge dict.
 
+    Handles both single-plugin and multi-plugin (monorepo) outputs.
     Shields.io's endpoint-badge schema is strict — it rejects unknown
     fields with "invalid properties: <name>" rendered in the badge.
     Only the documented fields below are emitted. For attestation
-    metadata (checked_at, commit_sha, manifest-consistency boolean),
-    see build_attestation() — a separate sidecar file.
+    metadata, see build_attestation().
     """
     nlpm_version = check_output.get("version", "?")
+    mode = check_output.get("mode", "single")
     summary = check_output.get("summary", {})
     high = summary.get("high", 0)
     medium = summary.get("medium", 0)
     low = summary.get("low", 0)
 
-    if high > 0:
-        plural = "issues" if high > 1 else "issue"
-        message = f"{high} high {plural}"
-        color = "critical"
-    elif medium + low > 0:
-        advisory = medium + low
-        message = f"0 high · {advisory} advisory"
-        color = "important"
+    if mode == "multi":
+        total = summary.get("plugins_total", 0)
+        clean = summary.get("plugins_clean", 0)
+        if high > 0:
+            failing = total - clean
+            plural = "plugins" if failing != 1 else "plugin"
+            message = f"{failing} of {total} {plural} fail · {high} high"
+            color = "critical"
+        elif medium + low > 0:
+            advisory = medium + low
+            message = f"{total} plugins · {advisory} advisory"
+            color = "important"
+        else:
+            message = f"{total} plugins clean · v{nlpm_version}"
+            color = "success"
     else:
-        message = f"0 issues · v{nlpm_version}"
-        color = "success"
+        if high > 0:
+            plural = "issues" if high > 1 else "issue"
+            message = f"{high} high {plural}"
+            color = "critical"
+        elif medium + low > 0:
+            advisory = medium + low
+            message = f"0 high · {advisory} advisory"
+            color = "important"
+        else:
+            message = f"0 issues · v{nlpm_version}"
+            color = "success"
 
     # Shields.io endpoint schema: schemaVersion, label, message, color,
     # labelColor, isError, namedLogo, logoSvg, logoColor, style, cacheSeconds.
@@ -72,9 +89,37 @@ def build_attestation(check_output: dict) -> dict:
     Not consumed by shields.io. Authors who want to expose verifiable
     metadata can publish this alongside nlpm-badge.json as
     nlpm-attestation.json and link it from their docs.
+
+    Format adapts to single-plugin vs multi-plugin input.
     """
     nlpm_version = check_output.get("version", "?")
+    mode = check_output.get("mode", "single")
     summary = check_output.get("summary", {})
+
+    if mode == "multi":
+        # Aggregate manifest-consistency across all sub-plugins
+        manifest_consistent = True
+        for sub in check_output.get("plugins", []):
+            if any(
+                f.get("rule") == "manifest-disk-diff"
+                for f in sub.get("findings", [])
+            ):
+                manifest_consistent = False
+                break
+        return {
+            "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "nlpm_version": nlpm_version,
+            "mode": "multi",
+            "plugins_total": summary.get("plugins_total", 0),
+            "plugins_clean": summary.get("plugins_clean", 0),
+            "findings": {
+                "high": summary.get("high", 0),
+                "medium": summary.get("medium", 0),
+                "low": summary.get("low", 0),
+            },
+            "manifest_disk_consistent": manifest_consistent,
+        }
+
     manifest_consistent = not any(
         f.get("rule") == "manifest-disk-diff"
         for f in check_output.get("findings", [])
@@ -82,6 +127,7 @@ def build_attestation(check_output: dict) -> dict:
     return {
         "checked_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "nlpm_version": nlpm_version,
+        "mode": "single",
         "findings": {
             "high": summary.get("high", 0),
             "medium": summary.get("medium", 0),
@@ -98,7 +144,7 @@ def main(argv: list[str] | None = None) -> int:
         print(__doc__)
         return 0
     if argv and argv[0] == "--version":
-        print("nlpm-badge 0.8.4")
+        print("nlpm-badge 0.8.5")
         return 0
     emit_attestation = argv and argv[0] == "--attestation"
 

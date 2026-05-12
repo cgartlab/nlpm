@@ -13,6 +13,19 @@ That single check has caught manifest-vs-disk bugs in plugins from authors with 
 
 Both surfaces share the same rule registry. The binary is the deterministic subset; the slash commands are the full set.
 
+## Multi-plugin monorepos (v0.8.5+)
+
+If your repo contains **multiple** `.claude-plugin/plugin.json` files (e.g., a monorepo with sub-plugins under `plugins/`), nlpm-check auto-detects and runs each sub-plugin's checks in isolation:
+
+```bash
+nlpm-check /path/to/monorepo
+# nlpm-check: 12 plugins · 11 clean · 0 high · 2 medium · 0 low (/path/to/monorepo)
+```
+
+The badge message reflects the aggregate state: `N plugins clean` (green), `N of M plugins fail` (red), or `N plugins · K advisory` (yellow). Per-sub-plugin findings are emitted in the `--json` output under a `plugins[]` array; the top-level `summary` aggregates counts.
+
+Nested sub-plugins are excluded from their parent's checks — each is checked exactly once.
+
 ## What the binary catches
 
 High-confidence findings (exit code 1):

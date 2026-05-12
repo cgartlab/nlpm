@@ -250,6 +250,80 @@ class TestNlpmCheck(unittest.TestCase):
 
     # ----- plugin root discovery -----
 
+    # ----- multi-plugin monorepo support -----
+
+    def test_multi_plugin_monorepo_detected_when_no_root_manifest(self) -> None:
+        """A monorepo with no root manifest but sub-plugins enters multi mode."""
+        # Two sub-plugins, each clean.
+        make_plugin(self.tmp / "plugins" / "alpha", {"name": "alpha", "skills": "skills/"}, {
+            "skills/foo/SKILL.md": SKILL_VALID.format(name="foo"),
+        })
+        make_plugin(self.tmp / "plugins" / "beta", {"name": "beta", "skills": "skills/"}, {
+            "skills/bar/SKILL.md": SKILL_VALID.format(name="bar"),
+        })
+        code, out, err = self.run_check()
+        self.assertEqual(code, 0, f"out={out} err={err}")
+        # Multi-plugin mode adds "plugins · N clean" to the human output
+        self.assertIn("plugins", out)
+        self.assertIn("clean", out)
+
+    def test_multi_plugin_aggregates_findings_across_sub_plugins(self) -> None:
+        # One clean, one with a high finding (manifest path missing on disk)
+        make_plugin(self.tmp / "plugins" / "ok", {"name": "ok", "skills": "skills/"}, {
+            "skills/foo/SKILL.md": SKILL_VALID.format(name="foo"),
+        })
+        make_plugin(self.tmp / "plugins" / "broken", {"name": "broken", "skills": ["skills/ghost"]}, {})
+        code, out, _ = self.run_check()
+        self.assertEqual(code, 1)
+        self.assertIn("broken", out)
+        self.assertIn("doesn't exist on disk", out)
+
+    def test_multi_plugin_json_format_includes_per_plugin_breakdown(self) -> None:
+        make_plugin(self.tmp / "plugins" / "alpha", {"name": "alpha", "skills": "skills/"}, {
+            "skills/foo/SKILL.md": SKILL_VALID.format(name="foo"),
+        })
+        make_plugin(self.tmp / "plugins" / "beta", {"name": "beta", "skills": ["skills/ghost"]}, {})
+        code, out, _ = self.run_check("--json")
+        self.assertEqual(code, 1)
+        payload = json.loads(out)
+        self.assertEqual(payload["mode"], "multi")
+        self.assertEqual(payload["summary"]["plugins_total"], 2)
+        self.assertEqual(payload["summary"]["plugins_clean"], 1)
+        self.assertEqual(len(payload["plugins"]), 2)
+        # Verify per-plugin findings structure: beta has the ghost-path issue
+        beta = [p for p in payload["plugins"] if p["plugin_root"].endswith("beta")][0]
+        self.assertEqual(beta["summary"]["high"], 1)
+        alpha = [p for p in payload["plugins"] if p["plugin_root"].endswith("alpha")][0]
+        self.assertEqual(alpha["summary"]["high"], 0)
+
+    def test_nested_subplugin_skills_excluded_from_outer_check(self) -> None:
+        """An outer plugin should NOT flag SKILL.md files inside nested sub-plugins.
+
+        Previously caused 3103 false positives on sickn33/antigravity-awesome-skills:
+        the outer plugin's check walked into sub-plugin trees and flagged every
+        SKILL.md as 'outside canonical paths.'
+        """
+        # Outer plugin at root, with a nested sub-plugin under plugins/inner/
+        # The outer plugin has its OWN skill at skills/outer/ (canonical) — clean.
+        # The nested sub-plugin has its own manifest and its own skill — clean.
+        make_plugin(self.tmp, {"name": "outer"}, {
+            "skills/outer/SKILL.md": SKILL_VALID.format(name="outer"),
+        })
+        make_plugin(self.tmp / "plugins" / "inner", {"name": "inner", "skills": "skills/"}, {
+            "skills/innerskill/SKILL.md": SKILL_VALID.format(name="innerskill"),
+        })
+        # Run on the outer plugin — should NOT flag the inner skill.
+        code, out, _err = self.run_check()
+        self.assertEqual(code, 0, f"out={out}")
+
+    def test_no_manifest_anywhere_returns_2(self) -> None:
+        """Empty directory tree with NO manifest at all → exit 2."""
+        # Create some random files but no plugin.json anywhere
+        (self.tmp / "README.md").write_text("# not a plugin", encoding="utf-8")
+        code, _out, err = self.run_check()
+        self.assertEqual(code, 2)
+        self.assertIn("no .claude-plugin", err)
+
     def test_finds_plugin_root_from_subdir(self) -> None:
         make_plugin(self.tmp, {"name": "p", "skills": "skills/"}, {
             "skills/foo/SKILL.md": SKILL_VALID.format(name="foo"),

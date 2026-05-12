@@ -103,6 +103,56 @@ class TestBuildBadge(unittest.TestCase):
             )
 
 
+class TestBuildBadgeMulti(unittest.TestCase):
+    """Multi-plugin monorepo badge generation."""
+
+    def test_multi_all_clean(self):
+        badge = nlpm_badge.build_badge({
+            "version": "0.8.5",
+            "mode": "multi",
+            "plugins": [],
+            "summary": {"plugins_total": 12, "plugins_clean": 12, "high": 0, "medium": 0, "low": 0},
+        })
+        self.assertEqual(badge["color"], "success")
+        self.assertEqual(badge["isError"], False)
+        self.assertIn("12 plugins clean", badge["message"])
+
+    def test_multi_some_failing(self):
+        badge = nlpm_badge.build_badge({
+            "version": "0.8.5",
+            "mode": "multi",
+            "plugins": [],
+            "summary": {"plugins_total": 12, "plugins_clean": 8, "high": 5, "medium": 0, "low": 0},
+        })
+        self.assertEqual(badge["color"], "critical")
+        self.assertEqual(badge["isError"], True)
+        # 12-8=4 plugins failing
+        self.assertIn("4 of 12", badge["message"])
+        self.assertIn("5 high", badge["message"])
+
+    def test_multi_advisory_only(self):
+        badge = nlpm_badge.build_badge({
+            "version": "0.8.5",
+            "mode": "multi",
+            "plugins": [],
+            "summary": {"plugins_total": 5, "plugins_clean": 3, "high": 0, "medium": 4, "low": 1},
+        })
+        self.assertEqual(badge["color"], "important")
+        self.assertIn("5 plugins", badge["message"])
+        self.assertIn("5 advisory", badge["message"])
+
+    def test_multi_badge_shields_compliant(self):
+        for state in [
+            {"plugins_total": 1, "plugins_clean": 1, "high": 0, "medium": 0, "low": 0},
+            {"plugins_total": 10, "plugins_clean": 5, "high": 8, "medium": 2, "low": 0},
+        ]:
+            badge = nlpm_badge.build_badge({
+                "version": "0.8.5", "mode": "multi", "plugins": [], "summary": state,
+            })
+            unknown = set(badge.keys()) - SHIELDS_ALLOWED_FIELDS
+            self.assertEqual(unknown, set())
+
+
 class TestBuildAttestation(unittest.TestCase):
 
     def test_attestation_includes_check_metadata(self):

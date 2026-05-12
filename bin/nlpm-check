@@ -36,7 +36,7 @@ from pathlib import Path
 from typing import Iterable
 
 
-VERSION = "0.8.4"
+VERSION = "0.8.5"
 
 
 # ----- finding model -----
@@ -101,6 +101,13 @@ def frontmatter_line(text: str, key: str) -> int:
 
 # ----- plugin root discovery -----
 
+# Directories never walked by any function in this module.
+WALK_SKIP = {
+    ".git", "node_modules", ".venv", "venv", "__pycache__",
+    ".pytest_cache", ".mypy_cache", "dist", "build",
+}
+
+
 def find_plugin_root(start: Path) -> Path | None:
     """Walk up from start looking for .claude-plugin/plugin.json.
 
@@ -111,6 +118,36 @@ def find_plugin_root(start: Path) -> Path | None:
         if (candidate / ".claude-plugin" / "plugin.json").is_file():
             return candidate
     return None
+
+
+def find_subplugin_roots(start: Path) -> list[Path]:
+    """Walk DOWN from start, returning every directory that owns a
+    `.claude-plugin/plugin.json`.
+
+    Used to support multi-plugin monorepos. Returned paths are sorted
+    shallowest first, so the caller can detect nesting hierarchies.
+    """
+    roots: list[Path] = []
+    for manifest in start.rglob(".claude-plugin/plugin.json"):
+        if any(part in WALK_SKIP for part in manifest.parts):
+            continue
+        roots.append(manifest.parent.parent.resolve())
+    return sorted(set(roots), key=lambda p: len(p.parts))
+
+
+def nested_subplugins(plugin_root: Path, all_roots: list[Path]) -> set[Path]:
+    """Subset of all_roots that are strictly nested INSIDE plugin_root.
+
+    A plugin checking its own tree should skip these — each nested
+    sub-plugin is checked in its own pass.
+    """
+    pr = plugin_root.resolve()
+    nested: set[Path] = set()
+    for root in all_roots:
+        r = root.resolve()
+        if r != pr and _is_under(r, pr):
+            nested.add(r)
+    return nested
 
 
 # ----- manifest parsing -----
@@ -143,36 +180,60 @@ CANONICAL_COMMAND_ROOTS = ["commands", ".claude/commands"]
 CANONICAL_HOOK_PATHS = ["hooks/hooks.json", ".claude/hooks.json"]
 
 
-def walk_skill_files(plugin_root: Path) -> list[Path]:
+def walk_skill_files(plugin_root: Path, nested_skip: set[Path] | None = None) -> list[Path]:
     """Find every SKILL.md anywhere in the plugin tree.
 
     Scans canonical roots first; also catches SKILL.md files outside
     canonical layout (the manifest-vs-disk bug class).
+
+    `nested_skip`: directories belonging to nested sub-plugins. Any
+    SKILL.md found under one of these is excluded — that sub-plugin
+    is checked in its own pass.
     """
+    nested_skip = nested_skip or set()
     seen: set[Path] = set()
     for root_name in CANONICAL_SKILL_ROOTS:
         root = plugin_root / root_name
         if root.is_dir():
             for p in root.rglob("SKILL.md"):
-                seen.add(p.resolve())
+                p_res = p.resolve()
+                if any(part in WALK_SKIP for part in p.parts):
+                    continue
+                if any(_is_under(p_res, s) for s in nested_skip):
+                    continue
+                seen.add(p_res)
     # Catch SKILL.md anywhere else in the repo (the bug class).
-    # Exclude common noise: .git, node_modules, .venv, etc.
-    SKIP = {".git", "node_modules", ".venv", "venv", "__pycache__", ".pytest_cache", ".mypy_cache", "dist", "build"}
     for p in plugin_root.rglob("SKILL.md"):
-        if any(part in SKIP for part in p.parts):
+        p_res = p.resolve()
+        if any(part in WALK_SKIP for part in p.parts):
             continue
-        seen.add(p.resolve())
+        if any(_is_under(p_res, s) for s in nested_skip):
+            continue
+        seen.add(p_res)
     return sorted(seen)
 
 
-def walk_markdown_in_roots(plugin_root: Path, roots: list[str]) -> list[Path]:
-    """Find every .md file under any of the given canonical roots."""
+def walk_markdown_in_roots(
+    plugin_root: Path,
+    roots: list[str],
+    nested_skip: set[Path] | None = None,
+) -> list[Path]:
+    """Find every .md file under any of the given canonical roots.
+
+    Excludes files inside nested sub-plugin trees.
+    """
+    nested_skip = nested_skip or set()
     seen: set[Path] = set()
     for root_name in roots:
         root = plugin_root / root_name
         if root.is_dir():
             for p in root.rglob("*.md"):
-                seen.add(p.resolve())
+                p_res = p.resolve()
+                if any(part in WALK_SKIP for part in p.parts):
+                    continue
+                if any(_is_under(p_res, s) for s in nested_skip):
+                    continue
+                seen.add(p_res)
     return sorted(seen)
 
 
@@ -253,10 +314,10 @@ def check_manifest_paths_exist(plugin_root: Path, manifest: dict, findings: list
             ))
 
 
-def check_unregistered_skills(plugin_root: Path, manifest: dict, findings: list[Finding]) -> None:
+def check_unregistered_skills(plugin_root: Path, manifest: dict, findings: list[Finding], nested_skip: set[Path] | None = None) -> None:
     """Every SKILL.md on disk should be reachable from the manifest."""
     declared = manifest_paths(manifest, "skills")
-    on_disk = walk_skill_files(plugin_root)
+    on_disk = walk_skill_files(plugin_root, nested_skip=nested_skip)
 
     if not declared:
         # Manifest doesn't declare `skills`. Claude Code auto-discovers
@@ -297,10 +358,11 @@ def check_unregistered_markdown(
     key: str,
     canonical_roots: list[str],
     findings: list[Finding],
+    nested_skip: set[Path] | None = None,
 ) -> None:
     """Generic unregistered-component check for agents and commands."""
     declared = manifest_paths(manifest, key)
-    on_disk = walk_markdown_in_roots(plugin_root, canonical_roots)
+    on_disk = walk_markdown_in_roots(plugin_root, canonical_roots, nested_skip=nested_skip)
 
     if not declared:
         # Auto-discovery from canonical paths. Files at canonical
@@ -322,10 +384,10 @@ def check_unregistered_markdown(
             ))
 
 
-def check_skill_frontmatter(plugin_root: Path, findings: list[Finding]) -> None:
+def check_skill_frontmatter(plugin_root: Path, findings: list[Finding], nested_skip: set[Path] | None = None) -> None:
     """Every SKILL.md must have `name` and `description` per the spec."""
     SKILL_NAME_RE = re.compile(r"^[a-z][a-z0-9-]{0,63}$")
-    for skill in walk_skill_files(plugin_root):
+    for skill in walk_skill_files(plugin_root, nested_skip=nested_skip):
         rel = skill.relative_to(plugin_root)
         try:
             text = skill.read_text(encoding="utf-8")
@@ -390,8 +452,8 @@ def check_skill_frontmatter(plugin_root: Path, findings: list[Finding]) -> None:
             ))
 
 
-def check_agent_frontmatter(plugin_root: Path, findings: list[Finding]) -> None:
-    for agent in walk_markdown_in_roots(plugin_root, CANONICAL_AGENT_ROOTS):
+def check_agent_frontmatter(plugin_root: Path, findings: list[Finding], nested_skip: set[Path] | None = None) -> None:
+    for agent in walk_markdown_in_roots(plugin_root, CANONICAL_AGENT_ROOTS, nested_skip=nested_skip):
         rel = agent.relative_to(plugin_root)
         try:
             text = agent.read_text(encoding="utf-8")
@@ -435,10 +497,10 @@ def check_agent_frontmatter(plugin_root: Path, findings: list[Finding]) -> None:
             ))
 
 
-def check_command_frontmatter(plugin_root: Path, findings: list[Finding]) -> None:
+def check_command_frontmatter(plugin_root: Path, findings: list[Finding], nested_skip: set[Path] | None = None) -> None:
     """Commands require `description`. `name` is explicitly optional
     (falls back to filename) per <https://code.claude.com/docs/en/slash-commands>."""
-    for cmd in walk_markdown_in_roots(plugin_root, CANONICAL_COMMAND_ROOTS):
+    for cmd in walk_markdown_in_roots(plugin_root, CANONICAL_COMMAND_ROOTS, nested_skip=nested_skip):
         rel = cmd.relative_to(plugin_root)
         try:
             text = cmd.read_text(encoding="utf-8")
@@ -539,6 +601,43 @@ def _is_under(child: Path, parent: Path) -> bool:
 
 # ----- output -----
 
+# ----- check orchestrator -----
+
+def check_plugin(plugin_root: Path, nested_skip: set[Path] | None = None) -> list[Finding]:
+    """Run every check for one plugin tree. Returns findings list.
+
+    `nested_skip`: set of nested sub-plugin roots whose subtrees this
+    pass should skip (each nested sub-plugin gets its own check_plugin
+    call).
+    """
+    manifest_file = plugin_root / ".claude-plugin" / "plugin.json"
+    findings: list[Finding] = []
+    try:
+        manifest = parse_manifest(manifest_file)
+    except (OSError, json.JSONDecodeError) as e:
+        findings.append(Finding(
+            confidence="high",
+            rule="plugin-json/parse",
+            path=str(manifest_file),
+            line=0,
+            message=f"failed to parse plugin.json: {e}",
+        ))
+        return findings
+
+    check_manifest_required(plugin_root, manifest, findings)
+    check_manifest_paths_exist(plugin_root, manifest, findings)
+    check_unregistered_skills(plugin_root, manifest, findings, nested_skip=nested_skip)
+    check_unregistered_markdown(plugin_root, manifest, "agents", CANONICAL_AGENT_ROOTS, findings, nested_skip=nested_skip)
+    check_unregistered_markdown(plugin_root, manifest, "commands", CANONICAL_COMMAND_ROOTS, findings, nested_skip=nested_skip)
+    check_skill_frontmatter(plugin_root, findings, nested_skip=nested_skip)
+    check_agent_frontmatter(plugin_root, findings, nested_skip=nested_skip)
+    check_command_frontmatter(plugin_root, findings, nested_skip=nested_skip)
+    check_hook_event_names(plugin_root, findings)
+    return findings
+
+
+# ----- output -----
+
 def render_human(findings: list[Finding], plugin_root: Path, strict: bool, quiet: bool) -> None:
     high = [f for f in findings if f.confidence == "high"]
     medium = [f for f in findings if f.confidence == "medium"]
@@ -569,12 +668,98 @@ def render_human(findings: list[Finding], plugin_root: Path, strict: bool, quiet
 def render_json(findings: list[Finding], plugin_root: Path) -> None:
     payload = {
         "version": VERSION,
+        "mode": "single",
         "plugin_root": str(plugin_root),
         "findings": [asdict(f) for f in findings],
         "summary": {
             "high": sum(1 for f in findings if f.confidence == "high"),
             "medium": sum(1 for f in findings if f.confidence == "medium"),
             "low": sum(1 for f in findings if f.confidence == "low"),
+        },
+    }
+    print(json.dumps(payload, indent=2))
+
+
+def render_human_multi(
+    results: list[tuple[Path, list[Finding]]],
+    repo_root: Path,
+    strict: bool,
+    quiet: bool,
+) -> None:
+    total_high = total_med = total_low = 0
+    clean_count = 0
+    for _, findings in results:
+        high = sum(1 for f in findings if f.confidence == "high")
+        med = sum(1 for f in findings if f.confidence == "medium")
+        low = sum(1 for f in findings if f.confidence == "low")
+        total_high += high
+        total_med += med
+        total_low += low
+        if not findings:
+            clean_count += 1
+    n = len(results)
+
+    print(
+        f"nlpm-check: {n} plugins · {clean_count} clean · "
+        f"{total_high} high · {total_med} medium · {total_low} low ({repo_root})"
+    )
+    if total_high == 0 and total_med == 0 and total_low == 0:
+        return
+    print()
+
+    for plugin_root, findings in results:
+        if not findings:
+            continue
+        rel = plugin_root.relative_to(repo_root.resolve()) if _is_under(plugin_root, repo_root.resolve()) else plugin_root
+        high = [f for f in findings if f.confidence == "high"]
+        med = [f for f in findings if f.confidence == "medium"]
+        low = [f for f in findings if f.confidence == "low"]
+        print(f"--- {rel} · {len(high)} high · {len(med)} medium · {len(low)} low ---")
+        for group_name, group in (("HIGH", high), ("MEDIUM", med), ("LOW", low)):
+            if not group:
+                continue
+            print(f"  [{group_name}]")
+            for f in group:
+                location = f.path if f.line == 0 else f"{f.path}:{f.line}"
+                print(f"    [{f.rule}] {location}")
+                print(f"      {f.message}")
+                if f.fix:
+                    print(f"      fix: {f.fix}")
+        print()
+
+
+def render_json_multi(
+    results: list[tuple[Path, list[Finding]]],
+    repo_root: Path,
+) -> None:
+    plugins = []
+    total_high = total_med = total_low = 0
+    clean_count = 0
+    for plugin_root, findings in results:
+        high = sum(1 for f in findings if f.confidence == "high")
+        med = sum(1 for f in findings if f.confidence == "medium")
+        low = sum(1 for f in findings if f.confidence == "low")
+        total_high += high
+        total_med += med
+        total_low += low
+        if not findings:
+            clean_count += 1
+        plugins.append({
+            "plugin_root": str(plugin_root),
+            "findings": [asdict(f) for f in findings],
+            "summary": {"high": high, "medium": med, "low": low},
+        })
+    payload = {
+        "version": VERSION,
+        "mode": "multi",
+        "repo_root": str(repo_root),
+        "plugins": plugins,
+        "summary": {
+            "plugins_total": len(results),
+            "plugins_clean": clean_count,
+            "high": total_high,
+            "medium": total_med,
+            "low": total_low,
         },
     }
     print(json.dumps(payload, indent=2))
@@ -602,38 +787,54 @@ def main(argv: list[str] | None = None) -> int:
         print(f"nlpm-check: path does not exist: {start}", file=sys.stderr)
         return 2
 
-    plugin_root = find_plugin_root(start)
-    if plugin_root is None:
-        print(f"nlpm-check: no .claude-plugin/plugin.json found at or above {start}", file=sys.stderr)
+    # Discover all manifests reachable from start.
+    walk_up = find_plugin_root(start)
+    if walk_up is not None:
+        # Inside a plugin tree — scan from walk_up downward to find any
+        # nested sub-plugins under it. Includes walk_up itself.
+        all_roots = find_subplugin_roots(walk_up)
+    else:
+        all_roots = find_subplugin_roots(start)
+
+    if not all_roots:
+        print(
+            f"nlpm-check: no .claude-plugin/plugin.json found at, above, or "
+            f"within {start}",
+            file=sys.stderr,
+        )
         return 2
 
-    manifest_file = plugin_root / ".claude-plugin" / "plugin.json"
-    try:
-        manifest = parse_manifest(manifest_file)
-    except (OSError, json.JSONDecodeError) as e:
-        print(f"nlpm-check: failed to parse {manifest_file}: {e}", file=sys.stderr)
-        return 2
+    if len(all_roots) == 1:
+        # Single-plugin layout — keep the original single-plugin output shape
+        # so existing CI / badge / consumers don't see a schema change.
+        plugin_root = all_roots[0]
+        findings = check_plugin(plugin_root)
+        if args.json:
+            render_json(findings, plugin_root)
+        else:
+            render_human(findings, plugin_root, strict=args.strict, quiet=args.quiet)
+        if args.strict:
+            return 1 if findings else 0
+        return 1 if any(f.confidence == "high" for f in findings) else 0
 
-    findings: list[Finding] = []
-
-    check_manifest_required(plugin_root, manifest, findings)
-    check_manifest_paths_exist(plugin_root, manifest, findings)
-    check_unregistered_skills(plugin_root, manifest, findings)
-    check_unregistered_markdown(plugin_root, manifest, "agents", CANONICAL_AGENT_ROOTS, findings)
-    check_unregistered_markdown(plugin_root, manifest, "commands", CANONICAL_COMMAND_ROOTS, findings)
-    check_skill_frontmatter(plugin_root, findings)
-    check_agent_frontmatter(plugin_root, findings)
-    check_command_frontmatter(plugin_root, findings)
-    check_hook_event_names(plugin_root, findings)
+    # Multi-plugin monorepo — N manifests in the tree.
+    repo_root = (walk_up or start).resolve()
+    results: list[tuple[Path, list[Finding]]] = []
+    for sub_root in all_roots:
+        nested = nested_subplugins(sub_root, all_roots)
+        findings = check_plugin(sub_root, nested_skip=nested)
+        results.append((sub_root, findings))
 
     if args.json:
-        render_json(findings, plugin_root)
+        render_json_multi(results, repo_root)
     else:
-        render_human(findings, plugin_root, strict=args.strict, quiet=args.quiet)
+        render_human_multi(results, repo_root, strict=args.strict, quiet=args.quiet)
 
+    any_high = any(f.confidence == "high" for _, fs in results for f in fs)
+    any_finding = any(fs for _, fs in results)
     if args.strict:
-        return 1 if findings else 0
-    return 1 if any(f.confidence == "high" for f in findings) else 0
+        return 1 if any_finding else 0
+    return 1 if any_high else 0
 
 
 if __name__ == "__main__":
