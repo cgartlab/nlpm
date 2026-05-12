@@ -233,13 +233,5 @@ jobs:
           bash auditor/scripts/guard-protected-paths.sh || exit 1
           git diff --cached --quiet || {
             git commit -m "classify: $(date +%Y-%m-%d) dissent classifications"
-
-            for ATTEMPT in 1 2 3 4 5; do
-              if git push 2>/dev/null; then break; fi
-              echo "Push attempt $ATTEMPT failed, resolving..."
-              git pull --no-rebase origin main --no-edit 2>/dev/null || true
-              bash auditor/scripts/resolve-merge-conflicts.sh || true
-              git diff --cached --quiet 2>/dev/null || git commit --no-edit 2>/dev/null || true
-              [ "$ATTEMPT" -eq 5 ] && { echo "ERROR: push failed after 5 attempts"; exit 1; }
-            done
+            bash auditor/scripts/git-push-with-retry.sh 5
           }

@@ -294,7 +294,8 @@ jobs:
             REJECTED=$(echo "$PRS" | jq '[.[] | select(.outcome == "rejected")] | length')
             OPEN=$(echo "$PRS" | jq '[.[] | select(.outcome == "open")] | length')
             CLA_BLOCKED_COUNT=$(echo "$PRS" | jq '[.[] | select(.outcome == "cla_blocked")] | length')
-            CLOSED=$((APPLIED + REJECTED))
+            # CLOSED used to be derived here; left as a comment because the
+            # status echo below counts each outcome separately.
             echo "  $MERGED merged, $APPLIED applied-separately, $REJECTED rejected, $OPEN open, $CLA_BLOCKED_COUNT cla-blocked (rule_adopted=$RULE_ADOPTED)"
 
             jq --arg name "$REPO" --argjson prs "$PRS" --argjson rule_adopted "$RULE_ADOPTED" \

@@ -181,6 +181,9 @@ jobs:
                 # ${OWNER} expansion happens via envsubst (only $OWNER is substituted —
                 # the rest is literal markdown so backticked CLI snippets stay intact).
                 MSG_FILE="auditor/scripts/cla-gate-messages/${GATE_REASON}.md"
+                # shellcheck disable=SC2016
+                # The single-quoted '$OWNER' is INTENTIONAL — envsubst takes its
+                # variable allowlist as a literal `$NAME` string, not as a value.
                 OWNER="$OWNER" envsubst '$OWNER' < "$MSG_FILE" \
                   | gh issue comment "$ISSUE_NUM" --body-file - 2>/dev/null || true
                 gh issue edit "$ISSUE_NUM" --add-label "policy-cla-required" --remove-label "contribute-approved" 2>/dev/null || true

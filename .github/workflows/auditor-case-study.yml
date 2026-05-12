@@ -47,7 +47,11 @@ jobs:
         # regenerations: HTTP 200, image saved, "WARN: no WebP encoder
         # — raw PNG copy". The package is small (~600KB) and apt-get is
         # fast on GitHub runners.
-        run: sudo apt-get install -y --no-install-recommends webp
+        # Run apt-get update first — Ubuntu runners can have stale package
+        # indices, causing intermittent "Unable to locate package" failures.
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends webp
 
       - name: Extract target
         id: target
@@ -103,8 +107,15 @@ jobs:
           TARGET_REPO: ${{ steps.target.outputs.repo }}
         run: |
           SLUG="${TARGET_REPO//\//-}"
-          # Any date prefix: YYYY-MM-DD-<slug>.md
-          EXISTING=$(ls case-studies/ 2>/dev/null | grep -E "^[0-9]{4}-[0-9]{2}-[0-9]{2}-${SLUG}\.md$" | head -1)
+          # Any date prefix: YYYY-MM-DD-<slug>.md. Bash glob handles
+          # non-alphanumeric filenames better than `ls | grep`.
+          EXISTING=""
+          shopt -s nullglob
+          for f in case-studies/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-"${SLUG}".md; do
+            EXISTING="$(basename "$f")"
+            break
+          done
+          shopt -u nullglob
           if [ -n "$EXISTING" ]; then
             echo "Case study already exists: case-studies/$EXISTING — skipping rewrite."
             echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -468,13 +479,18 @@ jobs:
               | grep -oE '[0-9]+' | head -1
           }
 
-          ORIG_SCORE_ARG=""
+          # Use bash arrays for the optional --original-score / --reaudit-score
+          # flags so we can safely quote everything. The previous string-based
+          # approach forced unquoted expansion to split "--flag N" into two
+          # args, which shellcheck flagged (SC2086) as a real risk under
+          # filenames-with-spaces. Arrays sidestep both concerns.
+          ORIG_SCORE_ARG=()
           ORIG_SCORE=$(extract_score "$ORIG_REPORT")
-          [ -n "$ORIG_SCORE" ] && ORIG_SCORE_ARG="--original-score $ORIG_SCORE"
+          [ -n "$ORIG_SCORE" ] && ORIG_SCORE_ARG=(--original-score "$ORIG_SCORE")
 
-          RE_SCORE_ARG=""
+          RE_SCORE_ARG=()
           RE_SCORE=$(extract_score "$RE_REPORT")
-          [ -n "$RE_SCORE" ] && RE_SCORE_ARG="--reaudit-score $RE_SCORE"
+          [ -n "$RE_SCORE" ] && RE_SCORE_ARG=(--reaudit-score "$RE_SCORE")
 
           # Run the diff. It tolerates missing files, malformed lines, and
           # an empty registry — produces an honest summary even when the
@@ -489,8 +505,8 @@ jobs:
             --events-out auditor/logs/events.jsonl \
             --diff-report-out "$DIFF_REPORT" \
             --summary-out "$SUMMARY" \
-            $ORIG_SCORE_ARG \
-            $RE_SCORE_ARG
+            "${ORIG_SCORE_ARG[@]}" \
+            "${RE_SCORE_ARG[@]}"
 
           # Copy re-audit evidence into /tmp/evidence/ so the writer prompt
           # reads them alongside the original audit materials.
@@ -931,11 +947,10 @@ jobs:
           fi
 
           echo "=== Fact-checking $ARTICLE ==="
-          > /tmp/fact-check-errors.txt
+          : > /tmp/fact-check-errors.txt   # truncate the error file
 
           # Check 1: Verify all GitHub PR/issue links resolve
           grep -oP 'https://github\.com/[^/]+/[^/]+/(pull|issues)/\d+' "$ARTICLE" | sort -u | while read -r url; do
-            REPO_PATH=$(echo "$url" | sed 's|https://github.com/||' | sed 's|/pull/|/pulls/|' | sed 's|/issues/|/issues/|')
             TYPE=$(echo "$url" | grep -oP '(pull|issues)')
             NUM=$(echo "$url" | grep -oP '\d+$')
             API_REPO=$(echo "$url" | sed 's|https://github.com/||' | sed 's|/pull/.*||' | sed 's|/issues/.*||')
@@ -1040,7 +1055,8 @@ jobs:
         env:
           TARGET_REPO: ${{ steps.target.outputs.repo }}
         run: |
-          SLUG="${TARGET_REPO//\//-}"
+          # SLUG previously computed here but never referenced — the polish
+          # prompt operates on the live article in-place via Claude tools.
           cat > /tmp/polish-prompt.md <<'POLISH_EOF'
           You are a prose polisher. Read the case study article and add literary texture.
 

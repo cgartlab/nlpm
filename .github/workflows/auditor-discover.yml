@@ -56,7 +56,7 @@ jobs:
           # than this are dropped — they're either abandoned or done, and a
           # PR is unlikely to land in either case.
           FRESH_CUTOFF=$(date -u -d "$MAX_AGE_DAYS days ago" +%Y-%m-%dT%H:%M:%SZ 2>/dev/null \
-                       || date -u -v-${MAX_AGE_DAYS}d +%Y-%m-%dT%H:%M:%SZ)
+                       || date -u -v"-${MAX_AGE_DAYS}d" +%Y-%m-%dT%H:%M:%SZ)
           echo "  freshness cutoff: $FRESH_CUTOFF (skip repos with updatedAt < this)"
 
           RESULTS_FILE=$(mktemp)
@@ -120,8 +120,8 @@ jobs:
         run: |
           echo "Probe range: $MIN_ARTIFACTS <= artifacts <= $MAX_ARTIFACTS"
           echo "[]" > /tmp/worthy.json
-          > /tmp/worthy_raw.jsonl
-          > /tmp/oversized.jsonl
+          : > /tmp/worthy_raw.jsonl   # truncate
+          : > /tmp/oversized.jsonl    # truncate
 
           jq -c '.[]' /tmp/new_candidates.json | while read -r repo; do
             FULL_NAME=$(echo "$repo" | jq -r '.fullName')
@@ -224,22 +224,38 @@ jobs:
           - [ ] Has meaningful NL artifacts
           ISSUE_BODY
 
-            ISSUE_URL=$(gh issue create \
-              --title "Audit candidate: $FULL_NAME" \
-              --label "audit-candidate" \
-              --body-file "$BODY_FILE" 2>/dev/null || echo "")
+            # Only update the registry if issue creation succeeded. The
+            # previous flow created an issue with `|| echo ""`, parsed the
+            # potentially-empty URL into `audit_issue: 0`, then recorded
+            # the repo as `discovered` — making it INELIGIBLE for future
+            # retry (because the registry now claims we already handled
+            # it). Now: explicit failure path that skips the registry
+            # write and lets the next discover cycle re-attempt.
+            if ! ISSUE_URL=$(gh issue create \
+                --title "Audit candidate: $FULL_NAME" \
+                --label "audit-candidate" \
+                --body-file "$BODY_FILE"); then
+              echo "WARN: gh issue create failed for $FULL_NAME — skipping registry write so the next discover cycle can retry" >&2
+              rm -f "$BODY_FILE"
+              continue
+            fi
 
             ISSUE_NUM=$(echo "$ISSUE_URL" | grep -o '[0-9]*$' || echo "0")
+            if [ "$ISSUE_NUM" = "0" ]; then
+              echo "WARN: gh issue create returned URL without parseable number ($ISSUE_URL); skipping registry write" >&2
+              rm -f "$BODY_FILE"
+              continue
+            fi
             echo "Created issue #$ISSUE_NUM for $FULL_NAME"
             rm -f "$BODY_FILE"
 
-            # Update registry
+            # Update registry (atomic via the standard validate+rename helper)
             jq --arg name "$FULL_NAME" \
                --arg now "$NOW" \
                --argjson stars "$STARS" \
                --argjson artifacts "$ARTIFACTS" \
                --arg desc "$DESC" \
-               --argjson issue "${ISSUE_NUM:-0}" \
+               --argjson issue "$ISSUE_NUM" \
                '.repos[$name] = {
                   discovered: $now, stars: $stars, artifacts: $artifacts,
                   description: $desc, status: "discovered",

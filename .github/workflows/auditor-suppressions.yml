@@ -38,8 +38,26 @@ jobs:
 
           # Two queries: .claude/nlpm.local.md and .claude/nlpm.md with rule_overrides.
           # The search API returns 30 results per page; paginate to get full coverage.
-          gh api --paginate '/search/code?q=filename:nlpm.local.md+rule_overrides' --jq '.items[]?' > /tmp/search.jsonl 2>/dev/null || true
-          gh api --paginate '/search/code?q=filename:nlpm.md+rule_overrides' --jq '.items[]?' >> /tmp/search.jsonl 2>/dev/null || true
+          # Don't swallow failures with `|| true` — a rate-limited or auth-broken
+          # search would otherwise look like "0 candidates" and silently mark the
+          # weekly scan complete. Distinguish API failure from "no matches".
+          : > /tmp/search.jsonl
+          SEARCH_OK=true
+          if ! gh api --paginate '/search/code?q=filename:nlpm.local.md+rule_overrides' --jq '.items[]?' >> /tmp/search.jsonl; then
+            echo "WARN: search for nlpm.local.md failed (rate limit / auth?)" >&2
+            SEARCH_OK=false
+          fi
+          if ! gh api --paginate '/search/code?q=filename:nlpm.md+rule_overrides' --jq '.items[]?' >> /tmp/search.jsonl; then
+            echo "WARN: search for nlpm.md failed" >&2
+            SEARCH_OK=false
+          fi
+          if [ "$SEARCH_OK" = "false" ]; then
+            # Log the failure as a discrete event so the daily report
+            # can surface that the suppressions scan was incomplete.
+            source auditor/scripts/log-event.sh
+            log_event "suppressions" "search_failed" \
+              "{\"reason\": \"gh api search returned non-zero — partial or empty results\"}"
+          fi
 
           TOTAL=$(wc -l < /tmp/search.jsonl | tr -d ' ')
           echo "Candidate files: $TOTAL"

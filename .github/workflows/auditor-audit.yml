@@ -252,7 +252,10 @@ jobs:
             [ ! -f /tmp/batches/batch-1.txt ] && touch /tmp/batches/batch-1.txt
           fi
 
-          ACTUAL_BATCHES=$(ls /tmp/batches/batch-*.txt 2>/dev/null | wc -l | tr -d ' ')
+          # Count batch files via find (portable; ls is fine here but
+          # actionlint flags ls-counting as fragile under non-alphanumeric
+          # filenames — batch-N.txt is always safe, so this is style only).
+          ACTUAL_BATCHES=$(find /tmp/batches -maxdepth 1 -name 'batch-*.txt' -type f 2>/dev/null | wc -l | tr -d ' ')
           echo "batch_count=$ACTUAL_BATCHES" >> "$GITHUB_OUTPUT"
           echo "Created $ACTUAL_BATCHES batch file(s)"
 
@@ -666,7 +669,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           SLUG="${TARGET_REPO//\//-}"
-          OWNER=$(echo "$TARGET_REPO" | cut -d/ -f1)
           mkdir -p "auditor/audits"
 
           # Find and move the audit report (exclude target-repo clone and workflow files)
@@ -730,11 +732,15 @@ jobs:
              --arg security "$SECURITY" \
              --arg sha "${{ steps.clone.outputs.commit_sha }}" \
              '.repos[$name].status = "audited" | .repos[$name].score = ($score | tonumber) | .repos[$name].strategy = $strategy | .repos[$name].security = $security | .repos[$name].commit_sha_at_audit = $sha' \
-             auditor/registry/repos.json > /tmp/reg.json \
-             && bash auditor/scripts/atomic-registry-write.sh || {
+             auditor/registry/repos.json > /tmp/reg.json
+          # Use `if !` instead of `A && B || C` — the previous pattern
+          # made `C` (exit 1) reachable even when both A and B succeeded
+          # if the body of B happened to return non-zero (e.g., an inner
+          # `echo` after a failed command).
+          if ! bash auditor/scripts/atomic-registry-write.sh; then
             echo "ERROR: registry update failed validation; not writing"
             exit 1
-          }
+          fi
 
           # Re-enable git credentials for push
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/$GITHUB_REPOSITORY.git"
