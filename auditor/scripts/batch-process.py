@@ -73,8 +73,13 @@ def issue_to_repo(title: str) -> str:
 
 
 def list_open_issues(label: str, json_fields: list[str]) -> list[dict]:
+    # CRITICAL: `gh issue list` defaults to --limit 30. Without an
+    # explicit higher limit, any label with >30 open issues silently
+    # truncates — the batch-processor would invisibly skip work.
+    # The daily-report had the same bug; both fixed 2026-05-12.
     rc, out = gh([
         "issue", "list", "--label", label, "--state", "open",
+        "--limit", "1000",
         "--json", ",".join(json_fields),
     ])
     if rc != 0 or not out.strip():
@@ -179,6 +184,7 @@ def phase1_5_reopen_wrong(dry_run: bool) -> int:
     reopened = 0
     rc, out = gh([
         "issue", "list", "--label", "audit-candidate", "--state", "closed",
+        "--limit", "1000",
         "--json", "number,title",
     ])
     if rc != 0 or not out.strip():
@@ -213,6 +219,7 @@ def phase2_pick_next(dry_run: bool, batch_size: int) -> tuple[int, int]:
 
     rc, out = gh([
         "issue", "list", "--label", "audit-candidate", "--state", "open",
+        "--limit", "1000",
         "--json", "number,title", "--jq", "sort_by(.number)",
     ])
     if rc != 0 or not out.strip():
@@ -283,7 +290,18 @@ def phase3_retrigger_stuck(dry_run: bool, batch_size: int, available: int, picke
         repo = issue_to_repo(issue["title"])
         status = registry_status(repo)
         if status not in ("none", "discovered"):
-            print(f"  SKIP #{num} ({repo}): already past audit (status={status})")
+            # The audit already ran for this repo (registry shows it
+            # moved past `discovered`). The `audit-ready` label is
+            # stale — the audit workflow's `--remove-label audit-ready`
+            # call failed at some point, leaving the label stuck. Now
+            # clean it up so the dashboard doesn't keep showing 12
+            # "stuck" issues that are actually done.
+            print(f"  SKIP #{num} ({repo}): already past audit (status={status}); cleaning stale audit-ready label")
+            if not dry_run:
+                gh([
+                    "issue", "edit", str(num),
+                    "--remove-label", "audit-ready",
+                ])
             continue
         active = workflow_active_count("auditor-audit.yml")
         if active >= batch_size:

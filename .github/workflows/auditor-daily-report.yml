@@ -36,10 +36,16 @@ jobs:
             top_by_stars: [.repos | to_entries | sort_by(-(.value.stars // 0)) | .[:5][] | {repo: .key, stars: (.value.stars // 0), status: .value.status}]
           }' auditor/registry/repos.json > /tmp/report/registry-stats.json
 
-          # Issue counts by label
+          # Issue counts by label. CRITICAL: `gh issue list` defaults to
+          # --limit 30. Without an explicit higher --limit, any label
+          # with >30 open issues silently caps at 30. The audit-complete
+          # count silently capped at 30 for the entire history of the
+          # daily report — actual count was 176 (160% undercount) as of
+          # 2026-05-12 investigation. Use a generous limit that won't
+          # be hit in practice.
           COUNTS="{}"
           for label in audit-candidate audit-ready audit-complete contribute-approved prs-submitted case-study-ready complete; do
-            COUNT=$(gh issue list --label "$label" --state open --json number --jq 'length' 2>/dev/null || echo 0)
+            COUNT=$(gh issue list --label "$label" --state open --limit 1000 --json number --jq 'length' 2>/dev/null || echo 0)
             COUNTS=$(echo "$COUNTS" | jq --arg l "$label" --argjson c "$COUNT" '. + {($l): $c}')
           done
           echo "$COUNTS" > /tmp/report/issue-counts.json
