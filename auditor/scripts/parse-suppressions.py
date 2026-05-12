@@ -13,6 +13,11 @@ import sys
 try:
     import yaml
 except ImportError:
+    print(
+        "parse-suppressions: PyYAML not installed; suppressions disabled "
+        "(install with `pip install pyyaml` to enable).",
+        file=sys.stderr,
+    )
     sys.exit(0)
 
 
@@ -23,7 +28,16 @@ def main() -> int:
     try:
         with open(sys.argv[1]) as f:
             content = f.read()
-    except OSError:
+    except OSError as e:
+        # Distinguish "no config file" (expected, silent) from
+        # "config exists but is unreadable" (must surface).
+        from os.path import exists
+        if exists(sys.argv[1]):
+            print(
+                f"parse-suppressions: config {sys.argv[1]} unreadable: {e}",
+                file=sys.stderr,
+            )
+            return 1
         return 0
 
     match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
@@ -32,8 +46,12 @@ def main() -> int:
 
     try:
         frontmatter = yaml.safe_load(match.group(1)) or {}
-    except yaml.YAMLError:
-        return 0
+    except yaml.YAMLError as e:
+        print(
+            f"parse-suppressions: YAML parse error in {sys.argv[1]}: {e}",
+            file=sys.stderr,
+        )
+        return 1
 
     if not isinstance(frontmatter, dict):
         return 0

@@ -16,13 +16,33 @@ set -euo pipefail
 # Locate nlpm-check
 NLPM_CHECK_BIN="${NLPM_CHECK_BIN:-nlpm-check}"
 if ! command -v "$NLPM_CHECK_BIN" >/dev/null 2>&1; then
-    # Try common locations
-    for candidate in \
-        "$(git rev-parse --show-toplevel 2>/dev/null)/bin/nlpm-check" \
-        "$HOME/.local/bin/nlpm-check" \
-        "$HOME/.claude/plugins/cache/xiaolai/nlpm/0.8.0/bin/nlpm-check"
-    do
-        if [[ -x "$candidate" ]]; then
+    # Try common locations (sorted descending lexically so newest cache version wins)
+    REPO_BIN="$(git rev-parse --show-toplevel 2>/dev/null)/bin/nlpm-check"
+    LATEST_CACHE_BIN=""
+    if [[ -d "$HOME/.claude/plugins/cache/xiaolai/nlpm" ]]; then
+        # Pick newest installed version. Use Python (which the binary
+        # already requires) for portable semver comparison — `sort -V`
+        # is GNU-coreutils-specific and not on BSD/macOS by default.
+        LATEST_VERSION=$(python3 - <<'PY' 2>/dev/null
+import os, re
+base = os.path.expanduser("~/.claude/plugins/cache/xiaolai/nlpm")
+try:
+    versions = [d for d in os.listdir(base) if os.path.isdir(os.path.join(base, d))]
+except OSError:
+    raise SystemExit
+def key(v):
+    return tuple(int(p) if p.isdigit() else 0 for p in re.split(r"[.\-]", v))
+versions.sort(key=key)
+if versions:
+    print(versions[-1])
+PY
+)
+        if [[ -n "$LATEST_VERSION" ]]; then
+            LATEST_CACHE_BIN="$HOME/.claude/plugins/cache/xiaolai/nlpm/$LATEST_VERSION/bin/nlpm-check"
+        fi
+    fi
+    for candidate in "$REPO_BIN" "$HOME/.local/bin/nlpm-check" "$LATEST_CACHE_BIN"; do
+        if [[ -n "$candidate" && -x "$candidate" ]]; then
             NLPM_CHECK_BIN="$candidate"
             break
         fi
@@ -36,16 +56,20 @@ if ! command -v "$NLPM_CHECK_BIN" >/dev/null 2>&1 && [[ ! -x "$NLPM_CHECK_BIN" ]
     exit 1
 fi
 
-# Only run if the commit touches plugin artifacts
+# Only run if the commit touches plugin artifacts.
+# Bash case-pattern `*` matches across slashes, so the patterns below
+# also cover nested layouts (e.g. multi-plugin monorepos with
+# plugins/<sub>/agents/foo.md). nlpm-check itself walks the tree and
+# auto-detects multi-plugin layouts (v0.8.5+).
 STAGED=$(git diff --cached --name-only --diff-filter=ACMR)
 RELEVANT=0
 while IFS= read -r file; do
     case "$file" in
-        .claude-plugin/plugin.json|.claude-plugin/marketplace.json) RELEVANT=1 ;;
-        skills/*/SKILL.md|.claude/skills/*/SKILL.md) RELEVANT=1 ;;
-        agents/*.md|.claude/agents/*.md) RELEVANT=1 ;;
-        commands/*.md|.claude/commands/*.md) RELEVANT=1 ;;
-        hooks/hooks.json|.claude/hooks.json) RELEVANT=1 ;;
+        *.claude-plugin/plugin.json|*.claude-plugin/marketplace.json) RELEVANT=1 ;;
+        *skills/*SKILL.md) RELEVANT=1 ;;
+        *agents/*.md) RELEVANT=1 ;;
+        *commands/*.md) RELEVANT=1 ;;
+        *hooks/hooks.json|*hooks.json|*.mcp.json) RELEVANT=1 ;;
     esac
 done <<< "$STAGED"
 
@@ -53,8 +77,16 @@ if [[ "$RELEVANT" -eq 0 ]]; then
     exit 0
 fi
 
-# Run the check against the working tree (not the staged content).
-# Authors typically run `git add` after editing, so the working tree
-# reflects the commit content. For stricter staged-content validation,
-# see `templates/workflows/nlpm-check.yml` which runs in CI.
-"$NLPM_CHECK_BIN" .
+# Run the check against a snapshot of the staged content (the exact
+# bytes that would land in the commit), not the working tree. The
+# working tree can include unstaged edits that mask staged regressions.
+STAGE_DIR=$(mktemp -d)
+trap 'rm -rf "$STAGE_DIR"' EXIT
+git checkout-index --prefix="$STAGE_DIR/" -a 2>/dev/null || {
+    # Fall back to working-tree check if checkout-index fails (older git,
+    # detached scenarios, etc.). Document the fallback.
+    echo "pre-commit-nlpm: warning — could not snapshot index, checking working tree" >&2
+    "$NLPM_CHECK_BIN" .
+    exit $?
+}
+"$NLPM_CHECK_BIN" "$STAGE_DIR"

@@ -47,8 +47,13 @@ def merge_value(base: Any, ours: Any, theirs: Any) -> Any:
     """Three-way merge of one cell. See module docstring for rules."""
     ours_changed = ours != base
     theirs_changed = theirs != base
-    if isinstance(base, dict) and isinstance(ours, dict) and isinstance(theirs, dict):
-        return merge_dict(base, ours, theirs)
+    # Recurse into dicts whenever BOTH ours and theirs are dicts — even
+    # when base is missing/non-dict (e.g., both sides newly added the
+    # same key with different sub-fields). Previously this path would
+    # bail to the ours/theirs scalar branch and drop theirs' fields.
+    if isinstance(ours, dict) and isinstance(theirs, dict):
+        base_dict = base if isinstance(base, dict) else {}
+        return merge_dict(base_dict, ours, theirs)
     if not ours_changed and theirs_changed:
         return theirs
     if ours_changed and not theirs_changed:
@@ -57,7 +62,10 @@ def merge_value(base: Any, ours: Any, theirs: Any) -> Any:
 
 
 def merge_dict(base: dict, ours: dict, theirs: dict) -> dict:
-    keys = set(base) | set(ours) | set(theirs)
+    # Iterate sorted(keys) so the merged registry has deterministic
+    # iteration order — without this, diff noise on every concurrent
+    # resolution.
+    keys = sorted(set(base) | set(ours) | set(theirs))
     out: dict = {}
     sentinel = object()
     for k in keys:

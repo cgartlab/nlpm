@@ -35,4 +35,16 @@ if ! python3 -m json.tool "$REG_TMP" > /dev/null 2>&1; then
   exit 1
 fi
 
-mv "$REG_TMP" "$REG_DEST"
+# `mv` across filesystems isn't atomic — on Linux runners /tmp is often
+# tmpfs while the repo is ext4. Stage the rename inside the destination
+# directory so the kernel does a same-filesystem rename(2), which IS
+# atomic. Without this, a crash mid-mv could leave the registry as a
+# partial copy.
+REG_DEST_DIR=$(dirname "$REG_DEST")
+mkdir -p "$REG_DEST_DIR"
+STAGED_IN_DEST=$(mktemp "$REG_DEST_DIR/.repos.json.XXXXXX")
+trap 'rm -f "$STAGED_IN_DEST"' EXIT
+cp "$REG_TMP" "$STAGED_IN_DEST"
+mv "$STAGED_IN_DEST" "$REG_DEST"
+trap - EXIT
+rm -f "$REG_TMP"

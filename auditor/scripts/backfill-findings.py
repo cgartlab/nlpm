@@ -32,7 +32,6 @@ import argparse
 import glob
 import hashlib
 import json
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -84,7 +83,11 @@ def main() -> int:
                 fp = f.get("fingerprint")
                 if fp:
                     existing_fps.add(fp)
-            except Exception:
+            except json.JSONDecodeError as e:
+                # Surface bad lines; backfill operates on this file as
+                # ground truth for "already appended" — silently dropping
+                # malformed entries could let us re-append duplicates.
+                print(f"WARN: malformed line in {GLOBAL}: {e}", flush=True)
                 continue
 
     print(f"Global findings.jsonl: {len(existing_fps)} existing fingerprints")
@@ -155,9 +158,41 @@ def main() -> int:
         return 0
 
     if appended:
-        with GLOBAL.open("a") as fh:
-            for line in new_lines:
-                fh.write(line + "\n")
+        # Stage the full new file (existing + appended) inside the
+        # destination directory, then rename. Pure append is not atomic
+        # under concurrent writers — a crash mid-append leaves a torn
+        # line, and a parallel job's append can interleave with this
+        # one's. Validating + same-directory rename gives us atomic
+        # publication.
+        import os, tempfile
+        GLOBAL.parent.mkdir(parents=True, exist_ok=True)
+        fd, tmp_path = tempfile.mkstemp(
+            prefix=".findings.jsonl.", dir=str(GLOBAL.parent)
+        )
+        try:
+            with os.fdopen(fd, "w") as fh:
+                if GLOBAL.exists():
+                    with GLOBAL.open("r") as src:
+                        for line in src:
+                            fh.write(line)
+                    # Ensure newline boundary before appending
+                    if GLOBAL.stat().st_size > 0:
+                        try:
+                            with GLOBAL.open("rb") as src:
+                                src.seek(-1, 2)
+                                if src.read(1) != b"\n":
+                                    fh.write("\n")
+                        except OSError:
+                            pass
+                for line in new_lines:
+                    fh.write(line + "\n")
+            os.replace(tmp_path, GLOBAL)
+        except Exception:
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
+            raise
         print(f"\nAppended {appended} lines to {GLOBAL}")
     return 0
 

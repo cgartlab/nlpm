@@ -19,7 +19,14 @@
 
 compute_fingerprint() {
   local repo="$1"
-  jq -r --arg repo "$repo" \
-    '"\($repo)|\(.file // "")|\(.rule_id // "")|\(.pattern // "")|\(.line // "null")"' \
-    | shasum -a 256 | awk '{print "sha256:" $1}'
+  # `set -o pipefail` inside the function so a jq parse failure surfaces
+  # as a non-zero exit rather than being masked by awk's exit status.
+  # Otherwise invalid JSON could produce a stable fingerprint for the
+  # empty input ("|||null") and silently corrupt the join key.
+  (
+    set -o pipefail
+    jq -r --arg repo "$repo" \
+      '"\($repo)|\(.file // "")|\(.rule_id // "")|\(.pattern // "")|\(.line // "null")"' \
+      | shasum -a 256 | awk '{print "sha256:" $1}'
+  )
 }

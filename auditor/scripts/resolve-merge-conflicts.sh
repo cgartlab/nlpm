@@ -16,6 +16,12 @@
 
 set -euo pipefail
 
+# Use a per-run temp directory so concurrent resolver runs (multiple
+# auditor workflows hitting a push-conflict at the same instant) can't
+# stomp on each other's /tmp/reg-*.json or /tmp/log-*.jsonl staging files.
+RESOLVE_TMPDIR=$(mktemp -d -t nlpm-resolve.XXXXXX)
+trap 'rm -rf "$RESOLVE_TMPDIR"' EXIT
+
 conflicted_paths() {
   git diff --name-only --diff-filter=U 2>/dev/null || true
 }
@@ -36,13 +42,14 @@ conflicted_paths() {
 # unguarded merge produced two concatenated top-level objects).
 if conflicted_paths | grep -qx "auditor/registry/repos.json"; then
   echo "Resolving auditor/registry/repos.json via 3-way merge"
-  git show :1:auditor/registry/repos.json > /tmp/reg-base.json   # merge base
-  git show :2:auditor/registry/repos.json > /tmp/reg-ours.json   # our commit
-  git show :3:auditor/registry/repos.json > /tmp/reg-theirs.json # remote
+  git show :1:auditor/registry/repos.json > "$RESOLVE_TMPDIR/reg-base.json"   # merge base
+  git show :2:auditor/registry/repos.json > "$RESOLVE_TMPDIR/reg-ours.json"   # our commit
+  git show :3:auditor/registry/repos.json > "$RESOLVE_TMPDIR/reg-theirs.json" # remote
   python3 auditor/scripts/three-way-merge-registry.py \
-      /tmp/reg-base.json /tmp/reg-ours.json /tmp/reg-theirs.json > /tmp/reg.json \
+      "$RESOLVE_TMPDIR/reg-base.json" "$RESOLVE_TMPDIR/reg-ours.json" "$RESOLVE_TMPDIR/reg-theirs.json" \
+      > "$RESOLVE_TMPDIR/reg.json" \
     || { echo "ERROR: three-way merge failed; refusing to write"; exit 1; }
-  REG_TMP=/tmp/reg.json bash auditor/scripts/atomic-registry-write.sh
+  REG_TMP="$RESOLVE_TMPDIR/reg.json" bash auditor/scripts/atomic-registry-write.sh
   git add auditor/registry/repos.json
 fi
 
@@ -64,9 +71,9 @@ fi
 for log in auditor/logs/events.jsonl auditor/findings.jsonl auditor/disagreements.jsonl; do
   if conflicted_paths | grep -qx "$log"; then
     echo "Resolving $log via line union"
-    git show ":2:$log" > /tmp/log-ours.jsonl
-    git show ":3:$log" > /tmp/log-theirs.jsonl
-    cat /tmp/log-theirs.jsonl /tmp/log-ours.jsonl | awk '!seen[$0]++' > "$log"
+    git show ":2:$log" > "$RESOLVE_TMPDIR/log-ours.jsonl"
+    git show ":3:$log" > "$RESOLVE_TMPDIR/log-theirs.jsonl"
+    cat "$RESOLVE_TMPDIR/log-theirs.jsonl" "$RESOLVE_TMPDIR/log-ours.jsonl" | awk '!seen[$0]++' > "$log"
     git add "$log"
   fi
 done

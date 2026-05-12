@@ -118,16 +118,28 @@ class TestBuildBadgeMulti(unittest.TestCase):
         self.assertIn("12 plugins clean", badge["message"])
 
     def test_multi_some_failing(self):
+        """Failing-count uses per-plugin `high>0`, not `total-clean`.
+
+        Regression test for codex audit finding: when high>0 but some
+        plugins only have medium/low findings, those plugins are advisory,
+        not failing. The earlier `total - clean` calculation mis-classified
+        them.
+        """
         badge = nlpm_badge.build_badge({
             "version": "0.8.5",
             "mode": "multi",
-            "plugins": [],
-            "summary": {"plugins_total": 12, "plugins_clean": 8, "high": 5, "medium": 0, "low": 0},
+            "plugins": [
+                {"summary": {"high": 3, "medium": 0, "low": 0}},
+                {"summary": {"high": 2, "medium": 0, "low": 0}},
+                {"summary": {"high": 0, "medium": 1, "low": 0}},  # advisory, not failing
+                {"summary": {"high": 0, "medium": 0, "low": 0}},  # clean
+            ],
+            "summary": {"plugins_total": 4, "plugins_clean": 1, "high": 5, "medium": 1, "low": 0},
         })
         self.assertEqual(badge["color"], "critical")
         self.assertEqual(badge["isError"], True)
-        # 12-8=4 plugins failing
-        self.assertIn("4 of 12", badge["message"])
+        # Only 2 plugins actually have HIGH findings; the third has only medium
+        self.assertIn("2 of 4", badge["message"])
         self.assertIn("5 high", badge["message"])
 
     def test_multi_advisory_only(self):

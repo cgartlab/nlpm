@@ -28,7 +28,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import sys
 from pathlib import Path
 
 REGISTRY = Path("auditor/registry/repos.json")
@@ -73,7 +72,9 @@ def main() -> int:
             promoted_to_audited += 1
             print(f"  audited  ← discovered  {slug}")
 
-        if r.get("score") in (None, 0):
+        # Only recover when score is genuinely missing — a real 0/100 is a
+        # legitimate (catastrophic) audit outcome that we must not overwrite.
+        if r.get("score") is None:
             score = read_score(slug)
             if score is not None:
                 r["score"] = score

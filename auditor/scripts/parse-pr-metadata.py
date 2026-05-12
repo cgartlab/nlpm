@@ -23,8 +23,17 @@ def main() -> int:
         return 0
     try:
         print(json.dumps(json.loads(match.group(1))))
-    except json.JSONDecodeError:
+    except json.JSONDecodeError as e:
+        # Stdout stays `{}` so callers can keep their existing parse
+        # logic, but emit a stderr warning so a corrupted metadata block
+        # surfaces in the workflow log instead of silently dropping
+        # fingerprint attribution.
+        print(
+            f"WARN: nlpm-metadata block present but JSON malformed: {e}",
+            file=sys.stderr,
+        )
         print("{}")
+        return 1
     return 0
 
 

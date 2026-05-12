@@ -192,7 +192,15 @@ def load_registry_pr_outcomes(registry_path: Path, repo: str) -> dict[str, dict]
     try:
         with registry_path.open() as fh:
             registry = json.load(fh)
-    except (OSError, json.JSONDecodeError):
+    except (OSError, json.JSONDecodeError) as e:
+        # Don't quietly return empty — every PR-fixed finding will be
+        # misclassified as "fixed upstream" instead of "fixed by us",
+        # silently corrupting the per-rule precision metric.
+        print(
+            f"WARN: registry {registry_path} unreadable: {e}; "
+            f"PR-vs-upstream attribution will be missing for {repo}",
+            file=sys.stderr,
+        )
         return {}
 
     repo_entry = registry.get("repos", {}).get(repo, {})
@@ -314,6 +322,16 @@ OUTCOME_LABEL = {
 }
 
 
+def _md_cell(text) -> str:
+    """Escape a string for safe inclusion in a markdown table cell.
+
+    `|` and newlines break table parsing; backslash-escape `|` and
+    replace newlines with spaces. Non-string values are coerced to str.
+    """
+    s = str(text) if text is not None else ""
+    return s.replace("\\", "\\\\").replace("|", "\\|").replace("\n", " ")
+
+
 def render_diff_report(
     repo: str,
     commit_sha_before: str,
@@ -374,8 +392,9 @@ def render_diff_report(
                 pr_cell = f"#{row['pr_number']}"
             line_cell = str(row["line"]) if row.get("line") is not None else "—"
             out.append(
-                f"| {i} | `{row['file']}` | {line_cell} | {row['rule_id']} | "
-                f"`{row['pattern']}` | {OUTCOME_LABEL[row['outcome']]} | {pr_cell} |"
+                f"| {i} | `{_md_cell(row['file'])}` | {line_cell} | "
+                f"{_md_cell(row['rule_id'])} | `{_md_cell(row['pattern'])}` | "
+                f"{OUTCOME_LABEL[row['outcome']]} | {pr_cell} |"
             )
         out.append("")
 
@@ -395,8 +414,9 @@ def render_diff_report(
         for i, row in enumerate(introduced_rows, 1):
             line_cell = str(row["line"]) if row.get("line") is not None else "—"
             out.append(
-                f"| {i} | `{row['file']}` | {line_cell} | {row['rule_id']} | "
-                f"`{row['pattern']}` | {row['description']} |"
+                f"| {i} | `{_md_cell(row['file'])}` | {line_cell} | "
+                f"{_md_cell(row['rule_id'])} | `{_md_cell(row['pattern'])}` | "
+                f"{_md_cell(row['description'])} |"
             )
         out.append("")
 
@@ -423,8 +443,20 @@ def main() -> int:
     parser.add_argument("--original-score", type=int, default=None)
     parser.add_argument("--reaudit-score", type=int, default=None)
     parser.add_argument("--run-id", default=os.environ.get("GITHUB_RUN_ID", "local"))
-    parser.add_argument("--run-number", type=int,
-                        default=int(os.environ.get("GITHUB_RUN_NUMBER", "0")))
+    # Parse run-number defensively — a non-numeric env var would otherwise
+    # crash during argparse construction (before --help can run, before
+    # any error message would surface to the workflow log).
+    def _env_run_number(default: str = "0") -> int:
+        raw = os.environ.get("GITHUB_RUN_NUMBER", default)
+        try:
+            return int(raw)
+        except ValueError:
+            print(
+                f"WARN: GITHUB_RUN_NUMBER={raw!r} not numeric; defaulting to 0",
+                file=sys.stderr,
+            )
+            return 0
+    parser.add_argument("--run-number", type=int, default=_env_run_number())
     args = parser.parse_args()
 
     repo = args.repo

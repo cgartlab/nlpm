@@ -33,7 +33,6 @@ lines are skipped with a warning to stderr.
 from __future__ import annotations
 
 import json
-import os
 import re
 import sys
 from collections import Counter, defaultdict
@@ -234,11 +233,15 @@ def main() -> int:
         applied_separately = len(unique_fps & applied_separately_by_fp)
         # Don't double-count: a fingerprint marked applied_separately in
         # the registry will also have pr_state=closed_unmerged in events
-        # (until the SCHEMAS enum gets extended). Subtract from the
-        # closed_unmerged bucket to keep the totals consistent.
-        closed_unmerged = sum(
-            1 for fp in unique_fps if outcome_by_fp.get(fp) == "closed_unmerged"
-        ) - applied_separately
+        # (until the SCHEMAS enum gets extended). Subtract only those
+        # applied-separately fingerprints that ALSO have a closed_unmerged
+        # event — otherwise the subtraction can drive the count negative
+        # when the registry has applied fingerprints that never got a
+        # matching event (e.g., legacy attribution).
+        closed_unmerged_fps = {
+            fp for fp in unique_fps if outcome_by_fp.get(fp) == "closed_unmerged"
+        }
+        closed_unmerged = len(closed_unmerged_fps - applied_separately_by_fp)
         open_count = sum(1 for fp in unique_fps if outcome_by_fp.get(fp) == "open")
         self_fp = len(unique_fps & self_fp_fps)
         maintainer_rejected = sum(1 for fp in unique_fps if fp in rejected_by_fp)
@@ -366,9 +369,12 @@ def main() -> int:
             with feedback_path.open() as fh:
                 feedback = json.load(fh)
         except (OSError, json.JSONDecodeError):
-            feedback = {"metadata": {}, "rule_stats": {}}
+            # validate-feedback.sh expects `events` to be present; default
+            # shape must include it so validation doesn't fail on first
+            # fresh write or after a recovered crash.
+            feedback = {"metadata": {}, "rule_stats": {}, "events": []}
     else:
-        feedback = {"metadata": {}, "rule_stats": {}}
+        feedback = {"metadata": {}, "rule_stats": {}, "events": []}
 
     feedback.setdefault("metadata", {}).update({
         "total_prs_submitted": len(all_prs),

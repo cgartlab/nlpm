@@ -28,15 +28,13 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import re
 import sys
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
 from pathlib import Path
-from typing import Iterable
 
 
-VERSION = "0.8.6"
+VERSION = "0.8.7"
 
 
 # ----- finding model -----
@@ -703,12 +701,16 @@ def render_human_multi(
         if not findings:
             clean_count += 1
     n = len(results)
+    all_clean = total_high == 0 and total_med == 0 and total_low == 0
+
+    if all_clean and quiet:
+        return
 
     print(
         f"nlpm-check: {n} plugins · {clean_count} clean · "
         f"{total_high} high · {total_med} medium · {total_low} low ({repo_root})"
     )
-    if total_high == 0 and total_med == 0 and total_low == 0:
+    if all_clean:
         return
     print()
 

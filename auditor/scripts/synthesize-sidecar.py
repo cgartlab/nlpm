@@ -226,6 +226,40 @@ TABLE_HEADER_RE = re.compile(r"^\s*\|(.+)\|\s*$")
 TABLE_SEP_RE = re.compile(r"^\s*\|[-:\s|]+\|\s*$")
 
 
+def _split_table_row(row_text: str) -> list[str]:
+    """Split a markdown table row into cells.
+
+    Respects backslash-escaped pipes (`\\|`) so cells like
+    `description: a \\| b` aren't split mid-cell. Code spans (e.g.,
+    `` `foo|bar` ``) are also respected — a `|` inside a backtick pair
+    is treated as literal.
+    """
+    cells: list[str] = []
+    buf: list[str] = []
+    in_code = False
+    i = 0
+    while i < len(row_text):
+        c = row_text[i]
+        if c == "\\" and i + 1 < len(row_text) and row_text[i + 1] == "|":
+            buf.append("|")
+            i += 2
+            continue
+        if c == "`":
+            in_code = not in_code
+            buf.append(c)
+            i += 1
+            continue
+        if c == "|" and not in_code:
+            cells.append("".join(buf).strip())
+            buf = []
+            i += 1
+            continue
+        buf.append(c)
+        i += 1
+    cells.append("".join(buf).strip())
+    return cells
+
+
 def extract_tables(body: str) -> list[tuple[list[str], list[list[str]]]]:
     """Find pipe-table(s) in body. Returns list of (headers, rows).
     Each row is a list of cell strings aligned to the header list."""
@@ -242,14 +276,14 @@ def extract_tables(body: str) -> list[tuple[list[str], list[list[str]]]]:
         if i + 1 >= len(lines) or not TABLE_SEP_RE.match(lines[i + 1]):
             i += 1
             continue
-        headers = [c.strip() for c in m.group(1).split("|")]
+        headers = _split_table_row(m.group(1))
         rows: list[list[str]] = []
         j = i + 2
         while j < len(lines):
             row_m = TABLE_HEADER_RE.match(lines[j])
             if not row_m:
                 break
-            cells = [c.strip() for c in row_m.group(1).split("|")]
+            cells = _split_table_row(row_m.group(1))
             # Skip empty row
             if all(c == "" for c in cells):
                 j += 1
@@ -331,11 +365,11 @@ def extract_line(text: str) -> int | None:
     return int(m.group(1)) if m else None
 
 
-PENALTY_RE = re.compile(r"-\s*(\d+)")
-
-
 def extract_penalty(text: str) -> int | None:
-    """Penalty cells look like `-8`, `−15`, `-5 each`, `-15 (zero examples)`."""
+    """Penalty cells look like `-8`, `−15`, `-5 each`, `-15 (zero examples)`.
+
+    Accepts both ASCII hyphen and Unicode minus sign U+2212.
+    """
     m = re.search(r"[-−]\s*(\d+)", text)
     return -int(m.group(1)) if m else None
 
@@ -694,6 +728,7 @@ def main() -> int:
         if not args.input.is_dir():
             parser.error(f"{args.input} is not a directory")
         total = 0
+        processed_count = 0
         for md_path in sorted(args.input.glob("*.md")):
             if md_path.name.endswith(".re-audit.md") or md_path.name.endswith(
                     ".re-audit.diff.md"
@@ -709,7 +744,10 @@ def main() -> int:
                 write_sidecar(findings, sidecar_path)
                 print(f"{md_path.name}: {len(findings)} findings → {sidecar_path.name}")
             total += len(findings)
-        print(f"\nTotal: {total} findings across {len(list(args.input.glob('*.md')))} files")
+            processed_count += 1
+        # Count only processed files — earlier total included excluded
+        # re-audit files, which understated processing density.
+        print(f"\nTotal: {total} findings across {processed_count} files")
         return 0
 
     # Single-file mode

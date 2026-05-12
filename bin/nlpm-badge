@@ -45,9 +45,18 @@ def build_badge(check_output: dict) -> dict:
 
     if mode == "multi":
         total = summary.get("plugins_total", 0)
-        clean = summary.get("plugins_clean", 0)
         if high > 0:
-            failing = total - clean
+            # "Failing" means has at least one HIGH finding. Plugins with
+            # only medium/low findings are advisory, not failing.
+            # Use the plugins[] array when available; fall back to a
+            # conservative estimate (`1`) when only summary is present.
+            failing = sum(
+                1
+                for sub in check_output.get("plugins", [])
+                if sub.get("summary", {}).get("high", 0) > 0
+            )
+            if failing == 0:
+                failing = 1
             plural = "plugins" if failing != 1 else "plugin"
             message = f"{failing} of {total} {plural} fail · {high} high"
             color = "critical"
@@ -144,7 +153,7 @@ def main(argv: list[str] | None = None) -> int:
         print(__doc__)
         return 0
     if argv and argv[0] == "--version":
-        print("nlpm-badge 0.8.6")
+        print("nlpm-badge 0.8.7")
         return 0
     emit_attestation = argv and argv[0] == "--attestation"
 

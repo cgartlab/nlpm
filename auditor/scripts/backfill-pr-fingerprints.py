@@ -48,7 +48,28 @@ def load_registry() -> dict:
 
 
 def save_registry(registry: dict) -> None:
-    REGISTRY.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + "\n")
+    """Write registry atomically via same-directory rename.
+
+    Direct overwrite of REGISTRY would leave the file half-written if
+    the writer is killed mid-write — the registry is the join key for
+    every downstream metric, so a partial write is catastrophic.
+    """
+    import os, tempfile
+    REGISTRY.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_path = tempfile.mkstemp(
+        prefix=".repos.json.", dir=str(REGISTRY.parent)
+    )
+    try:
+        with os.fdopen(fd, "w") as fh:
+            json.dump(registry, fh, indent=2, ensure_ascii=False)
+            fh.write("\n")
+        os.replace(tmp_path, REGISTRY)
+    except Exception:
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
+        raise
 
 
 def compute_fingerprint(repo: str, finding: dict) -> str:
@@ -83,11 +104,15 @@ def load_sidecar_findings(slug: str) -> list[dict]:
     with path.open() as fh:
         for line in fh:
             line = line.strip()
-            if line:
-                try:
-                    records.append(json.loads(line))
-                except json.JSONDecodeError:
-                    pass
+            if not line:
+                continue
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                # Don't silently undercount attribution. A malformed line
+                # means missing fingerprints, which means PR outcomes
+                # won't join to findings — a real signal loss.
+                print(f"WARN: malformed sidecar line: {e}", flush=True)
     return records
 
 
@@ -202,10 +227,13 @@ def backfill_one(repo: str, registry: dict, dry_run: bool = False) -> int:
         print(f"SKIP {repo}: no PRs")
         return 0
 
-    # If ANY PR already has fingerprints, this repo was post-v0.7.7
-    # and we should leave it alone.
-    if any(pr.get("fingerprints") for pr in prs):
-        print(f"SKIP {repo}: already has fingerprints")
+    # Per-PR backfill: previously the script skipped the whole repo if
+    # ANY PR had fingerprints, leaving partial-mix repos forever
+    # unfilled. Per-PR check keeps the post-v0.7.7 PRs untouched while
+    # filling the older ones.
+    needs_backfill = [pr for pr in prs if not pr.get("fingerprints")]
+    if not needs_backfill:
+        print(f"SKIP {repo}: all PRs already have fingerprints")
         return 0
 
     sidecar_findings = load_sidecar_findings(slug)
@@ -214,7 +242,7 @@ def backfill_one(repo: str, registry: dict, dry_run: bool = False) -> int:
         return 0
 
     total_attributed = 0
-    for pr in prs:
+    for pr in needs_backfill:
         pr_number = pr.get("number")
         if not isinstance(pr_number, int):
             continue
@@ -269,7 +297,11 @@ def main() -> int:
             prs = entry.get("prs") or []
             if not prs:
                 continue
-            if any(pr.get("fingerprints") for pr in prs):
+            # Include if at least one PR is missing fingerprints. The
+            # previous `any(...has fingerprints)` filter excluded the
+            # entire repo as soon as one PR was already attributed,
+            # leaving mixed-legacy repos forever partially unfilled.
+            if all(pr.get("fingerprints") for pr in prs):
                 continue
             slug = repo.replace("/", "-")
             if (AUDITS_DIR / f"{slug}.findings.jsonl").exists():

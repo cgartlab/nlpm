@@ -25,8 +25,17 @@ for key in events rule_stats metadata; do
   fi
 done
 
-# Check 3: Rule stats reference real rules (R01-R50)
-INVALID_RULES=$(jq -r '.rule_stats | keys[]' "$LOG" 2>/dev/null | grep -vE '^R[0-5][0-9]$' || true)
+# Check 3: Rule stats reference real rules. Accepted namespaces:
+#   R01-R50    — primary numeric rules (from skills/nlpm/rules/)
+#   BUG-*      — bug-class findings (manifest-vs-disk, frontmatter, etc.)
+#   SEC-*      — security-pattern findings (curl-pipe-sh, eval-from-input)
+#   CC-*       — cross-component consistency findings
+# rule-health.py emits all four namespaces; the validator must accept all four.
+# Numeric R-rules are strictly R01-R50 (no R00, no R51+) to prevent typos
+# that would create silent untracked rules.
+INVALID_RULES=$(jq -r '.rule_stats | keys[]' "$LOG" 2>/dev/null \
+  | grep -vE '^(R(0[1-9]|[1-4][0-9]|50)|BUG-[a-z0-9-]+|SEC-[a-z0-9-]+|CC-[a-z0-9-]+)$' \
+  || true)
 if [ -n "$INVALID_RULES" ]; then
   echo "ERROR: feedback log references invalid rules: $INVALID_RULES"
   ERRORS=$((ERRORS + 1))
