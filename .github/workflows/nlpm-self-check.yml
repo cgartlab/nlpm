@@ -15,11 +15,23 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read  # default — PR checks need only read
+
+# Serialize concurrent runs on main so two near-simultaneous pushes
+# don't race on the badge-refresh commit. cancel-in-progress is safe
+# here because the test suite is idempotent and the badge is computed
+# from current HEAD.
+concurrency:
+  group: nlpm-self-check-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   self-check:
     runs-on: ubuntu-latest
+    # Re-elevate to contents:write only for the badge-refresh step's job;
+    # PR runs (read-only) carry only the workflow-level default above.
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4

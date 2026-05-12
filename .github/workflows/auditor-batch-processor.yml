@@ -38,6 +38,21 @@ jobs:
           BATCH_SIZE: ${{ inputs.batch_size || '5' }}
           DRY_RUN: ${{ inputs.dry_run || 'false' }}
         run: |
+          # Validate BATCH_SIZE: must be a positive integer, clamped to a
+          # safe upper bound. A malicious workflow_dispatch could otherwise
+          # pass "999999" or "1; rm -rf /" or a non-numeric string that
+          # later crashes arithmetic ops like `BATCH_SIZE - RUNNING`.
+          case "$BATCH_SIZE" in
+            ''|*[!0-9]*)
+              echo "ERROR: BATCH_SIZE must be a positive integer (got: '$BATCH_SIZE')" >&2
+              exit 1
+              ;;
+          esac
+          if [ "$BATCH_SIZE" -lt 1 ] || [ "$BATCH_SIZE" -gt 50 ]; then
+            echo "ERROR: BATCH_SIZE must be in [1, 50] (got: $BATCH_SIZE)" >&2
+            exit 1
+          fi
+
           echo "=== NLPM Batch Processor ==="
           echo "Batch size: $BATCH_SIZE | Dry run: $DRY_RUN"
           echo ""
