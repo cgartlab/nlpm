@@ -6985,7 +6985,9 @@
       "artifacts": 4,
       "discovered": "2026-05-05T00:52:16Z",
       "description": "A plugin for Claude Code and Codex that turns your codebase into an autoresearch loop — discovers what to measure, instruments the benchmark, then runs tree search with parallel subagents.",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/evo-hq-evo.md"
     },
     "ZeframLou/call-me": {
       "prs": [],
