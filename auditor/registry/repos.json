@@ -5134,7 +5134,9 @@
       "artifacts": 62,
       "discovered": "2026-05-04T06:59:10Z",
       "description": "🎨 Local-first, open-source alternative to Anthropic's Claude Design. ⚡ 19 Skills · ✨ 71 brand-grade Design Systems 🖼 Generate web · desktop · mobile prototypes · slides · images · videos · HyperFrames 📦 Sandboxed preview · HTML/PDF/PPTX/MP4 export 🤖 Runs on Claude Code / Codex / Cursor / Gemini / OpenCode / Qwen / Copilot / Hermes / Kimi CLI.",
-      "security": "UNKNOWN"
+      "security": "UNKNOWN",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/nexu-io-open-design.md"
     },
     "navapbc/digital-service-orchestra": {
       "prs": [],
