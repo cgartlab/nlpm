@@ -3630,7 +3630,9 @@
       "artifacts": 46,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "X (Twitter) data platform skill for AI coding agents. 111 REST API endpoints, 2 MCP tools, 23 extraction types, HMAC webhooks. Reads from $0.00015/call - 33x cheaper than the official X API. Works with Claude Code, Cursor, Codex, Copilot, Windsurf & 40+ agents.",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/Xquik-dev-x-twitter-scraper.md"
     },
     "jordanrendric/claude-video-vision": {
       "prs": [],
