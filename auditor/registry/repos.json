@@ -3608,7 +3608,9 @@
       "security": "CLEAR",
       "description": "A Claude Code plugin that turns natural language into blueprints, blueprints into parallel build plans, and build plans into working software with automated iteration, validation, and cross-model peer review.",
       "star_velocity": 40.6,
-      "star_anomaly": 0.75
+      "star_anomaly": 0.75,
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/JuliusBrussee-cavekit.md"
     },
     "alirezarezvani/claude-skills": {
       "score": 92,
