@@ -7446,7 +7446,9 @@
         5,
         6
       ],
-      "case_study_candidate": true
+      "case_study_candidate": true,
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/xiaolai-codex-toolkit-for-claude.md"
     },
     "EveryInc/compound-engineering-plugin": {
       "prs": [
