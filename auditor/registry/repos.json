@@ -5726,7 +5726,9 @@
       "security": "CLEAR",
       "description": "Claude Code & Codex skills that build complete Godot projects from a game description",
       "star_velocity": 20.0,
-      "star_anomaly": 1.1
+      "star_anomaly": 1.1,
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/htdt-godogen.md"
     },
     "nyldn/claude-octopus": {
       "case_study": "case-studies/2026-04-24-nyldn-claude-octopus.md",
