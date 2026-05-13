@@ -5261,7 +5261,9 @@
       "artifacts": 58,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "A curated collection of skills for AI coding agents. Skills are packaged instructions and scripts that extend agent capabilities across development, documentation, planning, and professional workflows.",
-      "security": "UNKNOWN"
+      "security": "UNKNOWN",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/softaworks-agent-toolkit.md"
     },
     "centminmod/my-claude-code-setup": {
       "prs": [],
