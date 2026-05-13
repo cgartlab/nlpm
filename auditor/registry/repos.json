@@ -4747,7 +4747,9 @@
       "discovered": "2026-04-13T06:41:48Z",
       "rule_adopted": false,
       "description": "Comprehensive paid advertising audit & optimization skill for Claude Code. 225+ checks across Google, Meta, YouTube, LinkedIn, TikTok, Microsoft & Apple Search Ads with weighted scoring, parallel agents, industry templates, and AI creative generation.",
-      "security": "REVIEW"
+      "security": "REVIEW",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/AgriciDaniel-claude-ads.md"
     },
     "wanshuiyin/Auto-claude-code-research-in-sleep": {
       "prs": [],
