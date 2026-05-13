@@ -3377,7 +3377,9 @@
       "artifacts": 18,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "AWS Skills for Agents",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/itsmostafa-aws-agent-skills.md"
     },
     "Orchestra-Research/AI-Research-SKILLs": {
       "prs": [
