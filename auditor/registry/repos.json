@@ -1202,7 +1202,9 @@
       "discovered": "2026-04-13T06:41:48Z",
       "rule_adopted": false,
       "description": "MCP server and Claude plugin for Postgres skills and documentation. Helps AI coding tools generate better PostgreSQL code.",
-      "security": "REVIEW"
+      "security": "REVIEW",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/timescale-pg-aiguide.md"
     },
     "hesreallyhim/awesome-claude-code": {
       "case_study": "case-studies/2026-04-24-hesreallyhim-awesome-claude-code.md",
