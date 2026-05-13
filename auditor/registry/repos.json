@@ -731,7 +731,9 @@
       "artifacts": 10,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "Claude Code Custom Plugins - Custom plugins for Claude Code CLI",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/ooiyeefei-ccc.md"
     },
     "tech-leads-club/agent-skills": {
       "prs": [
