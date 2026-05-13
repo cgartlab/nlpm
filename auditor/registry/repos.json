@@ -4412,7 +4412,9 @@
       "artifacts": 6,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "Agent skills for Obsidian. Teach your agent to use Markdown, Bases, JSON Canvas, and use the CLI.",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/kepano-obsidian-skills.md"
     },
     "agiletec-inc/airis-mcp-gateway": {
       "prs": [],
