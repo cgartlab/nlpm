@@ -44,6 +44,7 @@ EVENTS_PATH = Path("auditor/logs/events.jsonl")
 DISAGREEMENTS_PATH = Path("auditor/disagreements.jsonl")
 REGISTRY_PATH = Path("auditor/registry/repos.json")
 RULES_CATALOG = Path("skills/nlpm/rules/SKILL.md")
+EXEMPLARS_DIR = Path("auditor/exemplars")
 
 
 def load_jsonl(path: Path) -> list[dict]:
@@ -60,6 +61,56 @@ def load_jsonl(path: Path) -> list[dict]:
             except json.JSONDecodeError as exc:
                 print(f"WARN {path}:{i} malformed JSON: {exc}", file=sys.stderr)
     return records
+
+
+def load_exemplars_by_rule() -> dict[str, list[str]]:
+    """Scan auditor/exemplars/*.md for `exemplifies:` frontmatter lists.
+
+    Returns a dict mapping rule_id → list of exemplar slugs that cite it.
+    Used to enrich rule_metrics with `exemplars_count` and `exemplar_slugs`
+    so rule-health can answer "which rules have real-world positive
+    references" not just "which rules have findings against them."
+
+    A rule with high `hits` and zero `exemplars_count` is a rule we know
+    how to break but not how to follow — actionable signal for rule-refine.
+    """
+    by_rule: dict[str, list[str]] = defaultdict(list)
+    if not EXEMPLARS_DIR.exists():
+        return dict(by_rule)
+    for path in sorted(EXEMPLARS_DIR.glob("*.md")):
+        text = path.read_text(errors="ignore")
+        # Extract frontmatter between the opening `---` and the first
+        # following `---` line. Lazy DOTALL so the second `---` is the
+        # closer, not a later one in the body.
+        fm_match = re.match(r"^---\n(.*?)\n---\s*$", text, re.DOTALL | re.MULTILINE)
+        if not fm_match:
+            fm_match = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
+        if not fm_match:
+            continue
+        frontmatter = fm_match.group(1)
+        slug_match = re.search(r"^slug:\s*([\S]+)", frontmatter, re.MULTILINE)
+        slug = slug_match.group(1) if slug_match else path.stem
+        # Walk frontmatter lines. After `exemplifies:`, every indented
+        # `- R##` line is an entry; stop at the first non-indented-list line.
+        in_list = False
+        rules_for_this_file: list[str] = []
+        for line in frontmatter.splitlines():
+            if re.match(r"^exemplifies:\s*$", line):
+                in_list = True
+                continue
+            if not in_list:
+                continue
+            m = re.match(r"^[ \t]+-[ \t]+(R\d{2})\b", line)
+            if m:
+                rules_for_this_file.append(m.group(1))
+                continue
+            # A top-level key (no leading space) ends the list. A blank
+            # line is tolerated but doesn't end the list — YAML allows it.
+            if line and not line.startswith((" ", "\t")):
+                in_list = False
+        for rid in rules_for_this_file:
+            by_rule[rid].append(slug)
+    return dict(by_rule)
 
 
 def load_catalog_rules() -> set[str]:
@@ -311,6 +362,37 @@ def main() -> int:
             "state": "healthy",  # nothing to judge yet — introduced-only
         }
 
+    # v0.8.17 — enrich each rule's metrics with exemplar counts. A rule
+    # with hits=many but exemplars_count=0 is one we know how to break but
+    # not how to follow: a signal for rule-refine to either re-word the
+    # rule or actively hunt exemplars on the always-clean path.
+    exemplars_by_rule = load_exemplars_by_rule()
+    for rid, slugs in exemplars_by_rule.items():
+        rule_metrics.setdefault(rid, {
+            "hits": 0,
+            "unique_fingerprints": 0,
+            "contributed": 0,
+            "merged": 0,
+            "closed_unmerged": 0,
+            "open": 0,
+            "self_fp": 0,
+            "maintainer_rejected": 0,
+            "downstream_suppressions": 0,
+            "dissent_types": {},
+            "verified_total": 0,
+            "verified_fixed": 0,
+            "verified_persists": 0,
+            "verify_rate": None,
+            "introduced": 0,
+            "state": "healthy",
+        })
+        rule_metrics[rid]["exemplars_count"] = len(slugs)
+        rule_metrics[rid]["exemplar_slugs"] = slugs
+    # Backfill exemplars_count=0 on rules that have hits but no exemplars yet
+    for rid, m in rule_metrics.items():
+        m.setdefault("exemplars_count", 0)
+        m.setdefault("exemplar_slugs", [])
+
     # Dormant: catalog R* rules with zero findings. SEC/BUG/CC namespaces are
     # dynamic — no authoritative inventory — so dormant detection is catalog-only.
     catalog = load_catalog_rules()
@@ -358,6 +440,22 @@ def main() -> int:
             Counter(m["state"] for m in rule_metrics.values())
         ),
         "dormant_count": len(dormant_rules),
+        "exemplars_total": sum(len(s) for s in exemplars_by_rule.values()),
+        "exemplars_unique_repos": len({
+            slug for slugs in exemplars_by_rule.values() for slug in slugs
+        }),
+        "rules_with_exemplars": sum(
+            1 for m in rule_metrics.values() if m.get("exemplars_count", 0) > 0
+        ),
+        # Only flag R-numbered catalog rules — BUG-/CC-/SEC-/AGENT-/UNCLASSIFIED
+        # are bug categories with no exemplar concept (you don't exemplify
+        # "missing frontmatter"; you exemplify "well-written frontmatter").
+        "rules_high_hits_no_exemplar": sorted([
+            rid for rid, m in rule_metrics.items()
+            if re.fullmatch(r"R\d{2}", rid)
+            and m.get("hits", 0) >= 50
+            and m.get("exemplars_count", 0) == 0
+        ]),
     }
 
     # Mirror into auditor/feedback/log.json so the legacy shape continues

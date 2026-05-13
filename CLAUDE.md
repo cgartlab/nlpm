@@ -120,6 +120,7 @@ The `auditor/` subdirectory contains a GitHub Actions pipeline that discovers, a
 | auditor-contribute | Issue labeled `contribute-approved` | Reads target's CONTRIBUTING.md / PR template / CoC, forks, opens PRs for verified bugs only (max 3 first-contact, 5 thereafter); stamps each PR body with `nlpm-metadata` block; **never** opens an umbrella/summary issue on the target; backstop step verifies post-hoc |
 | auditor-track | Every 4h cron | PR state, emits finding_outcome + pr_comments_snapshot on transitions |
 | auditor-case-study | Issue labeled `case-study-ready` | Re-audit target at HEAD (diff vs. original findings, emit finding_verified + finding_introduced), write article, self-review, polish, cover image |
+| auditor-exemplar | Issue labeled `case-study-clean` | Write a teaching artifact from a high-scoring audit (score ≥ 90, security != BLOCKED). Output is `auditor/exemplars/<slug>.md` cited by `skills/nlpm/rules/` as a positive real-world reference. Auto-labeled by `batch-process.py phase0`. |
 | auditor-daily-report | Daily cron | Pipeline state + per-rule health (healthy/noisy/dormant/disputed) |
 | auditor-classify | Daily cron / manual | Haiku classifies `pr_comments_snapshot` → `maintainer_rejected` |
 | auditor-suppressions | Weekly cron / manual | Scan public repos for NLPM rule-override configs |
@@ -136,6 +137,7 @@ The `auditor/` subdirectory contains a GitHub Actions pipeline that discovers, a
 | auditor/audits/<slug>.re-audit.md | no | Post-merge re-scoring report at target HEAD |
 | auditor/audits/<slug>.re-audit.findings.jsonl | no | Re-audit findings sidecar (NOT appended to global log) |
 | auditor/audits/<slug>.re-audit.diff.md | no | Per-finding verification table feeding the case-study writer |
+| auditor/exemplars/<slug>.md | no | Teaching artifact from a high-scoring audit; `exemplifies:` frontmatter join key consumed by `rule-health.py` |
 | auditor/findings.jsonl | yes | One record per finding, joined by fingerprint |
 | auditor/disagreements.jsonl | yes | self_false_positive, pr_comments_snapshot, maintainer_rejected, downstream_suppression |
 | auditor/logs/events.jsonl | yes | Lifecycle events + finding_outcome + finding_verified + finding_introduced + findings_aggregated |

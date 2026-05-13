@@ -36,6 +36,10 @@ REGISTRY_PATH = Path(os.environ.get("REGISTRY_PATH", "auditor/registry/repos.jso
 DRAIN_LIMIT = 5
 RETRIGGER_FAILURE_CAP = 3
 DISPATCH_SLEEP = 2.0
+# v0.8.17 — score threshold for the always-clean exemplar path.
+# Audits at or above this score with security != BLOCKED and no existing
+# exemplar get labeled `case-study-clean`, which fires auditor-exemplar.yml.
+EXEMPLAR_THRESHOLD = int(os.environ.get("EXEMPLAR_THRESHOLD", "90"))
 
 
 def gh(args: list[str], check: bool = False) -> tuple[int, str]:
@@ -64,6 +68,28 @@ def registry_security(repo: str) -> str:
     except (OSError, json.JSONDecodeError):
         return "UNKNOWN"
     return (data.get("repos", {}).get(repo) or {}).get("security") or "UNKNOWN"
+
+
+def registry_score(repo: str) -> int:
+    """Read the registry score for `repo`. Returns 0 on absence."""
+    try:
+        data = json.loads(REGISTRY_PATH.read_text())
+    except (OSError, json.JSONDecodeError):
+        return 0
+    val = (data.get("repos", {}).get(repo) or {}).get("score")
+    try:
+        return int(val) if val is not None else 0
+    except (TypeError, ValueError):
+        return 0
+
+
+def registry_exemplar_published(repo: str) -> bool:
+    """True if this repo already has an exemplar."""
+    try:
+        data = json.loads(REGISTRY_PATH.read_text())
+    except (OSError, json.JSONDecodeError):
+        return False
+    return bool((data.get("repos", {}).get(repo) or {}).get("exemplar_published"))
 
 
 def issue_to_repo(title: str) -> str:
@@ -102,6 +128,49 @@ def workflow_active_count(workflow: str) -> int:
 
 
 # ----- Phase implementations -----
+
+def phase0_label_exemplars(dry_run: bool) -> int:
+    """Label audit-complete issues with `case-study-clean` when they qualify.
+
+    Qualification rule (v0.8.17):
+      - score >= EXEMPLAR_THRESHOLD (default 90)
+      - security != BLOCKED
+      - registry has no `exemplar_published: true` for this repo
+      - issue doesn't already have `case-study-clean` or `exemplar-published`
+
+    Adding the label fires `auditor-exemplar.yml`. We do NOT remove
+    audit-complete or interfere with phase1's promotion to
+    contribute-approved — the exemplar and contribute paths are
+    parallel and both can be in flight on the same issue.
+    """
+    print("--- Phase 0: Label qualifying audits as exemplars ---")
+    labeled = 0
+    issues = list_open_issues("audit-complete", ["number", "title", "labels"])
+    for issue in issues:
+        labels = {l["name"] for l in issue.get("labels", [])}
+        if "case-study-clean" in labels or "exemplar-published" in labels:
+            continue
+        num = issue["number"]
+        repo = issue_to_repo(issue["title"])
+        if registry_exemplar_published(repo):
+            continue
+        security = registry_security(repo)
+        if security == "BLOCKED":
+            continue
+        score = registry_score(repo)
+        if score < EXEMPLAR_THRESHOLD:
+            continue
+        print(f"  EXEMPLAR #{num} ({repo}): score={score} security={security} → case-study-clean")
+        if not dry_run:
+            rc, _ = gh(["issue", "edit", str(num), "--add-label", "case-study-clean"])
+            if rc != 0:
+                print(f"    WARNING: failed to label {repo}")
+                continue
+            time.sleep(DISPATCH_SLEEP)
+        labeled += 1
+    print(f"Labeled: {labeled} audits as case-study-clean\n")
+    return labeled
+
 
 def phase1_promote(dry_run: bool) -> int:
     print("--- Phase 1: Promote completed audits to contribution ---")
@@ -362,6 +431,7 @@ def main() -> int:
     print("=== NLPM Batch Processor ===")
     print(f"Batch size: {args.batch_size} | Dry run: {args.dry_run}\n")
 
+    phase0_label_exemplars(args.dry_run)
     phase1_promote(args.dry_run)
     phase1_2_drain_contribute(args.dry_run)
     phase1_5_reopen_wrong(args.dry_run)

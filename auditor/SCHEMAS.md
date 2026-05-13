@@ -497,6 +497,52 @@ Not a log — a mutable state file, rewritten in place by the pipeline. Document
 
 New PR-record fields are additive. Readers must use `.field // default` (or the equivalent) to accommodate records written before the field existed.
 
+## `auditor/exemplars/<slug>.md` — teaching artifacts for clean audits
+
+Written by `auditor-exemplar.yml` when an audit issue is labeled
+`case-study-clean` (promoted automatically by `batch-process.py phase0`
+when an audit scores ≥ `EXEMPLAR_THRESHOLD` (default 90) and security is
+not `BLOCKED`). Distinct from `case-studies/<date>-<slug>.md`, which is a
+narrative article about a contribute-PR outcome.
+
+### Frontmatter contract
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `slug` | yes | Same shape as `repos.json` keys (hyphen-substituted) |
+| `repo` | yes | `owner/name` |
+| `audited` | yes | ISO date when the audit ran |
+| `commit_sha` | yes | Target HEAD at audit time (from `commit_sha_at_audit` in registry) |
+| `score` | yes | Numeric audit score |
+| `exemplifies` | yes | YAML list of `R##` rule IDs the body cites with concrete evidence |
+
+`exemplifies:` is the join key. `rule-health.py load_exemplars_by_rule()`
+walks `auditor/exemplars/*.md` and emits per-rule
+`exemplars_count` + `exemplar_slugs[]` in `rule_metrics`. A rule with
+high hits and zero exemplars is surfaced via the
+`rules_high_hits_no_exemplar` field — signal that the rule is hard to
+follow or compliance is rare in the wild.
+
+Registry side-effects: the exemplar workflow sets
+`repos[<slug>].exemplar_published: true` and
+`repos[<slug>].exemplar_path: auditor/exemplars/<slug>.md`.
+
+### Event: `exemplar_published`
+
+Emitted by `auditor-exemplar.yml` after successful commit.
+
+```json
+{
+  "event": "exemplar_published",
+  "timestamp": "ISO 8601",
+  "data": {
+    "repo": "owner/name",
+    "exemplar_path": "auditor/exemplars/owner-name.md",
+    "score": 92
+  }
+}
+```
+
 ## Versioning
 
 This schema is the contract between workflows and learning tooling. Changes follow these rules:
