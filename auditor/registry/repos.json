@@ -3480,7 +3480,9 @@
       "artifacts": 8,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "Plugin do Claude (Code + Desktop) pra gestão financeira pessoal agnóstica via FIN App MCP",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/pe-menezes-fin-claude-plugin.md"
     },
     "ananddtyagi/cc-marketplace": {
       "prs": [
