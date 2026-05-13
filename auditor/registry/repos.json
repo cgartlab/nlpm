@@ -4072,7 +4072,9 @@
       "artifacts": 5,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "Dispatch panels of specialized subagents to review projects — expert audits, first-impression personas, task-completion flows, and pedantic nitpicks",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/2389-research-review-squad.md"
     },
     "breaking-brake/cc-wf-studio": {
       "prs": [],
