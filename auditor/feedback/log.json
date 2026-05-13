@@ -87,9 +87,17 @@
       "state": "healthy"
     },
     "R32": {
-      "total_hits": 1,
+      "total_hits": 0,
       "led_to_merged_pr": 0,
-      "led_to_rejected_pr": 0
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
     },
     "R07": {
       "total_hits": 91,
@@ -3795,6 +3803,45 @@
       "verify_rate": null,
       "introduced_since_audit": 0,
       "state": "healthy"
+    },
+    "R49": {
+      "total_hits": 0,
+      "led_to_merged_pr": 0,
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
+    },
+    "R46": {
+      "total_hits": 0,
+      "led_to_merged_pr": 0,
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
+    },
+    "R47": {
+      "total_hits": 0,
+      "led_to_merged_pr": 0,
+      "led_to_rejected_pr": 0,
+      "self_false_positive": 0,
+      "maintainer_rejected": 0,
+      "downstream_suppressions": 0,
+      "verified_fixed": 0,
+      "verified_persists": 0,
+      "verify_rate": null,
+      "introduced_since_audit": 0,
+      "state": "healthy"
     }
   },
   "metadata": {
@@ -3806,6 +3853,6 @@
     "total_prs_merged": 96,
     "total_prs_rejected": 47,
     "total_prs_applied_separately": 20,
-    "updated_at": "2026-05-13T22:26:41.397793Z"
+    "updated_at": "2026-05-13T23:42:01.243222Z"
   }
 }
