@@ -2099,3 +2099,4 @@
 {"timestamp":"2026-05-13T12:57:41Z","workflow":"audit","event":"findings_aggregated","run_id":"25800179122","run_number":479,"data":{"repo":"shareAI-lab/learn-claude-code","findings":17,"invalid_lines":0,"self_false_positives":0}}
 {"timestamp":"2026-05-13T12:57:41Z","workflow":"audit","event":"audit_complete","run_id":"25800179122","run_number":479,"data":{"repo":"shareAI-lab/learn-claude-code","score":88,"artifacts":4,"strategy":"single"}}
 {"timestamp":"2026-05-13T12:57:46Z","workflow":"audit","event":"manual_disclosure_pending","run_id":"25800179122","run_number":479,"data":{"repo":"shareAI-lab/learn-claude-code","queue_path":"auditor/disclosures-pending/shareAI-lab-learn-claude-code.md","gh_error":"GraphQL: Resource not accessible by integration (createIssue)"}}
+{"timestamp":"2026-05-13T16:58:56Z","workflow":"track","event":"status_check","run_id":"25813516863","run_number":150,"data":{"contributed":41,"tracked":29,"case_study_ready":31,"rule_adopted":2}}
