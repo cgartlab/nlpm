@@ -2893,7 +2893,9 @@
       "artifacts": 5,
       "discovered": "2026-04-25T01:06:48Z",
       "description": "A self-learning system for Claude Code that captures corrections, positive feedback, and preferences — then syncs them to CLAUDE.md and AGENTS.md.",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/BayramAnnakov-claude-reflect.md"
     },
     "expo/skills": {
       "prs": [
