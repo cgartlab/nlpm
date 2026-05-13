@@ -3001,7 +3001,9 @@
       "discovered": "2026-04-25T01:06:48Z",
       "rule_adopted": false,
       "description": "A collection of AI agent skills for working with Expo projects and Expo Application Services",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/expo-skills.md"
     },
     "Dammyjay93/interface-design": {
       "prs": [],
