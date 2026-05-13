@@ -3245,7 +3245,9 @@
       "artifacts": 4,
       "discovered": "2026-05-05T00:52:16Z",
       "description": "",
-      "security": "CLEAR"
+      "security": "CLEAR",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/m1heng-claude-plugin-weixin.md"
     },
     "agenticnotetaking/arscontexta": {
       "prs": [
