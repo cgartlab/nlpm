@@ -27,6 +27,15 @@ Eight commands, each doing one thing:
 
 Claude-native slash commands (no API keys, no Codex, no external models) plus a standalone Python 3.11+ validator for pre-commit hooks and CI.
 
+### Beyond linting: the learning loop
+
+NLPM also runs as a self-evolving GitHub Actions pipeline that audits real plugin repos, contributes fix PRs, harvests teaching examples from clean ones, and feeds learnings back into its own rule catalog:
+
+- **Exemplar pipeline** (v0.8.17+): repos that audit clean at score ≥ 90 produce a teaching artifact under `auditor/exemplars/` — 62 published so far, covering 31 of the 50 Rules with real-world positive references. See [the gallery](auditor/exemplars/README.md).
+- **Rule-citation auto-PR** (v0.8.18+): `auditor-cite-exemplars.yml` runs weekly and opens a human-gated PR adding `> Real-world example: [<repo>]` links to `skills/nlpm/rules/SKILL.md`, so each rule documents both the bad case (in the rule body) and the good case (in a real repo).
+- **Two-stage drift detector** (v0.8.15–v0.8.16): `auditor/scripts/validate-rule-ids.py` re-validates every audit's `rule_id` against the rubric (type drift) and the rule's title keywords (semantic drift). The 2026-05-13 sweep found 990 mislabeled `rule_id`s across 128 historical audits; the validator is now wired as a soft-warn telemetry step in every new audit so future drift is caught immediately.
+- **Drift-filtered rule health**: `auditor/scripts/rule-health.py` reports `validated_hits` per rule (raw hits minus drift hits) and `exemplars_count` per rule, so the "needs attention" view is calibrated against actual rule violations rather than scorer noise.
+
 ## Installation
 
 ```bash
@@ -204,9 +213,14 @@ scripts/
 
 bin/                Standalone author surface (v0.8.0+)
   nlpm-check        Pure-Python validator for pre-commit / CI / pre-publish
+  nlpm-badge        shields.io endpoint generator + optional attestation sidecar
 
-tests/              Python unittest suite for bin/nlpm-check
-  test_nlpm_check.py
+tests/              Python unittest suite (81 tests total)
+  test_nlpm_check.py                       bin/nlpm-check
+  test_nlpm_badge.py                       bin/nlpm-badge
+  test_validate_rule_ids.py                auditor/scripts/validate-rule-ids.py
+  test_exemplar_helpers.py                 batch-process.py + rule-health.py exemplar paths
+  test_exemplar_gallery_and_citations.py   build-exemplar-gallery.py + propose-rule-citations.py
 
 templates/          Drop-in author templates
   pre-commit-nlpm.sh             git pre-commit hook
@@ -222,11 +236,16 @@ analysis/
 
 auditor/            Self-evolution pipeline (GitHub Actions + data)
   audits/           Per-repo audit reports and findings sidecars
+  exemplars/        Teaching artifacts from clean audits + auto-generated gallery (v0.8.17+)
+  case-studies/     Narrative articles from post-merge re-audits
+  disclosures-pending/  Security disclosures queued for manual filing
+  feedback/         Rolling rule-health summary
   findings.jsonl    Append-only audit findings (joined by fingerprint)
-  logs/events.jsonl Lifecycle events + outcome signals
+  disagreements.jsonl  self_false_positive + maintainer_rejected + pr_comments_snapshot
+  logs/events.jsonl Lifecycle events + outcome signals + drift telemetry
   registry/         Repo tracking database
-  scripts/          Shared GHA helpers
-  prompts/          Shared rubric prompts
+  scripts/          25+ pipeline helpers — see "Auditor — Self-Evolution Pipeline"
+  prompts/          Shared rubric and exemplar-writer prompts
   reports/          Daily pipeline reports
 ```
 
@@ -261,7 +280,7 @@ auditor/            Self-evolution pipeline (GitHub Actions + data)
 
 ## Effectiveness
 
-As of 2026-05-18 the auditor pipeline has filed 278 PRs across 49 distinct repos, with a 71% acceptance rate (97 merged + 20 applied-separately, 48 rejected, 113 still open). The following data points are the highest-signal:
+As of 2026-05-19 the auditor pipeline has filed 278 PRs across 44 distinct accepting repos, with a 71% acceptance rate (98 merged + 20 applied-separately, 49 rejected, 111 still open). The following data points are the highest-signal:
 
 - **`google-gemini/gemini-skills`** and **`googleworkspace/cli`** — both Google orgs that originally CLA-blocked the pipeline — ended up accepting work: 2 merged and 4 applied-separately respectively, once the CLA gate was satisfied.
 - **`openai/codex-plugin-cc`** has 2 merges — first-party OpenAI org acceptance.
@@ -271,17 +290,20 @@ As of 2026-05-18 the auditor pipeline has filed 278 PRs across 49 distinct repos
 
 ## Auditor — Self-Evolution Pipeline
 
-The `auditor/` directory contains a GitHub Actions pipeline that systematically discovers, audits, and contributes to Claude Code repos across GitHub. Learnings feed back into NLPM's rules.
+The `auditor/` directory contains a GitHub Actions pipeline that systematically discovers, audits, and contributes to Claude Code repos across GitHub. Two branches run in parallel: bugs become contribute PRs, clean repos become teaching exemplars. Both branches feed back into NLPM's rules.
 
 ```
-discover (weekly) → audit → contribute PRs → track merges → write case study
-                                                    ↓
-                                           feedback/log.json
-                                                    ↓
-                                         update NLPM rules → audit better
+discover (weekly) → audit
+                      ├─ has bugs ─→ contribute PRs ─→ track merges ─→ write case study
+                      │                                                       ↓
+                      │                                              feedback/log.json
+                      │                                                       ↓
+                      └─ clean (≥90) ─→ write exemplar ─→ gallery ──→ rule-citation PR (weekly, human-gated)
+                                                                              ↓
+                                                                    update NLPM rules → audit better
 ```
 
-13 workflows in [`.github/workflows/auditor-*.yml`](.github/workflows/): discover, batch-processor, audit, contribute, track, case-study, classify, daily-report, suppressions, refine-rules, docs-diff, rule-review, integration-test. Human-in-the-loop via issue labels at the audit, contribute, and rule-refinement decision points.
+15 workflows in [`.github/workflows/auditor-*.yml`](.github/workflows/): discover, batch-processor, audit, contribute, track, case-study, **exemplar** (v0.8.17+), **cite-exemplars** (v0.8.18+), classify, daily-report, suppressions, refine-rules, docs-diff, rule-review, integration-test. Human-in-the-loop via issue labels at the audit, contribute, exemplar, and rule-refinement decision points.
 
 See [auditor/README.md](auditor/README.md) for the full pipeline documentation and [auditor/SCHEMAS.md](auditor/SCHEMAS.md) for the data contracts.
 
