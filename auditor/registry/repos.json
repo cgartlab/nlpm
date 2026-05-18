@@ -6630,7 +6630,9 @@
       "security": "CLEAR",
       "stars": 960,
       "status": "audited",
-      "strategy": "single"
+      "strategy": "single",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/taishi-i-awesome-japanese-nlp-resources.md"
     },
     "tanweai/pua": {
       "artifacts": 32,
