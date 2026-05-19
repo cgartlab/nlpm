@@ -7,3 +7,9 @@ __pycache__/
 .env.*
 .claude/*
 !.claude/nlpm.local.md
+
+# VitePress site build artifacts
+site/node_modules/
+site/.vitepress/cache/
+site/.vitepress/dist/
+site/public/

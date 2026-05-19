@@ -1,0 +1,15 @@
+{
+  "name": "nlpm-site",
+  "type": "module",
+  "private": true,
+  "version": "0.1.0",
+  "description": "nlpm.com — VitePress site",
+  "scripts": {
+    "dev": "vitepress dev .",
+    "build": "vitepress build .",
+    "preview": "vitepress preview ."
+  },
+  "devDependencies": {
+    "vitepress": "^1.5.0"
+  }
+}

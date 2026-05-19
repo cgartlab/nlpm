@@ -274,6 +274,36 @@ at `<out>/docs/index.html`. Reports cross-link into it (`./docs/index.html#R06`,
 `./docs/index.html#P1`, `./docs/index.html#severity-levels`, etc.).
 Markdown→HTML conversion uses a stdlib-only subset converter (~150 lines).
 
+## nlpm.com (VitePress site)
+
+The public site lives in `site/`. Built with VitePress; deployed to the
+`gh-pages` branch which GitHub Pages publishes at <https://nlpm.com>.
+
+- `site/index.md`, `site/install.md` — landing + install pages
+- `site/.vitepress/config.ts` — site config (nav, sidebar, theme, search)
+- `site/reference/*.md` — auto-generated from canonical SKILL.md sources
+  by `bin/nlpm-build-reference-md` (pages: rules.md, principles.md,
+  vocabulary.md, scoring.md, artifact-types.md, drift.md)
+- `site/build.sh` — full build pipeline: regen reference, sync auditor
+  outputs (`auditor/reports/*` → `site/public/`), `pnpm install`,
+  `pnpm build`. Output: `site/.vitepress/dist/` (ignored).
+- Auditor outputs (dashboard.html, 209 per-repo HTMLs, legacy
+  single-page `docs/index.html`, `assets/`, `vendor/g6.min.js`) ride into
+  the site as static passthrough from `site/public/`. Cross-references
+  from reports continue to hit `/docs/index.html#R06` — the legacy
+  single-page guide is kept on the site for backward compatibility.
+- `pnpm-lock.yaml` is committed; `node_modules/`, `.vitepress/cache/`,
+  `.vitepress/dist/`, `public/` are gitignored.
+
+To rebuild locally:
+
+```bash
+bash site/build.sh
+```
+
+To deploy: copy `site/.vitepress/dist/.` into the `gh-pages` worktree,
+commit, push. (Automated pipeline TODO; today it's a manual step.)
+
 ### Model pinning
 
 One workflow pins a specific Claude model ID; the rest use the
