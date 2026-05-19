@@ -105,12 +105,20 @@ jobs:
           # not append to auditor/logs/events.jsonl on main, since that
           # would push deploy churn into the auditor's append-only log.
 
+      - name: Wait for GitHub Pages CDN to propagate
+        # Pushing to gh-pages doesn't instantly update what GitHub Pages
+        # serves at its edge — there's typically a 30–60s lag. Purging
+        # CF before that lag elapses just re-caches the OLD content from
+        # GitHub's edge. Wait first, then purge.
+        run: sleep 75
+
       - name: Purge Cloudflare cache
-        # Without this, CF can serve stale cached 404s for URLs that
-        # existed-but-didn't-on-the-prior-deploy until cache-control
-        # max-age elapses (~10 min). Purging immediately after gh-pages
-        # update closes that window. Step is gated on the three secrets
-        # being present so the workflow stays functional on forks.
+        # Two failure modes a deploy can leave behind without this:
+        #   - stale negative 404s for URLs that didn't exist on the prior
+        #     deploy (CF caches 404s up to ~10 min)
+        #   - stale content for URLs that existed but changed
+        # Both clear with a zone-wide purge_everything. Step gated on the
+        # three secrets so the workflow stays functional on forks.
         env:
           CF_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CF_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
