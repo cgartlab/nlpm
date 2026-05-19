@@ -196,7 +196,21 @@ def md_to_html(text: str, *, demote_headings: int = 0) -> str:
 
 
 def read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8") if path.exists() else ""
+    """Read a canonical source file. Missing files raise loudly.
+
+    Earlier this returned "" on missing paths, which let the docs builder
+    succeed with empty rules/principles/vocabulary sections — the reader
+    could not tell the source was missing from a build that completed
+    cleanly. Every caller below reads a known-canonical SKILL.md (or
+    similar) that must exist; if a future caller wants optional behavior
+    it should branch on path.exists() explicitly.
+    """
+    if not path.exists():
+        raise FileNotFoundError(
+            f"canonical source missing: {path} — nlpm-build-docs cannot "
+            f"generate a reference without it"
+        )
+    return path.read_text(encoding="utf-8")
 
 
 def split_frontmatter(text: str) -> str:
@@ -295,28 +309,19 @@ def emit_principles(text: str) -> str:
 
 
 def emit_vocabulary(text: str) -> str:
-    """Vocabulary SKILL.md has multiple major H2 sections we want anchored."""
+    """Vocabulary SKILL.md has multiple major H2 sections we want anchored.
+
+    Earlier this function carried a `slice_h2()` helper plus a hand-curated
+    `sections` table; both were unused — the actual emission below
+    enumerates H2 headings via regex and emits one anchored section per
+    heading. The hand-curated table only mattered when the H2 titles were
+    expected to drift across files, but for the vocabulary skill the
+    enumerator covers the same ground. The dead helper + table were
+    removed in 2026-05-19 audit fix.
+    """
     body = split_frontmatter(text)
 
-    def slice_h2(title_regex: str) -> str:
-        m = re.search(
-            rf"^## {title_regex}\n+(.+?)(?=^## |\Z)",
-            body,
-            re.M | re.S,
-        )
-        return m.group(1).rstrip() if m else ""
-
     out: list[str] = []
-    sections = [
-        ("vocab-scopes", "Two scopes &thinsp;\\(P1\\)|Two scopes \\(P1\\)", "Scopes (P1)"),
-        ("vocab-verbs-internal", "Verbs", "Verbs by scope"),
-        ("vocab-nouns", "Nouns", "Nouns by class"),
-        ("cross-scope-homonyms", "Auditor workflow filename convention|Cross-scope", "Cross-scope homonyms & workflow filename convention"),
-        ("deferred-vs-rejected", "How to extend|Verbs proposed but not entered", "Deferred vs rejected"),
-    ]
-    # Simpler: just emit the whole document body as one anchored section per H2.
-    # Build by scanning H2 headings and slicing.
-    out = []
     h2_iter = list(re.finditer(r"^## (.+?)$", body, re.M))
     for idx, m in enumerate(h2_iter):
         title = m.group(1).strip()

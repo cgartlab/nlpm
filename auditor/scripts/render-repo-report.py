@@ -37,18 +37,35 @@ AUDITOR = ROOT / "auditor"
 DOCS_BUILDER = ROOT / "bin" / "nlpm-build-docs"
 
 
-def read_jsonl(path: Path) -> list[dict]:
+class _JsonlList(list):
+    """`list` subclass that accepts attribute assignment.
+
+    Used to surface a `malformed_count` alongside the parsed records
+    without breaking callers that just iterate the list.
+    """
+
+    malformed_count: int = 0
+
+
+def read_jsonl(path: Path) -> _JsonlList:
     if not path.exists():
-        return []
-    out = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+        return _JsonlList()
+    out: _JsonlList = _JsonlList()
+    malformed = 0
+    for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = line.strip()
         if not line:
             continue
         try:
             out.append(json.loads(line))
-        except json.JSONDecodeError:
-            continue
+        except json.JSONDecodeError as exc:
+            malformed += 1
+            print(f"WARN {path}:{i} malformed JSON: {exc}", file=sys.stderr)
+    if malformed:
+        # Surface the counter on the list so build_data can include it in
+        # the report's metadata — a silent skip would let bad log lines
+        # hide finding drops from anyone reading the per-repo report.
+        out.malformed_count = malformed
     return out
 
 
@@ -63,6 +80,42 @@ def read_json(path: Path, default):
 
 def slug_for(repo: str) -> str:
     return repo.replace("/", "-")
+
+
+def assert_slug_uniqueness(repo: str) -> None:
+    """Fail loudly if `repo`'s slug collides with another repo in the registry.
+
+    The owner-repo → owner-repo slug scheme is ambiguous when both halves
+    contain hyphens — `a/b-c` and `a-b/c` produce the same slug. The current
+    corpus has no collision (47 owners and 150 names contain `-`, all
+    distinct after slugging), but a future audit could introduce one and
+    silently overwrite the prior repo's HTML/JSON/audit files.
+
+    This check reads the registry and raises if any *other* repo would
+    produce the same slug as this one. Catches the collision at write
+    time rather than after the file has been overwritten.
+    """
+    registry_path = AUDITOR / "registry" / "repos.json"
+    if not registry_path.exists():
+        return
+    try:
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return
+    target = slug_for(repo)
+    colliding = sorted(
+        other
+        for other in registry.get("repos", {})
+        if other != repo and slug_for(other) == target
+    )
+    if colliding:
+        raise ValueError(
+            f"slug collision: '{repo}' produces slug='{target}', which is "
+            f"also the slug for {colliding}. The current owner-repo scheme "
+            f"is ambiguous when both halves contain '-'. Resolve before "
+            f"rendering — rename one repo's entry or switch to a "
+            f"hash-suffixed slug."
+        )
 
 
 def extract_score(md_text: str) -> int | None:
@@ -268,6 +321,7 @@ def render(data: dict, out_dir: Path) -> Path:
     )
 
     repo = data["project"]
+    assert_slug_uniqueness(repo)
     slug = slug_for(repo)
     target = out_dir / f"{slug}.html"
     target.write_text(html, encoding="utf-8")
@@ -281,15 +335,30 @@ def render(data: dict, out_dir: Path) -> Path:
 
     # Docs are shared across all per-repo reports in this out_dir. Build
     # once if missing; cheap to rebuild but per-repo runs may be many.
+    # On a docs-build failure the per-repo report at `target` is still
+    # valid — but the rule-anchor cross-links would 404. Surface the
+    # failure loudly via stderr and a sidecar (same pattern as
+    # bin/nlpm-report and render-dashboard.py) instead of swallowing it.
     docs_index = out_dir / "docs" / "index.html"
     if not docs_index.exists():
-        try:
-            subprocess.run(
-                [sys.executable, str(DOCS_BUILDER), "--out", str(out_dir / "docs")],
-                check=False, capture_output=True,
+        proc = subprocess.run(
+            [sys.executable, str(DOCS_BUILDER), "--out", str(out_dir / "docs")],
+            check=False, capture_output=True, text=True,
+        )
+        if proc.returncode != 0:
+            print(
+                f"render-repo-report: docs build failed (exit {proc.returncode}); "
+                f"rule-anchor links in {target} will not resolve until this is "
+                f"resolved.",
+                file=sys.stderr,
             )
-        except Exception as e:
-            print(f"warning: docs build failed: {e}", file=sys.stderr)
+            if proc.stderr:
+                print(proc.stderr, file=sys.stderr)
+            (out_dir / "docs").mkdir(exist_ok=True)
+            (out_dir / "docs" / "_build_error.txt").write_text(
+                f"exit_code: {proc.returncode}\n\nstdout:\n{proc.stdout}\n\nstderr:\n{proc.stderr}\n",
+                encoding="utf-8",
+            )
 
     return target
 

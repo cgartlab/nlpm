@@ -480,7 +480,15 @@ def main() -> int:
 
     pr_by_fp = load_registry_pr_outcomes(args.registry, repo)
 
+    # Build rows + corresponding event payloads in memory. Events are NOT
+    # appended to events.jsonl here — the append happens at the end of main()
+    # only after the diff report and summary have been written successfully.
+    # The order matters: events.jsonl is append-only, so a write failure on
+    # the report would otherwise leave orphaned `finding_verified` /
+    # `finding_introduced` events from a run whose human-readable output
+    # never landed.
     verified_rows: list[dict] = []
+    pending_events: list[dict] = []
     for f in original:
         outcome, pr = classify_original(
             f, f["_fp"], strict_counts, loose_counts, pr_by_fp, repo
@@ -499,13 +507,12 @@ def main() -> int:
         }
         verified_rows.append(row)
 
-        # Emit finding_verified event. Preserves the original fingerprint so
+        # Defer event emission. Preserves the original fingerprint so
         # rule-health.py can join without re-deriving.
-        emit_event(
-            args.events_out,
-            event="finding_verified",
-            workflow="case-study",
-            data={
+        pending_events.append({
+            "event": "finding_verified",
+            "workflow": "case-study",
+            "data": {
                 "repo": repo,
                 "fingerprint": f["_fp"],
                 "rule_id": row["rule_id"],
@@ -516,9 +523,7 @@ def main() -> int:
                 "commit_sha_after": args.commit_sha_after,
                 "pr_number": row["pr_number"],
             },
-            run_id=args.run_id,
-            run_number=args.run_number,
-        )
+        })
 
     # Introduced findings: re-audit rows that had no pairing partner on
     # the original side. classify_original decremented `loose_counts` by
@@ -541,11 +546,10 @@ def main() -> int:
             "severity": f.get("severity") or "info",
         }
         introduced_rows.append(row)
-        emit_event(
-            args.events_out,
-            event="finding_introduced",
-            workflow="case-study",
-            data={
+        pending_events.append({
+            "event": "finding_introduced",
+            "workflow": "case-study",
+            "data": {
                 "repo": repo,
                 "fingerprint": f["_fp"],
                 "rule_id": row["rule_id"],
@@ -554,9 +558,7 @@ def main() -> int:
                 "severity": row["severity"],
                 "commit_sha": args.commit_sha_after,
             },
-            run_id=args.run_id,
-            run_number=args.run_number,
-        )
+        })
 
     report = render_diff_report(
         repo=repo,
@@ -601,6 +603,22 @@ def main() -> int:
     }
     args.summary_out.parent.mkdir(parents=True, exist_ok=True)
     args.summary_out.write_text(json.dumps(summary, indent=2))
+
+    # Flush the deferred finding_verified / finding_introduced events
+    # only AFTER the diff report and summary have been written. Earlier
+    # this script appended events inline as it built each row; a write
+    # failure on the human-readable outputs would leave the append-only
+    # events.jsonl carrying orphaned events from a run whose findings
+    # never landed in the case-study writer's input.
+    for ev in pending_events:
+        emit_event(
+            args.events_out,
+            event=ev["event"],
+            workflow=ev["workflow"],
+            data=ev["data"],
+            run_id=args.run_id,
+            run_number=args.run_number,
+        )
 
     # Also echo to stdout so the workflow can capture and use as an output.
     print(json.dumps(summary))

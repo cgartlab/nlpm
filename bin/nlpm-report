@@ -82,13 +82,30 @@ def render(data: dict, project: str, out_dir: Path) -> Path:
 
     # Build docs alongside so the report's rule/principle/etc. anchors resolve.
     # Always rebuild — markdown sources change more often than the docs HTML.
-    try:
-        subprocess.run(
-            [sys.executable, str(DOCS_BUILDER), "--out", str(out_dir / "docs")],
-            check=False, capture_output=True,
+    # We do NOT raise on docs-build failure: the report itself is already
+    # written above. But the failure MUST surface visibly so a missing or
+    # broken framework-reference is not silent. Stderr carries the captured
+    # output verbatim, and the failure is also written into the report
+    # directory as `docs/_build_error.txt` so postmortem doesn't require
+    # going back to the CI log.
+    proc = subprocess.run(
+        [sys.executable, str(DOCS_BUILDER), "--out", str(out_dir / "docs")],
+        check=False, capture_output=True, text=True,
+    )
+    if proc.returncode != 0:
+        print(
+            f"nlpm-report: docs build failed (exit {proc.returncode}); "
+            f"the report at {out_dir / 'index.html'} will have broken "
+            f"framework-reference anchors until this is resolved.",
+            file=sys.stderr,
         )
-    except Exception as e:
-        print(f"warning: docs build failed: {e}", file=sys.stderr)
+        if proc.stderr:
+            print(proc.stderr, file=sys.stderr)
+        (out_dir / "docs").mkdir(exist_ok=True)
+        (out_dir / "docs" / "_build_error.txt").write_text(
+            f"exit_code: {proc.returncode}\n\nstdout:\n{proc.stdout}\n\nstderr:\n{proc.stderr}\n",
+            encoding="utf-8",
+        )
 
     return out_dir / "index.html"
 

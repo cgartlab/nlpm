@@ -16,13 +16,18 @@ if [ -z "$file_path" ]; then
   exit 0
 fi
 
-# Check if the file matches an NL artifact pattern
+# Check if the file matches an NL artifact pattern.
+#
+# In shell case-pattern matching `*` matches `/` (unlike pathname expansion),
+# so `*/commands/*.md` already matches `foo/commands/bar.md` AND
+# `foo/commands/sub/bar.md` — the prior `*/commands/**/*.md` alternative
+# (and the equivalents for skills/ and rules/) were unreachable. Removed.
 is_artifact=false
 case "$file_path" in
-  */commands/*.md|*/commands/**/*.md) is_artifact=true ;;
+  */commands/*.md) is_artifact=true ;;
   */agents/*.md) is_artifact=true ;;
-  */skills/*/SKILL.md|*/skills/**/SKILL.md) is_artifact=true ;;
-  */.claude/rules/*.md|*/.claude/rules/**/*.md) is_artifact=true ;;
+  */skills/*/SKILL.md) is_artifact=true ;;
+  */.claude/rules/*.md) is_artifact=true ;;
   */hooks/*.json) is_artifact=true ;;
   */CLAUDE.md) is_artifact=true ;;
   */.claude-plugin/plugin.json) is_artifact=true ;;

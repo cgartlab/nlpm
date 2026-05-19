@@ -30,18 +30,40 @@ AUDITOR = ROOT / "auditor"
 DOCS_BUILDER = ROOT / "bin" / "nlpm-build-docs"
 
 
-def read_jsonl(path: Path) -> list[dict]:
+class _JsonlList(list):
+    """`list` subclass that accepts attribute assignment.
+
+    Used to surface a `malformed_count` alongside the parsed records
+    without breaking callers that just iterate the list.
+    """
+
+    malformed_count: int = 0
+
+
+def read_jsonl(path: Path) -> _JsonlList:
     if not path.exists():
         return []
-    out = []
-    for line in path.read_text(encoding="utf-8").splitlines():
+    # _JsonlList — a list subclass that accepts attribute assignment so we
+    # can stamp the malformed-line count alongside the parsed records.
+    # Built-in `list` rejects __setattr__ (no __dict__), so this is the
+    # minimal change to surface under-reporting without rewriting callers
+    # to accept a different return type.
+    out: _JsonlList = _JsonlList()
+    malformed = 0
+    for i, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         line = line.strip()
         if not line:
             continue
         try:
             out.append(json.loads(line))
-        except json.JSONDecodeError:
-            continue
+        except json.JSONDecodeError as exc:
+            malformed += 1
+            print(f"WARN {path}:{i} malformed JSON: {exc}", file=sys.stderr)
+    if malformed:
+        # Counters surface in the dashboard's data sidecar; the dashboard
+        # JSON should record under-reporting rather than silently serve
+        # incorrect counts.
+        out.malformed_count = malformed
     return out
 
 
@@ -223,14 +245,28 @@ def render(data: dict, out_dir: Path) -> Path:
     target.write_text(html, encoding="utf-8")
 
     # Build docs alongside so the dashboard's rule_id badges resolve to
-    # anchored sections in the framework guide.
-    try:
-        subprocess.run(
-            [sys.executable, str(DOCS_BUILDER), "--out", str(out_dir / "docs")],
-            check=False, capture_output=True,
+    # anchored sections in the framework guide. Dashboard is already
+    # written above; on a docs-build failure we surface stderr loudly
+    # and persist a `_build_error.txt` sidecar so the postmortem doesn't
+    # require chasing CI logs. Same pattern as bin/nlpm-report.
+    proc = subprocess.run(
+        [sys.executable, str(DOCS_BUILDER), "--out", str(out_dir / "docs")],
+        check=False, capture_output=True, text=True,
+    )
+    if proc.returncode != 0:
+        print(
+            f"render-dashboard: docs build failed (exit {proc.returncode}); "
+            f"rule-anchor links in {target} will not resolve until this is "
+            f"resolved.",
+            file=sys.stderr,
         )
-    except Exception as e:
-        print(f"warning: docs build failed: {e}", file=sys.stderr)
+        if proc.stderr:
+            print(proc.stderr, file=sys.stderr)
+        (out_dir / "docs").mkdir(exist_ok=True)
+        (out_dir / "docs" / "_build_error.txt").write_text(
+            f"exit_code: {proc.returncode}\n\nstdout:\n{proc.stdout}\n\nstderr:\n{proc.stderr}\n",
+            encoding="utf-8",
+        )
 
     return target
 

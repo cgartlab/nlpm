@@ -100,20 +100,36 @@ def audit_high_conf_bug_count(repo: str) -> int:
     if not sidecar.exists():
         return -1
     n = 0
+    malformed = 0
     try:
-        for line in sidecar.read_text().splitlines():
+        for i, line in enumerate(sidecar.read_text().splitlines(), 1):
             line = line.strip()
             if not line:
                 continue
             try:
                 rec = json.loads(line)
-            except json.JSONDecodeError:
+            except json.JSONDecodeError as exc:
+                # A malformed sidecar line means we cannot count this finding;
+                # warn loudly. Promotion that depends on the count should not
+                # silently proceed against incomplete data.
+                malformed += 1
+                print(f"WARN {sidecar}:{i} malformed JSON: {exc}", file=sys.stderr)
                 continue
             if rec.get("confidence") != "high":
                 continue
             if rec.get("category") in ("bug", "security", "cross_component"):
                 n += 1
     except OSError:
+        return -1
+    if malformed:
+        # Mirror the missing-sidecar signal: treat a sidecar with any
+        # malformed lines as "cannot determine". Better to delay promotion
+        # than to promote on under-counted data.
+        print(
+            f"WARN {sidecar} has {malformed} malformed line(s); "
+            f"returning -1 to defer promotion decision.",
+            file=sys.stderr,
+        )
         return -1
     return n
 
@@ -138,16 +154,43 @@ def list_open_issues(label: str, json_fields: list[str]) -> list[dict]:
     # explicit higher limit, any label with >30 open issues silently
     # truncates — the batch-processor would invisibly skip work.
     # The daily-report had the same bug; both fixed 2026-05-12.
-    rc, out = gh([
-        "issue", "list", "--label", label, "--state", "open",
-        "--limit", "1000",
-        "--json", ",".join(json_fields),
-    ])
-    if rc != 0 or not out.strip():
+    #
+    # We bypass the gh() helper here because we need stderr too. The
+    # earlier `rc != 0 → []` reduction made auth/API errors look like
+    # "no work to do" — invisible failure. On a non-zero rc we now log
+    # the stderr explicitly and STILL return [] so the caller can fail
+    # soft (the batch processor is a cron; missing one tick is preferable
+    # to crashing). The visible stderr is what lets the failure be noticed.
+    try:
+        proc = subprocess.run(
+            ["gh", "issue", "list", "--label", label, "--state", "open",
+             "--limit", "1000", "--json", ",".join(json_fields)],
+            capture_output=True, text=True, check=False,
+        )
+    except OSError as exc:
+        print(
+            f"WARN list_open_issues({label}): gh launch failed: {exc}",
+            file=sys.stderr,
+        )
+        return []
+    if proc.returncode != 0:
+        print(
+            f"WARN list_open_issues({label}): gh exited {proc.returncode}; "
+            f"this run will see no work for label={label!r}. stderr below:",
+            file=sys.stderr,
+        )
+        if proc.stderr:
+            print(proc.stderr.rstrip(), file=sys.stderr)
+        return []
+    if not proc.stdout.strip():
         return []
     try:
-        return json.loads(out)
-    except json.JSONDecodeError:
+        return json.loads(proc.stdout)
+    except json.JSONDecodeError as exc:
+        print(
+            f"WARN list_open_issues({label}): unparseable gh JSON: {exc}",
+            file=sys.stderr,
+        )
         return []
 
 

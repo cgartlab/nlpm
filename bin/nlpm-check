@@ -245,6 +245,31 @@ def walk_markdown_in_roots(
     return sorted(seen)
 
 
+def _resolve_within_plugin(plugin_root: Path, entry: str) -> Path | None:
+    """Resolve a manifest path strictly under plugin_root.
+
+    Returns the resolved Path if the entry stays under plugin_root, or None
+    if the entry is absolute or escapes via `..`. A manifest that references
+    a path outside the plugin tree is treated as if the target does not
+    exist — the manifest-vs-disk check then flags it as missing.
+
+    Without this guard a hand-edited plugin.json could declare
+    `"./../../etc/something"`; `(plugin_root / entry).resolve()` would
+    happily traverse out of the plugin, and any later `target.is_dir()` /
+    `target.is_file()` check would silently honor whatever happened to be
+    at the resolved path on disk.
+    """
+    if Path(entry).is_absolute():
+        return None
+    resolved = (plugin_root / entry).resolve()
+    plugin_resolved = plugin_root.resolve()
+    try:
+        resolved.relative_to(plugin_resolved)
+    except ValueError:
+        return None
+    return resolved
+
+
 def resolve_manifest_skill_targets(plugin_root: Path, declared: list[str]) -> set[Path]:
     """Resolve manifest skill paths to a set of registered SKILL.md files.
 
@@ -253,10 +278,16 @@ def resolve_manifest_skill_targets(plugin_root: Path, declared: list[str]) -> se
         → every SKILL.md under that dir is registered
       - a file path to a specific SKILL.md
         → only that file is registered
+
+    Paths that escape `plugin_root` (absolute or `..` traversal) are
+    treated as non-existent so they surface as missing in the manifest
+    diff rather than silently following the escape.
     """
     registered: set[Path] = set()
     for entry in declared:
-        target = (plugin_root / entry).resolve()
+        target = _resolve_within_plugin(plugin_root, entry)
+        if target is None:
+            continue
         if target.is_dir():
             for p in target.rglob("SKILL.md"):
                 registered.add(p.resolve())
@@ -270,7 +301,9 @@ def resolve_manifest_markdown_targets(plugin_root: Path, declared: list[str]) ->
     """Same as skill targets but for agents/commands (markdown files)."""
     registered: set[Path] = set()
     for entry in declared:
-        target = (plugin_root / entry).resolve()
+        target = _resolve_within_plugin(plugin_root, entry)
+        if target is None:
+            continue
         if target.is_dir():
             for p in target.rglob("*.md"):
                 registered.add(p.resolve())
@@ -280,11 +313,17 @@ def resolve_manifest_markdown_targets(plugin_root: Path, declared: list[str]) ->
 
 
 def manifest_paths_with_existence(plugin_root: Path, declared: list[str]) -> tuple[list[str], list[str]]:
-    """Split declared paths into (existing, missing) tuples."""
+    """Split declared paths into (existing, missing) tuples.
+
+    Entries that escape `plugin_root` (absolute path or `..` traversal)
+    are reported as missing — a plugin.json may not point outside its own
+    tree, so a path that escapes is structurally missing even if a file
+    happens to exist at the resolved location on disk.
+    """
     existing, missing = [], []
     for entry in declared:
-        target = (plugin_root / entry).resolve()
-        if target.exists():
+        target = _resolve_within_plugin(plugin_root, entry)
+        if target is not None and target.exists():
             existing.append(entry)
         else:
             missing.append(entry)

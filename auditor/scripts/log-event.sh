@@ -34,7 +34,7 @@ log_event() {
     --arg ev "$event" \
     --arg rid "$run_id" \
     --arg rn "${run_num:-0}" \
-    '{timestamp: $ts, workflow: $wf, event: $ev, run_id: $rid, run_number: ($rn | tonumber), data: .}' \
+    '{timestamp: $ts, workflow: $wf, event: $ev, run_id: $rid, run_number: ($rn | tonumber? // 0), data: .}' \
     >> auditor/logs/events.jsonl 2>/dev/null
   then
     echo "[$workflow] $event: $data"
@@ -49,7 +49,7 @@ log_event() {
     --arg rid "$run_id" \
     --arg rn "${run_num:-0}" \
     --arg d "$json_data" \
-    '{timestamp: $ts, workflow: $wf, event: $ev, run_id: $rid, run_number: ($rn | tonumber), data: {raw: $d}}' \
+    '{timestamp: $ts, workflow: $wf, event: $ev, run_id: $rid, run_number: ($rn | tonumber? // 0), data: {raw: $d}}' \
     >> auditor/logs/events.jsonl
   then
     echo "[$workflow] $event: $data (data raw-wrapped)"

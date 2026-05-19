@@ -34,7 +34,21 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def read_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8") if path.exists() else ""
+    """Read a canonical source file. Missing files raise loudly.
+
+    Earlier this returned "" on missing paths, which let
+    nlpm-build-reference-md succeed with empty section bodies — site
+    reference pages would publish with the section heading but no
+    content. Every caller below reads a known-canonical SKILL.md (or
+    similar) that must exist; if a future caller wants optional
+    behavior, it should branch on path.exists() explicitly.
+    """
+    if not path.exists():
+        raise FileNotFoundError(
+            f"canonical source missing: {path} — nlpm-build-reference-md "
+            f"cannot generate a reference page without it"
+        )
+    return path.read_text(encoding="utf-8")
 
 
 def split_frontmatter(text: str) -> str:
