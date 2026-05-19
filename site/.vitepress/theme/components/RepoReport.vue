@@ -118,15 +118,23 @@ let trendGraph: Graph | null = null
 const refsEl = ref<HTMLDivElement | null>(null)
 let refsGraph: Graph | null = null
 
+// ----- Vocabulary noun-verb map -----
+const vocabEl = ref<HTMLDivElement | null>(null)
+let vocabGraph: Graph | null = null
+const vocabDetail = ref<null | { kind: string; label: string; scope?: string; output?: string; judgment?: boolean; deprecated?: string[]; definition?: string; needed?: string }>(null)
+
 onMounted(() => {
   const trend = (d.value.history || []).filter((s) => typeof s.average_score === 'number')
   if (trendEl.value && trend.length >= 2) trendGraph = mountTrend(trendEl.value, trend)
   const refs = d.value.cross_component
   if (refsEl.value && (refs?.nodes?.length ?? 0) > 0) refsGraph = mountRefs(refsEl.value, refs!)
+  const vocab = d.value.vocabulary
+  if (vocabEl.value && vocab && (vocab.verbs?.length ?? 0) > 0) vocabGraph = mountVocab(vocabEl.value, vocab)
 })
 onBeforeUnmount(() => {
   trendGraph?.destroy()
   refsGraph?.destroy()
+  vocabGraph?.destroy()
 })
 
 function mountTrend(container: HTMLDivElement, history: HistoryPoint[]): Graph {
@@ -159,6 +167,116 @@ function mountTrend(container: HTMLDivElement, history: HistoryPoint[]): Graph {
     behaviors: ['zoom-canvas', 'drag-canvas'],
     autoFit: 'view',
   })
+  g.render()
+  return g
+}
+
+function mountVocab(container: HTMLDivElement, vocab: any): Graph {
+  // Compound containers per scope; verbs are rounded rectangles inside
+  // their scope; nouns are circles in a separate non-combo cluster.
+  // Cross-scope homonyms get a doubled outline. Deferred verbs are
+  // dashed. Click a node → side-panel detail.
+  const homonyms: string[] = vocab.cross_scope_homonyms || []
+  const combos = (vocab.scopes || []).map((s: any) => ({
+    id: `combo-${s.id}`,
+    data: { label: s.label || s.id },
+    style: {
+      fill: s.id === 'auditor' ? 'rgba(139,63,255,0.04)' : 'rgba(43,95,255,0.04)',
+      stroke: s.id === 'auditor' ? '#8b3fff' : '#2b5fff',
+      lineDash: [4, 3],
+      labelText: s.label || s.id,
+      labelFontSize: 11,
+    },
+  }))
+
+  const nodes: any[] = []
+  for (const v of vocab.verbs || []) {
+    const isHomonym = homonyms.includes(v.id)
+    nodes.push({
+      id: `verb-${v.id}`,
+      combo: `combo-${v.scope}`,
+      data: { kind: 'verb', label: v.id, scope: v.scope, output: v.output, judgment: v.judgment, deprecated: v.deprecated || [] },
+      style: {
+        size: [Math.max(36, v.id.length * 8), 24],
+        fill: v.judgment
+          ? (v.scope === 'auditor' ? '#e3d5ff' : '#fff3d5')
+          : (v.scope === 'auditor' ? '#e3d5ff' : '#d5e0ff'),
+        stroke: v.scope === 'auditor' ? '#8b3fff' : '#2b5fff',
+        lineWidth: isHomonym ? 3 : 1.5,
+        radius: 6,
+        labelText: v.id,
+        labelFontSize: 11,
+        labelFill: '#1d2433',
+        labelPosition: 'center',
+      },
+    })
+  }
+  for (const n of vocab.nouns || []) {
+    nodes.push({
+      id: `noun-${n.id}`,
+      combo: n.scope ? `combo-${n.scope}` : undefined,
+      data: { kind: 'noun', label: n.id, class: n.class, definition: n.definition },
+      style: {
+        size: 20,
+        fill: '#ffe7c2',
+        stroke: '#ff9d2b',
+        lineWidth: 1.5,
+        labelText: n.id,
+        labelFontSize: 10,
+        labelFill: '#1d2433',
+        labelPosition: 'right',
+        labelOffsetX: 6,
+      },
+    })
+  }
+  for (const def of vocab.deferred || []) {
+    nodes.push({
+      id: `def-${def.verb}`,
+      combo: def.scope ? `combo-${def.scope}` : undefined,
+      data: { kind: 'deferred', label: def.verb, scope: def.scope, needed: def.needed_warrant },
+      style: {
+        size: [Math.max(36, def.verb.length * 8), 24],
+        fill: '#fff',
+        stroke: '#888',
+        lineDash: [5, 4],
+        radius: 6,
+        labelText: def.verb,
+        labelFontSize: 10,
+        labelFill: '#666',
+        labelPosition: 'center',
+      },
+    })
+  }
+  const edges = (vocab.edges || []).map((e: any) => ({
+    source: `verb-${e.source}`,
+    target: `noun-${e.target}`,
+    data: { type: e.type },
+    style: {
+      stroke: e.type === 'acts_as' ? '#aab' : '#2b5fff',
+      lineDash: e.type === 'acts_as' ? [3, 3] : undefined,
+      endArrow: true,
+      endArrowSize: 6,
+      lineWidth: 1.2,
+    },
+  }))
+
+  const g = new Graph({
+    container,
+    data: { nodes, edges, combos },
+    node: { type: 'rect' },  // verbs are rect; nouns override via per-node type below if needed
+    edge: { type: 'line' },
+    combo: { type: 'rect', padding: 18 },
+    layout: { type: 'combo-combined', outerLayout: { type: 'force', linkDistance: 90, nodeStrength: -180 }, innerLayout: { type: 'grid' } },
+    behaviors: ['zoom-canvas', 'drag-canvas', 'drag-element'],
+    autoFit: 'view',
+  })
+
+  g.on('node:click', (evt: any) => {
+    const datum = g.getNodeData(evt.target.id)
+    if (!datum?.data) return
+    vocabDetail.value = { ...(datum.data as any) }
+  })
+
   g.render()
   return g
 }
@@ -269,6 +387,34 @@ function mountRefs(container: HTMLDivElement, refs: { nodes: any[]; edges: any[]
       <div ref="refsEl" class="g6-frame"></div>
     </section>
 
+    <!-- Vocabulary noun-verb map -->
+    <section v-if="(d.vocabulary?.verbs?.length ?? 0) > 0" id="vocab" class="panel">
+      <h3>Vocabulary noun-verb map</h3>
+      <p class="hint">
+        Verbs (rounded rectangles), nouns (circles). Two scopes shown as compound containers.
+        <strong>Doubled outlines</strong> = cross-scope homonyms (e.g. <code>scan</code>, <code>test</code>).
+        <strong>Dashed boxes</strong> = deferred-pending-warrant (terms with P2–P5 satisfied awaiting P6 evidence; see
+        <a href="/reference/principles">principles</a>).
+        Click any node for details. Solid arrows = produces; dashed = role-noun pairing.
+      </p>
+      <div ref="vocabEl" class="g6-frame vocab-frame"></div>
+      <aside v-if="vocabDetail" class="vocab-detail">
+        <button class="close" @click="vocabDetail = null" aria-label="close">×</button>
+        <h4>{{ vocabDetail.label }}</h4>
+        <dl>
+          <dt>Kind</dt>
+          <dd>{{ vocabDetail.kind }}</dd>
+          <template v-if="vocabDetail.scope"><dt>Scope</dt><dd>{{ vocabDetail.scope }}</dd></template>
+          <template v-if="vocabDetail.output"><dt>Output</dt><dd>{{ vocabDetail.output }}</dd></template>
+          <template v-if="vocabDetail.judgment !== undefined"><dt>Judgment?</dt><dd>{{ vocabDetail.judgment ? 'yes' : 'no' }}</dd></template>
+          <template v-if="vocabDetail.definition"><dt>Definition</dt><dd>{{ vocabDetail.definition }}</dd></template>
+          <template v-if="vocabDetail.deprecated?.length"><dt>Deprecated synonyms</dt><dd>{{ vocabDetail.deprecated.join(', ') }}</dd></template>
+          <template v-if="vocabDetail.needed"><dt>Needed warrant</dt><dd>{{ vocabDetail.needed }}</dd></template>
+        </dl>
+        <p class="learn"><a :href="vocabDetail.kind === 'verb' ? '/reference/vocabulary#vocab-verbs' : vocabDetail.kind === 'deferred' ? '/reference/principles#precedence' : '/reference/vocabulary#vocab-nouns'">Learn more in the framework reference →</a></p>
+      </aside>
+    </section>
+
     <!-- Drift candidates -->
     <section v-if="(d.vocab_drift?.candidates?.length ?? 0) > 0" id="drift" class="panel">
       <h3>Vocabulary drift candidates</h3>
@@ -336,6 +482,14 @@ function mountRefs(container: HTMLDivElement, refs: { nodes: any[]; edges: any[]
 .score-cell.warn { color: #c47c00; font-weight: 600; }
 .score-cell.bad { color: #c63030; font-weight: 600; }
 .g6-frame { width: 100%; height: 320px; border: 1px solid var(--vp-c-divider); border-radius: 6px; background: var(--vp-c-bg); position: relative; }
+.vocab-frame { height: 580px; }
+.vocab-detail { margin-top: 12px; padding: 12px 14px; background: var(--vp-c-bg); border: 1px solid var(--vp-c-divider); border-radius: 6px; position: relative; max-width: 520px; }
+.vocab-detail h4 { margin: 0 0 8px; font-size: 14px; }
+.vocab-detail dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; column-gap: 12px; row-gap: 4px; font-size: 12px; }
+.vocab-detail dt { color: var(--vp-c-text-2); }
+.vocab-detail dd { margin: 0; }
+.vocab-detail .learn { font-size: 12px; margin: 10px 0 0; }
+.vocab-detail .close { position: absolute; top: 6px; right: 8px; background: none; border: none; font-size: 18px; cursor: pointer; color: var(--vp-c-text-2); }
 .drift-card { padding: 10px 12px; border-left: 4px solid var(--vp-c-divider); background: var(--vp-c-bg); border-radius: 4px; margin-bottom: 8px; }
 .drift-card.conf-high { border-left-color: #c63030; }
 .drift-card.conf-medium { border-left-color: #c47c00; }

@@ -55,6 +55,20 @@ rm -rf "$PUBLIC"
 mkdir -p "$PUBLIC"
 echo "nlpm.com" > "$PUBLIC/CNAME"
 
+echo "==> Refreshing NLPM self-audit (with vocabulary data)"
+# The NLPM self-audit is special: it consumes its own vocabulary
+# registry to populate the noun-verb map. Other audited repos get
+# vocabulary: null until we add cross-repo registry extraction.
+if [ -f "$ROOT/skills/nlpm/vocabulary/registry.yaml" ]; then
+  python3 "$ROOT/bin/nlpm-build-vocab-data" \
+    --registry "$ROOT/skills/nlpm/vocabulary/registry.yaml" \
+    --out /tmp/nlpm-vocab.json >/dev/null
+  python3 "$ROOT/auditor/scripts/render-repo-report.py" \
+    --repo xiaolai/nlpm-for-claude \
+    --vocab-data /tmp/nlpm-vocab.json >/dev/null 2>&1 || \
+    echo "  (NLPM self-audit re-render failed; continuing)"
+fi
+
 echo "==> Copying JSON report data into site/.vitepress/theme/data/"
 # Files in site/public/ are served at runtime but NOT importable as
 # modules. To inline the report data into Vue components at build time

@@ -298,6 +298,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("--repo", required=True, help="Target repo (owner/name)")
     parser.add_argument("--out", default=str(AUDITOR / "reports"), help="Output directory")
+    parser.add_argument("--vocab-data", default=None,
+                        help="Optional path to a VocabularyData JSON (see "
+                             "analysis/report-data-schema.md). When present, "
+                             "the contents land in the report's `vocabulary` field.")
     args = parser.parse_args(argv)
 
     if "/" not in args.repo:
@@ -305,6 +309,16 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     data = build_data(args.repo)
+    if args.vocab_data:
+        vpath = Path(args.vocab_data)
+        if vpath.exists():
+            try:
+                data["vocabulary"] = json.loads(vpath.read_text(encoding="utf-8"))
+                print(f"  Loaded vocabulary from {vpath}")
+            except json.JSONDecodeError as e:
+                print(f"  warning: --vocab-data {vpath} invalid JSON: {e}", file=sys.stderr)
+        else:
+            print(f"  warning: --vocab-data {vpath} not found; vocabulary stays null", file=sys.stderr)
     result = render(data, Path(args.out))
     print(f"Wrote {result}")
     print(f"  Score: {data['summary'].get('average_score')}")
