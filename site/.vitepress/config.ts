@@ -26,10 +26,17 @@ function caseStudiesSidebar(): Array<{ text: string; link: string }> {
   })
 }
 
+// Base-URL override for preview deploys. Production builds for nlpm.com
+// serve from the domain root and leave this unset. The site-preview
+// workflow sets SITE_BASE=/_pr/<N>/ so PR builds resolve all absolute
+// asset/link paths under the per-PR subdirectory on gh-pages.
+const SITE_BASE = process.env.SITE_BASE || '/'
+
 export default withMermaid(defineConfig({
   title: 'NLPM',
   description:
     'Natural Language Programming Manager — scores, audits, and disciplines NL artifacts in Claude Code plugins.',
+  base: SITE_BASE,
   cleanUrls: true,
   lastUpdated: true,
 
@@ -73,7 +80,10 @@ export default withMermaid(defineConfig({
   },
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    // Asset paths in <head> bypass VitePress's link rewriting, so we
+    // prepend SITE_BASE manually. In production SITE_BASE='/' and this
+    // resolves to '/favicon.svg' as before.
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${SITE_BASE}favicon.svg`.replace(/\/+/g, '/') }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'NLPM — Natural Language Programming Manager' }],
     ['meta', { property: 'og:url', content: 'https://nlpm.com/' }],

@@ -15,15 +15,31 @@ on:
   push:
     branches: [main]
     paths:
+      # Site sources (Markdown, theme, config)
       - 'site/**'
+      # Generators — any change here changes site output
+      - 'bin/nlpm-build-docs'
       - 'bin/nlpm-build-reference-md'
+      - 'bin/nlpm-build-vocab-data'
+      - 'bin/nlpm-build-case-studies-index'
+      - 'bin/nlpm-build-site-report-pages'
+      # Canonical source skills + analysis docs feed the /reference/ pages
       - 'skills/nlpm/rules/SKILL.md'
       - 'skills/nlpm/vocabulary/SKILL.md'
       - 'skills/nlpm/scoring/SKILL.md'
       - 'skills/nlpm/conventions/SKILL.md'
       - 'analysis/vocabulary-design-principles.md'
       - 'agents/vocab-drift-scanner.md'
+      # Plugin surface — commands + agents drive the how-to-use-it page
+      # tables; renaming a command should redeploy automatically.
+      - 'commands/**'
+      - 'agents/**'
+      # Auditor outputs the site mirrors as static passthrough
       - 'auditor/reports/**'
+      - 'auditor/case-studies/**'
+      - 'auditor/exemplars/**'
+      # Report-page templates the local + online renderers share
+      - 'templates/report/**'
       - '.github/workflows/deploy-site.yml'
   workflow_dispatch:
   schedule:
