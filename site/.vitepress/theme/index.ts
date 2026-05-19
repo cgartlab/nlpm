@@ -3,6 +3,7 @@
 // any Markdown page via <DashboardPanels :data="..." />.
 import DefaultTheme from 'vitepress/theme'
 import DashboardPanels from './components/DashboardPanels.vue'
+import RepoReport from './components/RepoReport.vue'
 import './custom.css'
 import type { Theme } from 'vitepress'
 
@@ -10,5 +11,6 @@ export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
     app.component('DashboardPanels', DashboardPanels)
+    app.component('RepoReport', RepoReport)
   },
 } satisfies Theme

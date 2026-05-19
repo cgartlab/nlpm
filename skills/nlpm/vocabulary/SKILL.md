@@ -180,7 +180,7 @@ Two verbs share a scope and an identity criterion ⇒ one must be retired or sco
 2. **Re-run the extraction script.** `python3 analysis/scripts/extract-vocabulary.py` writes `analysis/vocabulary-extract/summary.md`. New terms appear there.
 3. **Slot the term.** Add a row to the right table above (internal verb / auditor verb / artifact-class noun / role-noun / output-class noun / auditor-scope noun).
 4. **Cite the file evidence.** Every row has an "examples" or "file evidence" column. Cite at least one path.
-5. **If retiring a synonym, list it under the relevant verb's "deprecated synonyms" line.** Do not silently drop terms; deprecation is itself a vocabulary act and needs to be visible.
+5. **If retiring a synonym, list it under its canonical verb's "deprecated synonyms" line.** Do not silently drop terms; deprecation is itself a vocabulary act and needs to be visible.
 
 ---
 
