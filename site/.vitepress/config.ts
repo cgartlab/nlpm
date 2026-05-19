@@ -87,6 +87,7 @@ export default withMermaid(defineConfig({
 
   themeConfig: {
     siteTitle: 'NLPM',
+    logo: '/favicon.svg',
 
     nav: [
       { text: 'Home', link: '/' },

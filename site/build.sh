@@ -100,13 +100,19 @@ echo "==> Vendoring Lucide icons into site/public/icons/"
 ICONS_DST="$PUBLIC/icons"
 ICONS_SRC="$SITE/node_modules/lucide-static/icons"
 mkdir -p "$ICONS_DST"
-for icon in bar-chart-3 compass link-2 globe terminal book-open; do
+for icon in bar-chart-3 compass link-2 globe terminal book-open file-terminal; do
   if [ -f "$ICONS_SRC/${icon}.svg" ]; then
     sed 's|stroke="currentColor"|stroke="#3b82f6"|' "$ICONS_SRC/${icon}.svg" > "$ICONS_DST/${icon}.svg"
   else
     echo "::warning::missing icon ${icon}.svg in lucide-static"
   fi
 done
+
+# Favicon + site logo: file-terminal is the brand icon for NLPM (an NL
+# artifact linter — "code in a document"). Copy as /favicon.svg at the
+# public root so VitePress's themeConfig.logo + the <link rel="icon">
+# tag both find it.
+cp "$ICONS_DST/file-terminal.svg" "$PUBLIC/favicon.svg"
 
 echo "==> Building VitePress"
 cd "$SITE"
