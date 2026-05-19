@@ -268,8 +268,16 @@ def render(data: dict, out_dir: Path) -> Path:
     )
 
     repo = data["project"]
-    target = out_dir / f"{slug_for(repo)}.html"
+    slug = slug_for(repo)
+    target = out_dir / f"{slug}.html"
     target.write_text(html, encoding="utf-8")
+
+    # JSON sidecar — see analysis/report-data-schema.md.
+    data.setdefault("schema_version", 1)
+    (out_dir / f"{slug}.json").write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
     # Docs are shared across all per-repo reports in this out_dir. Build
     # once if missing; cheap to rebuild but per-repo runs may be many.

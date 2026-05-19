@@ -22,3 +22,7 @@ site/reference/*.md
 # auto-generated index page. Source of truth is /case-studies/ at repo
 # root (where the auditor pipeline writes articles).
 site/case-studies/
+# site/.vitepress/theme/data/ is build-time-copied from auditor/reports/*.json
+# so Vue components can import the data via Vite's standard JSON import.
+# Source of truth stays in auditor/reports/ (where the renderers write them).
+site/.vitepress/theme/data/

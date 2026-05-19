@@ -52,6 +52,20 @@ mkdir -p "$PUBLIC"
 # CNAME so GitHub Pages binds the custom domain.
 echo "nlpm.com" > "$PUBLIC/CNAME"
 
+echo "==> Copying JSON report data into site/.vitepress/theme/data/"
+# Files in site/public/ are served at runtime but NOT importable as
+# modules. To inline the report data into Vue components at build time
+# we copy the JSON sidecars to .vitepress/theme/data/ where Vite's
+# standard JSON import resolves them.
+DATA_DST="$SITE/.vitepress/theme/data"
+mkdir -p "$DATA_DST/reports"
+rm -f "$DATA_DST"/*.json "$DATA_DST/reports"/*.json 2>/dev/null || true
+[ -f "$SRC_REPORTS/dashboard.json" ] && cp "$SRC_REPORTS/dashboard.json" "$DATA_DST/dashboard.json"
+find "$SRC_REPORTS" -maxdepth 1 -name '*.json' -not -name 'dashboard.json' \
+  -exec cp {} "$DATA_DST/reports/" \; 2>/dev/null || true
+echo "  Dashboard JSON: $([ -f "$DATA_DST/dashboard.json" ] && echo yes || echo no)"
+echo "  Per-repo JSONs: $(ls "$DATA_DST/reports" 2>/dev/null | wc -l | tr -d ' ')"
+
 echo "==> Vendoring Lucide icons into site/public/icons/"
 # MUST run after the public/ wipe above. Pre-color with the brand blue
 # so the icons read in both light and dark modes (SVGs loaded via

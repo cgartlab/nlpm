@@ -190,6 +190,16 @@ def render(data: dict, out_dir: Path) -> Path:
     out_dir = out_dir.resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    # JSON sidecar — the contract. Both the HTML renderer here and the
+    # online Vue component (site/.vitepress/theme/components/...) consume
+    # the same shape. See analysis/report-data-schema.md.
+    data.setdefault("schema_version", 1)
+    sidecar = out_dir / "dashboard.json"
+    sidecar.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
     # Copy vendor + assets next to the dashboard so it works under file://
     vendor_dst = out_dir / "vendor"
     assets_dst = out_dir / "assets"
