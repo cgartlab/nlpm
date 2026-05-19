@@ -104,3 +104,26 @@ jobs:
           # Deploys are inferred from gh-pages commits; we deliberately do
           # not append to auditor/logs/events.jsonl on main, since that
           # would push deploy churn into the auditor's append-only log.
+
+      - name: Purge Cloudflare cache
+        # Without this, CF can serve stale cached 404s for URLs that
+        # existed-but-didn't-on-the-prior-deploy until cache-control
+        # max-age elapses (~10 min). Purging immediately after gh-pages
+        # update closes that window. Step is gated on the three secrets
+        # being present so the workflow stays functional on forks.
+        env:
+          CF_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CF_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CF_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          if [ -z "$CF_API_KEY" ] || [ -z "$CF_EMAIL" ] || [ -z "$CF_ZONE_ID" ]; then
+            echo "Cloudflare secrets not configured — skipping purge."
+            exit 0
+          fi
+          RESP=$(curl -fsS -X POST \
+            -H "X-Auth-Key: $CF_API_KEY" \
+            -H "X-Auth-Email: $CF_EMAIL" \
+            -H "Content-Type: application/json" \
+            "https://api.cloudflare.com/client/v4/zones/$CF_ZONE_ID/purge_cache" \
+            --data '{"purge_everything":true}')
+          echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin); print('cf-purge success=' + str(d.get('success')))"
