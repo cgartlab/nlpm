@@ -90,17 +90,26 @@ export default withMermaid(defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Install', link: '/install' },
-      { text: 'How it works', link: '/how-it-works' },
-      { text: 'Case studies', link: '/case-studies/' },
       {
-        text: 'Audit data',
+        text: 'Guides',
         items: [
-          { text: 'Dashboard', link: '/dashboard.html' },
-          { text: 'Sample repo report', link: '/SuperClaude-Org-SuperClaude_Framework.html' },
+          {
+            items: [
+              { text: 'Install', link: '/install' },
+              { text: 'How it works', link: '/how-it-works' },
+              { text: 'Reference', link: '/reference/' },
+            ],
+          },
+          {
+            text: 'Audit data',
+            items: [
+              { text: 'Dashboard', link: '/dashboard.html' },
+              { text: 'Sample repo report', link: '/SuperClaude-Org-SuperClaude_Framework.html' },
+            ],
+          },
         ],
       },
-      { text: 'Reference', link: '/reference/' },
+      { text: 'Case studies', link: '/case-studies/' },
       { text: 'GitHub', link: 'https://github.com/xiaolai/nlpm-for-claude' },
     ],
 
