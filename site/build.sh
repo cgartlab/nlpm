@@ -109,10 +109,15 @@ for icon in bar-chart-3 compass link-2 globe terminal book-open file-terminal; d
 done
 
 # Favicon + site logo: file-terminal is the brand icon for NLPM (an NL
-# artifact linter — "code in a document"). Copy as /favicon.svg at the
-# public root so VitePress's themeConfig.logo + the <link rel="icon">
-# tag both find it.
-cp "$ICONS_DST/file-terminal.svg" "$PUBLIC/favicon.svg"
+# artifact linter — "code in a document"). Written from the raw Lucide
+# source with a black stroke (not the brand blue used by the in-page
+# feature icons) so the favicon reads as a flat black-and-white mark in
+# the browser tab and OS bookmark UIs.
+if [ -f "$ICONS_SRC/file-terminal.svg" ]; then
+  sed 's|stroke="currentColor"|stroke="#000"|' "$ICONS_SRC/file-terminal.svg" > "$PUBLIC/favicon.svg"
+else
+  echo "::warning::missing file-terminal.svg for favicon"
+fi
 
 echo "==> Building VitePress"
 cd "$SITE"
