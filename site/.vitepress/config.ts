@@ -1,6 +1,8 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
+import footnote from 'markdown-it-footnote'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: 'NLPM',
   description:
     'Natural Language Programming Manager — scores, audits, and disciplines NL artifacts in Claude Code plugins.',
@@ -11,6 +13,27 @@ export default defineConfig({
   // public/ is the standard VitePress static-passthrough directory; the
   // build pipeline copies auditor/reports/* into site/public/ before
   // running `pnpm build`.
+
+  // Markdown extensions:
+  //   - markdown-it-footnote: GFM-ish footnote syntax (`text[^1]`,
+  //     `[^1]: definition` block at end of file).
+  // Mermaid support is added by the withMermaid wrapper below.
+  markdown: {
+    config: (md) => {
+      md.use(footnote)
+    },
+  },
+
+  // Mermaid plugin config — uses dynamic import so SSR builds work and the
+  // mermaid runtime is only loaded on pages that actually contain diagrams.
+  mermaid: {
+    // mermaid runtime options; defaults are fine, but pick a theme that
+    // adapts to VitePress light/dark mode.
+    theme: 'default',
+  },
+  mermaidPlugin: {
+    class: 'mermaid-diagram',
+  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
@@ -31,6 +54,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Install', link: '/install' },
+      { text: 'How it works', link: '/how-it-works' },
       {
         text: 'Audit data',
         items: [
@@ -79,4 +103,4 @@ export default defineConfig({
 
     outline: { level: [2, 3], label: 'On this page' },
   },
-})
+}))
