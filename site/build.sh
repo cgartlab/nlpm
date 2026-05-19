@@ -41,4 +41,5 @@ pnpm build
 # Surface the dist path so callers can deploy from it.
 echo ""
 echo "Built: $SITE/.vitepress/dist"
-ls -la "$SITE/.vitepress/dist" | head -10
+# `ls | head` trips pipefail on broken-pipe; show the count instead.
+echo "dist entries: $(ls "$SITE/.vitepress/dist" | wc -l | tr -d ' ')"
