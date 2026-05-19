@@ -92,12 +92,13 @@ export default withMermaid(defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Why', link: '/why' },
+      { text: 'Case studies', link: '/case-studies/' },
       {
         text: 'Guides',
         items: [
           {
             items: [
-              { text: 'Install', link: '/install' },
+              { text: 'How to install', link: '/install' },
               { text: 'How to use it', link: '/how-to-use-it' },
               { text: 'How it works', link: '/how-it-works' },
               { text: 'How it evolves', link: '/how-it-evolves' },
@@ -114,7 +115,6 @@ export default withMermaid(defineConfig({
           },
         ],
       },
-      { text: 'Case studies', link: '/case-studies/' },
       { text: 'GitHub', link: 'https://github.com/xiaolai/nlpm-for-claude' },
     ],
 

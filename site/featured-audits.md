@@ -1,6 +1,6 @@
 ---
 title: Featured audits
-aside: false
+outline: [2, 2]
 ---
 
 # Featured audits
@@ -8,6 +8,20 @@ aside: false
 A curated subset of the 210+ external repositories NLPM has audited — picked for **institutional credibility** (OpenAI, Google, CNCF), **scale** (10k+ stars), or **engagement** (merged PRs from the contribute pipeline, often paired with a case-study article). Each entry links to its full per-repo report, every merged PR we filed, and the long-form article when one exists.
 
 For the complete data set, see the [dashboard](/dashboard).
+
+## Contents
+
+1. [openai/codex-plugin-cc](#_1-openai-codex-plugin-cc) — 93/100 · case study
+2. [google-gemini/gemini-skills](#_2-google-gemini-gemini-skills) — 98/100 · 2 PRs merged
+3. [kubesphere/kubesphere](#_3-kubesphere-kubesphere) — 89/100 · 5 PRs merged · case study
+4. [code-yeongyu/oh-my-openagent](#_4-code-yeongyu-oh-my-openagent) — 74/100 · 51.9k⭐ · case study
+5. [shanraisshan/claude-code-best-practice](#_5-shanraisshan-claude-code-best-practice) — 88/100 · 46k⭐ · 4 PRs merged
+6. [safishamsi/graphify](#_6-safishamsi-graphify) — 37k⭐ · case study
+7. [luongnv89/claude-howto](#_7-luongnv89-claude-howto) — case study
+8. [K-Dense-AI/scientific-agent-skills](#_8-k-dense-ai-scientific-agent-skills) — domain-specialist plugin
+9. [mukul975/Anthropic-Cybersecurity-Skills](#_9-mukul975-anthropic-cybersecurity-skills) — security-domain plugin
+10. [gotalab/cc-sdd](#_10-gotalab-cc-sdd) — case study
+11. [See also](#see-also)
 
 ## 1. openai/codex-plugin-cc
 

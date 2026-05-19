@@ -1,9 +1,9 @@
 ---
-title: Install
+title: How to install
 outline: [2, 3]
 ---
 
-# Install
+# How to install
 
 NLPM ships as a Claude Code plugin via the `xiaolai` marketplace.
 

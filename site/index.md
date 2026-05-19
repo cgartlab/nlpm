@@ -21,9 +21,6 @@ hero:
     - theme: alt
       text: Auditor dashboard
       link: /dashboard.html
-    - theme: alt
-      text: GitHub
-      link: https://github.com/xiaolai/nlpm-for-claude
 
 features:
   - icon:
