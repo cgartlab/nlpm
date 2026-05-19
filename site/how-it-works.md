@@ -82,8 +82,6 @@ NLPM operates in two declared scopes[^3]. The boundary is intentional: same verb
 
 Cross-scope homonyms (`scan`, `test`, `discover`) mean the same thing in both scopes. Scope-bound verbs (`audit`, `contribute`, `track`) only make sense in the auditor scope. The [vocabulary reference](/reference/vocabulary) lists every term.
 
----
-
 [^1]: Snapshots accumulate; `/nlpm:trend` reads them all to surface regressions over time. If you don't want history, delete `.claude/nlpm-history.json` between runs.
 
 [^2]: This is by design — autonomous rule changes would create feedback loops between the auditor and its own rulebook. The human-gate is the cycle-breaker.

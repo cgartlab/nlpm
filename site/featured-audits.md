@@ -102,8 +102,6 @@ CNCF cloud-native platform. Audit score 89/100, security REVIEW. Five PRs merged
 - **Merged PRs**: [#166](https://github.com/gotalab/cc-sdd/pull/166) · [#169](https://github.com/gotalab/cc-sdd/pull/169) · [#170](https://github.com/gotalab/cc-sdd/pull/170)
 - **Repo**: <https://github.com/gotalab/cc-sdd>
 
----
-
 ## See also
 
 - [NLPM self-audit](/reports/xiaolai-nlpm-for-claude) — NLPM at 100/100 against its own rule set
