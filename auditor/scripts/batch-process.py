@@ -41,6 +41,33 @@ DISPATCH_SLEEP = 2.0
 # exemplar get labeled `case-study-clean`, which fires auditor-exemplar.yml.
 EXEMPLAR_THRESHOLD = int(os.environ.get("EXEMPLAR_THRESHOLD", "90"))
 
+# v0.8.23 — low-landing-rate rule suppression.
+#
+# Some rules have high verify_rate (they correctly identify real bugs)
+# but consistently fail to land via our PRs — maintainers fix the bug
+# their own way (`applied_separately`) or close the PR with
+# `context_missed` dissent. Promoting an audit whose only high-confidence
+# findings are on those rules ships PRs that won't merge.
+#
+# A rule is flagged "low-landing" when:
+#   hits >= LANDING_MIN_HITS                 (volume — enough data to judge)
+#   contributed >= LANDING_MIN_CONTRIBUTED   (we've actually tried PR'ing it)
+#   merged / contributed < LANDING_MERGE_THRESHOLD
+#   state NOT IN {noisy, disputed}           (those go through refinement)
+#
+# Found empirically on 2026-05-20 inspecting BUG-broken-reference:
+#   76 hits, 12 contributed, 0 merged, verify_rate 100%, state=healthy.
+# Rule-health classified it healthy on verify_rate, but the PR delivery
+# was wasted effort. Suppression catches this class without touching the
+# rulebook itself.
+LANDING_MIN_HITS = int(os.environ.get("NLPM_LANDING_MIN_HITS", "20"))
+LANDING_MIN_CONTRIBUTED = int(os.environ.get("NLPM_LANDING_MIN_CONTRIBUTED", "5"))
+LANDING_MERGE_THRESHOLD = float(os.environ.get("NLPM_LANDING_MERGE_THRESHOLD", "0.15"))
+LANDING_SUPPRESSION_DISABLED = (
+    os.environ.get("NLPM_DISABLE_LOW_LANDING_SUPPRESSION", "").lower() in ("1", "true", "yes")
+)
+RULE_HEALTH_SCRIPT = Path("auditor/scripts/rule-health.py")
+
 
 def gh(args: list[str], check: bool = False) -> tuple[int, str]:
     """Run `gh` and return (rc, stdout)."""
@@ -83,7 +110,114 @@ def registry_score(repo: str) -> int:
         return 0
 
 
-def audit_high_conf_bug_count(repo: str) -> int:
+_low_landing_cache: set[str] | None = None
+
+
+def low_landing_rules() -> set[str]:
+    """Return the set of rule_ids in the "high-precision, low-landing" bucket.
+
+    Defined as: a rule that has been hit enough times to judge,
+    contributed in enough PRs to have actual data, but merges below
+    LANDING_MERGE_THRESHOLD — AND isn't already classified noisy/
+    disputed (those have their own refinement path). The classic case
+    on 2026-05-20: BUG-broken-reference, 76 hits, 12 PRs, 0 merged,
+    yet healthy by verify_rate.
+
+    The function shells out to `auditor/scripts/rule-health.py` to
+    compute current metrics from the append-only logs. Cached after
+    first call for the duration of the batch-process run.
+
+    Fail-soft: any failure returns the empty set, which disables
+    suppression. Logs the reason to stderr.
+
+    Opt-out: NLPM_DISABLE_LOW_LANDING_SUPPRESSION=1 returns empty
+    without invoking rule-health.
+    """
+    global _low_landing_cache
+    if _low_landing_cache is not None:
+        return _low_landing_cache
+    if LANDING_SUPPRESSION_DISABLED:
+        _low_landing_cache = set()
+        return _low_landing_cache
+    if not RULE_HEALTH_SCRIPT.exists():
+        print(
+            f"WARN low_landing_rules: {RULE_HEALTH_SCRIPT} not found; "
+            f"suppression disabled this run",
+            file=sys.stderr,
+        )
+        _low_landing_cache = set()
+        return _low_landing_cache
+
+    out_path = Path("/tmp/batch-process-rule-health.json")
+    try:
+        proc = subprocess.run(
+            [sys.executable, str(RULE_HEALTH_SCRIPT), str(out_path)],
+            capture_output=True, text=True, check=False, timeout=60,
+        )
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        print(
+            f"WARN low_landing_rules: rule-health invocation failed: {exc}; "
+            f"suppression disabled this run",
+            file=sys.stderr,
+        )
+        _low_landing_cache = set()
+        return _low_landing_cache
+    if proc.returncode != 0:
+        print(
+            f"WARN low_landing_rules: rule-health exited {proc.returncode}; "
+            f"suppression disabled this run. stderr:",
+            file=sys.stderr,
+        )
+        if proc.stderr:
+            print(proc.stderr.rstrip(), file=sys.stderr)
+        _low_landing_cache = set()
+        return _low_landing_cache
+
+    try:
+        data = json.loads(out_path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        print(
+            f"WARN low_landing_rules: cannot read rule-health output: {exc}; "
+            f"suppression disabled this run",
+            file=sys.stderr,
+        )
+        _low_landing_cache = set()
+        return _low_landing_cache
+
+    rules: set[str] = set()
+    metrics = data.get("rule_metrics", {}) or {}
+    for rule_id, m in metrics.items():
+        if not isinstance(m, dict):
+            continue
+        # State-based pre-filter — refinement handles noisy/disputed.
+        if m.get("state") in ("noisy", "disputed"):
+            continue
+        hits = int(m.get("hits") or 0)
+        contributed = int(m.get("contributed") or 0)
+        merged = int(m.get("merged") or 0)
+        if hits < LANDING_MIN_HITS:
+            continue
+        if contributed < LANDING_MIN_CONTRIBUTED:
+            continue
+        rate = merged / contributed if contributed else 0.0
+        if rate < LANDING_MERGE_THRESHOLD:
+            rules.add(rule_id)
+
+    if rules:
+        joined = ", ".join(sorted(rules))
+        print(
+            f"low_landing_rules: {len(rules)} rule(s) under suppression — {joined}",
+            file=sys.stderr,
+        )
+    else:
+        print("low_landing_rules: no rules meet suppression criteria", file=sys.stderr)
+    _low_landing_cache = rules
+    return _low_landing_cache
+
+
+def audit_high_conf_bug_count(
+    repo: str, *, excluded_rules: set[str] | None = None,
+) -> int:
     """Count high-confidence PR-worthy findings in the per-audit sidecar.
 
     The contribute workflow only ships findings with `confidence == "high"`,
@@ -92,9 +226,17 @@ def audit_high_conf_bug_count(repo: str) -> int:
     that does no useful work and leaves the issue stuck at that label
     forever (no phase transitions it forward).
 
+    When `excluded_rules` is provided, findings whose `rule_id` is in
+    that set are not counted. Used by the v0.8.23 low-landing-rate
+    suppression: a repo whose only high-confidence findings sit on
+    low-landing rules is treated as "nothing worth shipping" and skips
+    promotion. The findings still exist in the sidecar — only the
+    promotion decision changes.
+
     Returns -1 if the sidecar is missing (signal: cannot determine, fall
     back to old behavior of promoting). Returns 0 or more otherwise.
     """
+    excluded_rules = excluded_rules or set()
     slug = repo.replace("/", "-")
     sidecar = Path("auditor/audits") / f"{slug}.findings.jsonl"
     if not sidecar.exists():
@@ -117,8 +259,12 @@ def audit_high_conf_bug_count(repo: str) -> int:
                 continue
             if rec.get("confidence") != "high":
                 continue
-            if rec.get("category") in ("bug", "security", "cross_component"):
-                n += 1
+            if rec.get("category") not in ("bug", "security", "cross_component"):
+                continue
+            rule_id = rec.get("rule_id") or ""
+            if rule_id in excluded_rules:
+                continue
+            n += 1
     except OSError:
         return -1
     if malformed:
@@ -269,6 +415,11 @@ def phase0_label_exemplars(dry_run: bool) -> int:
 def phase1_promote(dry_run: bool) -> int:
     print("--- Phase 1: Promote completed audits to contribution ---")
     promoted = 0
+    # v0.8.23 — compute the low-landing-rate rule set once per run.
+    # Repos whose only findings are on these rules get skipped from
+    # promotion. Empty set when suppression is disabled or the
+    # rule-health computation fails (fail-soft).
+    excluded = low_landing_rules()
     issues = list_open_issues("audit-complete", ["number", "title", "labels"])
     for issue in issues:
         labels = {l["name"] for l in issue.get("labels", [])}
@@ -294,13 +445,34 @@ def phase1_promote(dry_run: bool) -> int:
         # still promoted to contribute. -1 (no sidecar) keeps the old
         # promote-anyway behavior so older entries pre-sidecar don't get
         # silently skipped.
-        bug_count = audit_high_conf_bug_count(repo)
-        if bug_count == 0:
+        #
+        # v0.8.23 — `excluded` carries the low-landing-rate rule set, so
+        # bug_count_eff reflects "findings worth shipping" rather than
+        # raw count. We also compute the raw count for the log line, so
+        # an operator can see when suppression is what dropped the audit.
+        bug_count_raw = audit_high_conf_bug_count(repo)
+        bug_count_eff = audit_high_conf_bug_count(repo, excluded_rules=excluded)
+        if bug_count_eff == 0 and bug_count_raw == 0:
             print(f"  SKIP #{num} ({repo}): security={security} but 0 high-conf bugs — nothing to contribute")
             continue
+        if bug_count_eff == 0 and bug_count_raw > 0:
+            print(
+                f"  SUPPRESS #{num} ({repo}): security={security}, "
+                f"{bug_count_raw} high-conf bug(s) but ALL on low-landing-rate rules — "
+                f"skipping promotion (NLPM_DISABLE_LOW_LANDING_SUPPRESSION=1 to override)"
+            )
+            continue
 
-        bug_note = "?" if bug_count < 0 else str(bug_count)
-        print(f"  PROMOTE #{num} ({repo}): security={security}, high-conf bugs={bug_note} → contribute-approved")
+        eff_note = "?" if bug_count_eff < 0 else str(bug_count_eff)
+        suppr_note = (
+            f" (suppressed {bug_count_raw - bug_count_eff})"
+            if bug_count_eff >= 0 and bug_count_raw > bug_count_eff
+            else ""
+        )
+        print(
+            f"  PROMOTE #{num} ({repo}): security={security}, "
+            f"high-conf bugs={eff_note}{suppr_note} → contribute-approved"
+        )
         if not dry_run:
             gh(["issue", "edit", str(num), "--add-label", "contribute-approved"])
             rc, _ = gh([
