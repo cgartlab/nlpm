@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-05-20T22:55:54Z",
+  "generated_at": "2026-05-21T22:52:27Z",
   "since": null,
   "summary": {
-    "total_repos": 212,
-    "total_findings": 3132,
+    "total_repos": 214,
+    "total_findings": 3323,
     "high_findings": 230,
-    "total_advisories": 0,
-    "high_advisories": 0,
-    "repos_with_drift": 0,
-    "repos_blocked": 52
+    "total_advisories": 14,
+    "high_advisories": 3,
+    "repos_with_drift": 2,
+    "repos_blocked": 53
   },
   "repo_rows": [
     {
@@ -34,6 +34,18 @@
       "medium_findings": 0,
       "vocab_drift_count": 0,
       "vocab_drift_high": 0
+    },
+    {
+      "repo": "Imbad0202/academic-research-skills",
+      "status": "audited",
+      "stars": null,
+      "score": 77,
+      "security": "UNKNOWN",
+      "total_findings": 104,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 4,
+      "vocab_drift_high": 1
     },
     {
       "repo": "LigphiDonk/Oh-my--paper",
@@ -156,6 +168,18 @@
       "vocab_drift_high": 0
     },
     {
+      "repo": "HKUDS/CLI-Anything",
+      "status": "audited",
+      "stars": null,
+      "score": 75,
+      "security": "CLEAR",
+      "total_findings": 45,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
       "repo": "K-Dense-AI/scientific-agent-skills",
       "status": "complete",
       "stars": 19356,
@@ -202,6 +226,18 @@
       "medium_findings": 0,
       "vocab_drift_count": 0,
       "vocab_drift_high": 0
+    },
+    {
+      "repo": "tinyhumansai/openhuman",
+      "status": "audited",
+      "stars": null,
+      "score": 63,
+      "security": "BLOCKED",
+      "total_findings": 42,
+      "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 10,
+      "vocab_drift_high": 2
     },
     {
       "repo": "shinpr/claude-code-workflows",
@@ -1572,18 +1608,6 @@
       "vocab_drift_high": 0
     },
     {
-      "repo": "Imbad0202/academic-research-skills",
-      "status": "tracked",
-      "stars": null,
-      "score": 20,
-      "security": "CLEAR",
-      "total_findings": 0,
-      "high_findings": 0,
-      "medium_findings": 0,
-      "vocab_drift_count": 0,
-      "vocab_drift_high": 0
-    },
-    {
       "repo": "IvanMurzak/Unity-MCP",
       "status": "tracked",
       "stars": null,
@@ -2564,13 +2588,13 @@
     },
     {
       "rule_id": "UNCLASSIFIED",
-      "total": 201,
-      "repos_affected": 29
+      "total": 204,
+      "repos_affected": 30
     },
     {
       "rule_id": "BUG-missing-frontmatter",
-      "total": 180,
-      "repos_affected": 37
+      "total": 186,
+      "repos_affected": 39
     },
     {
       "rule_id": "R05",
@@ -2579,23 +2603,33 @@
     },
     {
       "rule_id": "R22",
-      "total": 127,
-      "repos_affected": 25
-    },
-    {
-      "rule_id": "R14",
-      "total": 112,
+      "total": 131,
       "repos_affected": 26
     },
     {
+      "rule_id": "R14",
+      "total": 127,
+      "repos_affected": 29
+    },
+    {
+      "rule_id": "R12",
+      "total": 124,
+      "repos_affected": 29
+    },
+    {
       "rule_id": "R09",
+      "total": 116,
+      "repos_affected": 28
+    },
+    {
+      "rule_id": "R08",
       "total": 108,
-      "repos_affected": 27
+      "repos_affected": 26
     },
     {
       "rule_id": "R07",
-      "total": 102,
-      "repos_affected": 22
+      "total": 107,
+      "repos_affected": 23
     },
     {
       "rule_id": "SEC-unpinned-semver",
@@ -2603,44 +2637,34 @@
       "repos_affected": 56
     },
     {
+      "rule_id": "R02",
+      "total": 97,
+      "repos_affected": 10
+    },
+    {
       "rule_id": "R11",
       "total": 91,
       "repos_affected": 13
     },
     {
-      "rule_id": "R02",
-      "total": 87,
-      "repos_affected": 9
-    },
-    {
-      "rule_id": "R12",
-      "total": 85,
-      "repos_affected": 28
-    },
-    {
-      "rule_id": "R08",
-      "total": 84,
-      "repos_affected": 24
-    },
-    {
       "rule_id": "R15",
-      "total": 79,
-      "repos_affected": 25
+      "total": 89,
+      "repos_affected": 26
+    },
+    {
+      "rule_id": "R06",
+      "total": 87,
+      "repos_affected": 11
+    },
+    {
+      "rule_id": "R10",
+      "total": 78,
+      "repos_affected": 16
     },
     {
       "rule_id": "BUG-broken-reference",
       "total": 76,
       "repos_affected": 33
-    },
-    {
-      "rule_id": "R10",
-      "total": 70,
-      "repos_affected": 15
-    },
-    {
-      "rule_id": "R06",
-      "total": 65,
-      "repos_affected": 9
     },
     {
       "rule_id": "BUG-undeclared-tool",
@@ -2654,8 +2678,13 @@
     },
     {
       "rule_id": "CC-terminology-drift",
-      "total": 49,
-      "repos_affected": 38
+      "total": 50,
+      "repos_affected": 39
+    },
+    {
+      "rule_id": "R03",
+      "total": 45,
+      "repos_affected": 14
     },
     {
       "rule_id": "CC-stale-count",
@@ -2663,29 +2692,362 @@
       "repos_affected": 31
     },
     {
-      "rule_id": "R03",
+      "rule_id": "CC-broken-relative-path",
       "total": 42,
-      "repos_affected": 13
+      "repos_affected": 31
     },
     {
-      "rule_id": "CC-broken-relative-path",
-      "total": 41,
-      "repos_affected": 30
+      "rule_id": "CC-orphan-component",
+      "total": 38,
+      "repos_affected": 32
     },
     {
       "rule_id": "R20",
       "total": 38,
       "repos_affected": 4
-    },
-    {
-      "rule_id": "CC-orphan-component",
-      "total": 37,
-      "repos_affected": 31
     }
   ],
   "drift_network": {
-    "nodes": [],
-    "edges": []
+    "nodes": [
+      {
+        "id": "revision plan",
+        "label": "revision plan",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "revision roadmap",
+        "label": "revision roadmap",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "artefact",
+        "label": "artefact",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "artifact",
+        "label": "artifact",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "integrity check",
+        "label": "integrity check",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "integrity verification",
+        "label": "integrity verification",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "chapter plan",
+        "label": "chapter plan",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "paper blueprint",
+        "label": "paper blueprint",
+        "freq": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "id": "sub-agent",
+        "label": "sub-agent",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "worker",
+        "label": "worker",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "summariser",
+        "label": "summariser",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "summarizer",
+        "label": "summarizer",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "audit",
+        "label": "audit",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "review",
+        "label": "review",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "delegate",
+        "label": "delegate",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "spawn",
+        "label": "spawn",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "address",
+        "label": "address",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "apply",
+        "label": "apply",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "architect",
+        "label": "architect",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "architectobot",
+        "label": "architectobot",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "critic",
+        "label": "critic",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "qualityqueen",
+        "label": "qualityqueen",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "validate",
+        "label": "validate",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "verify",
+        "label": "verify",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "coordinate",
+        "label": "coordinate",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "orchestrate",
+        "label": "orchestrate",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "break down",
+        "label": "break down",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "id": "decompose",
+        "label": "decompose",
+        "freq": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "revision plan",
+        "target": "revision roadmap",
+        "weight": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "source": "artefact",
+        "target": "artifact",
+        "weight": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "source": "integrity check",
+        "target": "integrity verification",
+        "weight": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "source": "chapter plan",
+        "target": "paper blueprint",
+        "weight": 1,
+        "repos": [
+          "Imbad0202/academic-research-skills"
+        ]
+      },
+      {
+        "source": "sub-agent",
+        "target": "worker",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "summariser",
+        "target": "summarizer",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "audit",
+        "target": "review",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "delegate",
+        "target": "spawn",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "address",
+        "target": "apply",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "architect",
+        "target": "architectobot",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "critic",
+        "target": "qualityqueen",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "validate",
+        "target": "verify",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "coordinate",
+        "target": "orchestrate",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      },
+      {
+        "source": "break down",
+        "target": "decompose",
+        "weight": 1,
+        "repos": [
+          "tinyhumansai/openhuman"
+        ]
+      }
+    ]
   },
   "activity_timeline": [
     {
@@ -3145,6 +3507,22 @@
       "counts": {
         "status_check": 6,
         "classifications_emitted": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-05-21",
+      "counts": {
+        "status_check": 6,
+        "scorer_drift_check": 3,
+        "findings_aggregated": 3,
+        "repo_report_rendered": 6,
+        "audit_complete": 3,
+        "advisories_aggregated": 3,
+        "manual_disclosure_pending": 1,
+        "classifications_emitted": 1,
+        "finding_outcome": 1,
         "report_generated": 1
       }
     }
