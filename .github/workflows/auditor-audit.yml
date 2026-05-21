@@ -480,7 +480,7 @@ jobs:
 
             Per-line schema (strict JSONL — NOT a JSON array):
 
-            `{"category":"...","rule_id":"...","file":"...","line":<int|null>,"severity":"...","penalty":<int|null>,"pattern":"...","description":"...","false_positive":<bool>,"suggested_fix":"..."}`
+            `{"category":"...","rule_id":"...","file":"...","line":<int|null>,"severity":"...","confidence":"...","evidence":"...","penalty":<int|null>,"pattern":"...","description":"...","false_positive":<bool>,"suggested_fix":"..."}`
 
             Field rules:
 
@@ -494,6 +494,12 @@ jobs:
             - `file`: relative to target repo root (e.g., `scripts/build.js`, NOT `target-repo/scripts/build.js`)
             - `line`: integer line number, or `null` for file-level and cross-component findings
             - `severity`: one of `critical`, `high`, `medium`, `low`, `info`
+            - `confidence`: `high`, `medium`, or `low` — REQUIRED on every line. **Only `high` findings reach the contribute step**; `medium` / `low` stay in the audit data for our own learning. A missing or null `confidence` is treated downstream as `medium` and therefore never contributes — so omitting this field silently drops the finding from the PR pipeline.
+              - `high` — you reproduced the breakage during this scoring pass: ran the snippet and saw the error; followed the link and got a 404; parsed the YAML and got a syntax error; grepped an `allowed-tools` name and found zero call sites. Also `high`: a missing required schema field where `skills/nlpm/conventions/` is unambiguous (e.g. no `name:` on a SKILL.md). Also `high`: a **manifest-vs-disk diff** — a `plugin.json` array vs. canonical artifact files on disk; the gap is deterministic (jq the array, diff the disk), reproduction takes 5 seconds, mark it `high`.
+              - `medium` — likely a bug but you cannot independently verify it without environment access (a model name that may or may not exist; runtime-dependent behavior). This is the default whenever you are uncertain.
+              - `low` — inferred from cross-comparison or convention drift; the "bug" might be intentional (sibling-skill divergence, terminology drift, convention-but-not-required fields). Never PR'd.
+              - The default for any finding you did not actively reproduce is `medium`. A high-confidence false positive is worse than a dropped finding — if a verification step did not resolve cleanly, drop the finding rather than mark it `high`.
+            - `evidence`: when `confidence == "high"`, a one-line concrete observation that demonstrates the bug (e.g. `"NameError: name 'model_id' is not defined"`, `"link returns 404"`, `"plugin.json skills array has 13 entries; disk has 17 SKILL.md files"`). Empty string `""` for `medium` / `low`.
             - `penalty`: negative integer for `nl_quality` rows only, `null` for every other category
             - `description`: one line, no newlines inside the string
             - `false_positive`: `true` ONLY if YOU determined during this audit that the finding is invalid. When `true`, the object MUST also include:
@@ -599,18 +605,33 @@ jobs:
           DRIFT_COUNT=$(grep -oE 'SUMMARY: [0-9]+ drift' /tmp/drift-output.txt | grep -oE '[0-9]+' | head -1)
           DRIFT_COUNT=${DRIFT_COUNT:-0}
 
+          # Sidecar-completeness guard. The `confidence` field is what gates
+          # the contribute step — a finding missing it is treated downstream
+          # as `medium` and silently never PR'd. A schema drift in this
+          # workflow's Step 4 dropped the field for ~12 audits before it was
+          # caught (2026-05-21). Count lines missing `confidence` so a
+          # recurrence shows up in telemetry instead of going silent.
+          TOTAL_LINES=$(grep -c . "$SIDECAR" 2>/dev/null || echo 0)
+          MISSING_CONF=$(jq -s '[.[] | select(.confidence == null)] | length' "$SIDECAR" 2>/dev/null || echo -1)
+
           source auditor/scripts/log-event.sh
           log_event "audit" "scorer_drift_check" "$(jq -cn \
             --arg repo "$TARGET_REPO" \
             --arg sidecar "$SIDECAR" \
             --argjson drifts "$DRIFT_COUNT" \
             --argjson exit_code "$DRIFT_EXIT" \
-            '{repo: $repo, sidecar: $sidecar, drifts: $drifts, exit_code: $exit_code}')" || true
+            --argjson total_findings "$TOTAL_LINES" \
+            --argjson missing_confidence "$MISSING_CONF" \
+            '{repo: $repo, sidecar: $sidecar, drifts: $drifts, exit_code: $exit_code, total_findings: $total_findings, missing_confidence: $missing_confidence}')" || true
 
           if [ "$DRIFT_COUNT" -gt 0 ]; then
             echo "::warning::scorer rule_id drift: $DRIFT_COUNT finding(s) labeled with R-numbers that don't apply to their artifact type. See auditor/logs/events.jsonl scorer_drift_check event."
           else
             echo "Rule_id discipline clean: 0 drifts."
+          fi
+
+          if [ "$MISSING_CONF" != "0" ] && [ "$TOTAL_LINES" != "0" ]; then
+            echo "::warning::sidecar completeness: $MISSING_CONF of $TOTAL_LINES finding(s) are missing the \`confidence\` field. Findings without confidence never reach the contribute step. The Step 4 schema may have drifted again."
           fi
 
       # ================================================================
