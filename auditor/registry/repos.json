@@ -7810,6 +7810,13 @@
       "stars": 5411,
       "status": "complete",
       "strategy": "single"
+    },
+    "tinyhumansai/openhuman": {
+      "status": "audited",
+      "score": 63,
+      "strategy": "batched",
+      "security": "BLOCKED",
+      "commit_sha_at_audit": "369a39288c1d54e2af992df7c70f15c045d90130"
     }
   }
 }
