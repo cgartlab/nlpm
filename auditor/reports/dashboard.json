@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-21T22:52:27Z",
+  "generated_at": "2026-05-22T22:47:27Z",
   "since": null,
   "summary": {
     "total_repos": 214,
@@ -3523,6 +3523,15 @@
         "manual_disclosure_pending": 1,
         "classifications_emitted": 1,
         "finding_outcome": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-05-22",
+      "counts": {
+        "status_check": 6,
+        "classifications_emitted": 2,
         "report_generated": 1
       }
     }
