@@ -382,7 +382,9 @@
       "score": 94,
       "strategy": "single",
       "security": "CLEAR",
-      "commit_sha_at_audit": "57f32b0cd4afe1775b96ba35c27f25d6f0770331"
+      "commit_sha_at_audit": "57f32b0cd4afe1775b96ba35c27f25d6f0770331",
+      "exemplar_published": true,
+      "exemplar_path": "auditor/exemplars/ChromeDevTools-chrome-devtools-mcp.md"
     },
     "CloudAI-X/claude-workflow-v2": {
       "exemplar_path": "auditor/exemplars/CloudAI-X-claude-workflow-v2.md",
