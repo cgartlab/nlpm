@@ -43,13 +43,13 @@ your repo.
 ```bash
 # Option A — into /usr/local/bin
 curl -fsSL -o /usr/local/bin/nlpm-check \
-  https://raw.githubusercontent.com/xiaolai/nlpm-for-claude/main/bin/nlpm-check
+  https://raw.githubusercontent.com/xiaolai/nlpm/main/bin/nlpm-check
 chmod +x /usr/local/bin/nlpm-check
 
 # Option B — into your repo (commits the script alongside your code)
 mkdir -p bin
 curl -fsSL -o bin/nlpm-check \
-  https://raw.githubusercontent.com/xiaolai/nlpm-for-claude/main/bin/nlpm-check
+  https://raw.githubusercontent.com/xiaolai/nlpm/main/bin/nlpm-check
 chmod +x bin/nlpm-check
 ```
 
@@ -355,7 +355,7 @@ Drop in the template:
 
 ```bash
 curl -fsSL -o .git/hooks/pre-commit \
-  https://raw.githubusercontent.com/xiaolai/nlpm-for-claude/main/templates/pre-commit-nlpm.sh
+  https://raw.githubusercontent.com/xiaolai/nlpm/main/templates/pre-commit-nlpm.sh
 chmod +x .git/hooks/pre-commit
 ```
 
@@ -385,7 +385,7 @@ Copy the workflow template into your repo:
 ```bash
 mkdir -p .github/workflows
 curl -fsSL -o .github/workflows/nlpm-check.yml \
-  https://raw.githubusercontent.com/xiaolai/nlpm-for-claude/main/templates/workflows/nlpm-check.yml
+  https://raw.githubusercontent.com/xiaolai/nlpm/main/templates/workflows/nlpm-check.yml
 ```
 
 The workflow runs `nlpm-check` on every push and pull request. No
@@ -495,13 +495,13 @@ English. `/nlpm:test` evaluates whether the current artifact would
 satisfy each spec.
 
 The format is documented in
-[`skills/nlpm/testing/SKILL.md`](https://github.com/xiaolai/nlpm-for-claude/blob/main/skills/nlpm/testing/SKILL.md).
+[`skills/nlpm/testing/SKILL.md`](https://github.com/xiaolai/nlpm/blob/main/skills/nlpm/testing/SKILL.md).
 
 ### `skills/<name>/vocabulary/registry.yaml` — vocabulary registry
 
 Optional. Required only if you enable R51. Declares canonical
 nouns, verbs, scopes, and sanctioned cross-scope homonyms. NLPM
-ships [its own example registry](https://github.com/xiaolai/nlpm-for-claude/blob/main/skills/nlpm/vocabulary/registry.yaml)
+ships [its own example registry](https://github.com/xiaolai/nlpm/blob/main/skills/nlpm/vocabulary/registry.yaml)
 covering the `internal` and `auditor` scopes.
 
 ## Related

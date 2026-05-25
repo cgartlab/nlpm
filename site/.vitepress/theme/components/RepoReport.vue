@@ -404,7 +404,7 @@ function mountRefs(container: HTMLDivElement, refs: { nodes: any[]; edges: any[]
       <p>
         Every artifact in this repo passes <a href="/reference/rules">all NLPM rules</a> at the time of this audit.
         The methodology — same scorer, checker, and security pipeline used on every external repo — is described
-        in <a v-if="d.repo_meta?.audit_report_path" :href="`https://github.com/xiaolai/nlpm-for-claude/blob/main/${d.repo_meta.audit_report_path}`">the audit markdown</a>.
+        in <a v-if="d.repo_meta?.audit_report_path" :href="`https://github.com/xiaolai/nlpm/blob/main/${d.repo_meta.audit_report_path}`">the audit markdown</a>.
       </p>
     </section>
 

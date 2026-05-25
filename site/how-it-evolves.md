@@ -109,15 +109,15 @@ gated steps read.
 
 Five files carry the entire memory of the loop. They live under
 `auditor/` and are documented schema-by-schema in
-[`auditor/SCHEMAS.md`](https://github.com/xiaolai/nlpm-for-claude/blob/main/auditor/SCHEMAS.md).
+[`auditor/SCHEMAS.md`](https://github.com/xiaolai/nlpm/blob/main/auditor/SCHEMAS.md).
 
 | File | Append-only | What's in it |
 |---|---|---|
-| [`auditor/findings.jsonl`](https://github.com/xiaolai/nlpm-for-claude/blob/main/auditor/findings.jsonl) | yes | One record per audit finding (bug, quality, security, cross-component). Each record carries a deterministic `fingerprint` (sha256 of `repo + rule_id + file + line + pattern`) that joins it across the whole pipeline. |
-| [`auditor/disagreements.jsonl`](https://github.com/xiaolai/nlpm-for-claude/blob/main/auditor/disagreements.jsonl) | yes | Evidence that a finding was wrong, contested, or unwelcome. Four kinds: `self_false_positive`, `pr_comments_snapshot`, `maintainer_rejected`, `downstream_suppression`. |
-| [`auditor/logs/events.jsonl`](https://github.com/xiaolai/nlpm-for-claude/blob/main/auditor/logs/events.jsonl) | yes | Lifecycle events from every workflow run + the aggregated outcome events (`finding_outcome`, `finding_verified`, `finding_introduced`, `findings_aggregated`). |
-| [`auditor/vocab-advisories.jsonl`](https://github.com/xiaolai/nlpm-for-claude/blob/main/auditor/vocab-advisories.jsonl) | yes | One record per vocabulary drift cluster. Advisory only — never reaches the contribute step. |
-| [`auditor/registry/repos.json`](https://github.com/xiaolai/nlpm-for-claude/blob/main/auditor/registry/repos.json) | mutated in place | The tracking database: repo state, scores, PRs opened, lifecycle status. |
+| [`auditor/findings.jsonl`](https://github.com/xiaolai/nlpm/blob/main/auditor/findings.jsonl) | yes | One record per audit finding (bug, quality, security, cross-component). Each record carries a deterministic `fingerprint` (sha256 of `repo + rule_id + file + line + pattern`) that joins it across the whole pipeline. |
+| [`auditor/disagreements.jsonl`](https://github.com/xiaolai/nlpm/blob/main/auditor/disagreements.jsonl) | yes | Evidence that a finding was wrong, contested, or unwelcome. Four kinds: `self_false_positive`, `pr_comments_snapshot`, `maintainer_rejected`, `downstream_suppression`. |
+| [`auditor/logs/events.jsonl`](https://github.com/xiaolai/nlpm/blob/main/auditor/logs/events.jsonl) | yes | Lifecycle events from every workflow run + the aggregated outcome events (`finding_outcome`, `finding_verified`, `finding_introduced`, `findings_aggregated`). |
+| [`auditor/vocab-advisories.jsonl`](https://github.com/xiaolai/nlpm/blob/main/auditor/vocab-advisories.jsonl) | yes | One record per vocabulary drift cluster. Advisory only — never reaches the contribute step. |
+| [`auditor/registry/repos.json`](https://github.com/xiaolai/nlpm/blob/main/auditor/registry/repos.json) | mutated in place | The tracking database: repo state, scores, PRs opened, lifecycle status. |
 
 Append-only means: fixing a record means appending a superseding
 event (`finding_amended`, `gate_override`), not editing the original.
@@ -162,7 +162,7 @@ in two different ways across the corpus."
 
 ## Rule health — how the classification works
 
-[`auditor/scripts/rule-health.py`](https://github.com/xiaolai/nlpm-for-claude/blob/main/auditor/scripts/rule-health.py)
+[`auditor/scripts/rule-health.py`](https://github.com/xiaolai/nlpm/blob/main/auditor/scripts/rule-health.py)
 joins the four logs and classifies every rule_id into one of four
 buckets:
 

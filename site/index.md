@@ -89,4 +89,4 @@ It treats natural-language artifacts as code. A 100-point rubric, 51 rules ancho
 - **[/install](/install)** — get started in 30 seconds
 - **[/reference/](/reference/)** — full framework guide (R01–R51, P1–P6, vocabulary concepts)
 - **[/dashboard.html](/dashboard.html)** — cross-repo audit dashboard (200+ plugins)
-- **[GitHub](https://github.com/xiaolai/nlpm-for-claude)** — source, issues, releases
+- **[GitHub](https://github.com/xiaolai/nlpm)** — source, issues, releases

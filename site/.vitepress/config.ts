@@ -125,7 +125,7 @@ export default withMermaid(defineConfig({
           },
         ],
       },
-      { text: 'GitHub', link: 'https://github.com/xiaolai/nlpm-for-claude' },
+      { text: 'GitHub', link: 'https://github.com/xiaolai/nlpm' },
     ],
 
     sidebar: {
@@ -166,7 +166,7 @@ export default withMermaid(defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/xiaolai/nlpm-for-claude' },
+      { icon: 'github', link: 'https://github.com/xiaolai/nlpm' },
     ],
 
     search: {
@@ -182,7 +182,7 @@ export default withMermaid(defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/xiaolai/nlpm-for-claude/edit/main/site/:path',
+      pattern: 'https://github.com/xiaolai/nlpm/edit/main/site/:path',
       text: 'Edit this page on GitHub',
     },
 

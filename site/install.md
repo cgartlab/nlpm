@@ -34,14 +34,14 @@ claude plugin install nlpm@xiaolai --scope user
 `bin/nlpm-check` is a single-file Python script (stdlib only) that runs the deterministic subset of `/nlpm:check`. Drop into pre-commit hooks or CI.
 
 ```bash
-git clone https://github.com/xiaolai/nlpm-for-claude
-./nlpm-for-claude/bin/nlpm-check /path/to/your/plugin
+git clone https://github.com/xiaolai/nlpm
+./nlpm/bin/nlpm-check /path/to/your/plugin
 ```
 
 Or copy `bin/nlpm-check` into your repo:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/xiaolai/nlpm-for-claude/main/bin/nlpm-check -o nlpm-check
+curl -fsSL https://raw.githubusercontent.com/xiaolai/nlpm/main/bin/nlpm-check -o nlpm-check
 chmod +x nlpm-check
 ./nlpm-check .
 ```
@@ -86,4 +86,4 @@ claude plugin uninstall nlpm@xiaolai
 
 - [/reference/](/reference/) — full framework guide
 - [Auditor dashboard](/dashboard.html) — cross-repo audit data
-- [GitHub issues](https://github.com/xiaolai/nlpm-for-claude/issues) — bug reports, feature requests
+- [GitHub issues](https://github.com/xiaolai/nlpm/issues) — bug reports, feature requests

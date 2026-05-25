@@ -64,7 +64,7 @@ if [ -f "$ROOT/skills/nlpm/vocabulary/registry.yaml" ]; then
     --registry "$ROOT/skills/nlpm/vocabulary/registry.yaml" \
     --out /tmp/nlpm-vocab.json >/dev/null
   python3 "$ROOT/auditor/scripts/render-repo-report.py" \
-    --repo xiaolai/nlpm-for-claude \
+    --repo xiaolai/nlpm \
     --vocab-data /tmp/nlpm-vocab.json >/dev/null 2>&1 || \
     echo "  (NLPM self-audit re-render failed; continuing)"
 fi

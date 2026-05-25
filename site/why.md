@@ -204,7 +204,7 @@ discipline is worth naming, and that a corpus of real audits will
 outlast any single rule.
 
 [^1]: The principles document lives at
-[`analysis/vocabulary-design-principles.md`](https://github.com/xiaolai/nlpm-for-claude/blob/main/analysis/vocabulary-design-principles.md)
+[`analysis/vocabulary-design-principles.md`](https://github.com/xiaolai/nlpm/blob/main/analysis/vocabulary-design-principles.md)
 in the repository, with the full precedence rationale and the OntoClean /
 DDD / ISO 25964 / BPMN derivation. The shorter web-facing version is at
 [/reference/principles](/reference/principles).
