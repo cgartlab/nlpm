@@ -1,7 +1,7 @@
 ---
 name: scoring
 description: "Use when scoring NL artifact quality, applying penalties, or calibrating lint judgment — contains the 100-point rubric with penalty tables per artifact type and 4 worked calibration examples."
-version: 0.2.0
+version: 0.2.1
 ---
 
 # NLPM Quality Scoring Rubric
@@ -399,9 +399,13 @@ Total penalties: -59
 ## Scope Note
 
 This skill covers the NLPM scoring formula, penalty tables, score bands, and calibration examples. It does NOT cover:
-- Artifact schemas and valid field values → see `nlpm:conventions`
+- Artifact schemas and valid field values → see `nlpm:conventions` (universal) and the tool-specific overlays `nlpm:conventions-claude`, `nlpm:conventions-codex`, `nlpm:conventions-antigravity` (the latter three created in PR-B; see `analysis/multi-tool-design-2026-05.md`)
 - Patterns and anti-patterns catalog → see `nlpm:patterns`
 - How to run the score command → see `commands/score.md`
+
+### Multi-tool scoring (in progress, 2026-05-25)
+
+nlpm is moving from Claude-Code-only to multi-tool coverage (Claude Code + Codex CLI + Antigravity). The Tier classification in `agents/scorer.md` already separates open-spec, Tier 1.5 open-spec corpora, and Tier 2 per-tool overlays (2-Claude / 2-Codex / 2-Antigravity). PR-B will split the Hooks penalty table into per-tool tables (the three tools' event vocabularies are not 1:1-mappable, by design — see the design doc) and add new rows for `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`, `gemini-extension.json`, `agents/openai.yaml` sidecars, LSP, Monitors, and new Claude SKILL.md fields (`context: fork`, `agent:`, `paths:` glob scoping, skill-scoped `hooks:`, etc.). Until PR-B lands, Tier 2-Codex and Tier 2-Antigravity artifacts are detected but scored at the universal floor only.
 
 ### Known False Positive Patterns
 

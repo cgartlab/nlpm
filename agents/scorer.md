@@ -70,13 +70,16 @@ categories. Before reporting any finding, run this 5-step check:
      is required per `nlpm:conventions` §2; primary source:
      <https://code.claude.com/docs/en/slash-commands>)
 
-3. **Path scope check** — three tiers, evaluated in this order:
+3. **Path scope check** — multi-tier classification, evaluated in this order.
+   See `analysis/multi-tool-design-2026-05.md` for the design rationale and
+   the PR-A / PR-B / PR-C staging plan.
 
    **Tier 1 — Cross-tool SKILL.md (open spec at agentskills.io).** SKILL.md
    files at tool-namespaced paths are scored against the universal Agent
-   Skills spec; do NOT apply Claude-Code-specific overlays:
+   Skills spec; do NOT apply any tool-specific overlays:
    - `.codex/skills/<name>/SKILL.md`, `.agents/skills/<name>/SKILL.md`
    - `.continue/skills/`, `.cursor/skills/`, `.kiro/skills/`, `.gemini/skills/`
+   - `<workspace>/.agent/skills/` (Antigravity-specific, singular)
    - Any `<tool>/skills/<name>/SKILL.md` layout
    These ARE skill paths — score them per the open spec (only `name` and
    `description` required; `license`, `compatibility`, `metadata`,
@@ -85,25 +88,78 @@ categories. Before reporting any finding, run this 5-step check:
 
    **Tier 1.5 — Open-spec corpora at the Tier 2 glob (added 2026-05-25,
    audit: google/skills).** When a SKILL.md matches the Tier 2 glob
-   `skills/**/SKILL.md` BUT the repo root has none of these Claude-Code
-   markers — `.claude/` directory, `.claude-plugin/plugin.json`,
-   `CLAUDE.md`, `hooks/hooks.json`, `commands/` directory, `agents/`
-   directory — treat the file as **Tier 1** (open Agent Skills spec only).
-   This handles first-party open-spec publications such as `google/skills`,
-   `android/skills`, and `google-gemini/gemini-skills`, which live at
-   `skills/<category>/<name>/SKILL.md` with no surrounding plugin
-   scaffolding. Applying the Tier 2 Claude-Code overlay to these repos
-   would over-penalize them for missing `## Output`, `version:`, and
-   `model:` fields that the open spec does not require. Detection is
-   deterministic: a single directory-existence check on the repo root.
+   `skills/**/SKILL.md` BUT the repo root has none of these markers from
+   ANY of the supported tools (see Tier 2-Claude / 2-Codex / 2-Antigravity
+   marker lists below), treat the file as **Tier 1** (open Agent Skills
+   spec only). This handles first-party open-spec publications such as
+   `google/skills`, `android/skills`, and `google-gemini/gemini-skills`,
+   which live at `skills/<category>/<name>/SKILL.md` with no surrounding
+   plugin scaffolding. Applying a tool-specific overlay would over-penalize
+   them for fields the open spec does not require. Detection is
+   deterministic: a multi-marker directory/file existence check on the
+   repo root.
 
-   **Tier 2 — Claude Code-specific paths.** Apply both spec-level checks
-   AND Claude Code conventions:
+   **Tier 2-Claude — Claude Code project.** Markers (presence of ANY):
+   `.claude/` directory, `.claude-plugin/plugin.json`,
+   `.claude-plugin/marketplace.json`, `CLAUDE.md`, `hooks/hooks.json`.
+   Artifact paths scored under this overlay:
    - `.claude/commands/**/*.md`, `commands/**/*.md`
    - `.claude/agents/**/*.md`, `agents/**/*.md`
    - `.claude/skills/**/SKILL.md`, `skills/**/SKILL.md`
    - `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`
    - `hooks/hooks.json`, `.mcp.json`, `CLAUDE.md`
+   - `.claude/rules/**/*.md`, `.claude/settings.json`, `.lsp.json`,
+     `monitors/monitors.json`
+   Apply both spec-level checks AND Claude Code conventions. Loads
+   `nlpm:conventions` and (after PR-B lands) `nlpm:conventions-claude`.
+
+   **Tier 2-Codex — Codex CLI project (added 2026-05-25, PR-A).**
+   Markers (presence of ANY): `.codex/config.toml`, `.codex/hooks.json`,
+   `.codex-plugin/plugin.json`, `.agents/plugins/marketplace.json`,
+   `AGENTS.md` at repo root with no other tool markers present, or
+   `~/.codex/prompts/` references in the repo. Artifact paths scored
+   under this overlay:
+   - `.agents/skills/<name>/SKILL.md` (cross-tool surface)
+   - `.codex/config.toml`, `.codex/hooks.json`
+   - `.codex-plugin/plugin.json`
+   - `.agents/plugins/marketplace.json`
+   - `AGENTS.md` (hierarchical, root-down)
+   - `agents/openai.yaml` sidecars next to SKILL.md files
+   **PR-A staging:** Tier 2-Codex DETECTION works; the matching
+   `nlpm:conventions-codex` overlay does not yet exist. Until PR-B,
+   Codex-shaped repos score at the universal floor (open spec only)
+   for skill content, and Codex-specific artifacts (config.toml,
+   hooks.json, plugin.json, marketplace.json) are silently skipped
+   rather than scored against a missing rubric. This is correct
+   "detected but not yet rubricized" behavior — same shape as Tier 1.5.
+
+   **Tier 2-Antigravity — Antigravity / Gemini-lineage project (added
+   2026-05-25, PR-A).** Markers (presence of ANY): `.gemini/`, `.agent/`
+   (singular, Antigravity-specific), `gemini-extension.json`, `GEMINI.md`,
+   `~/.gemini/extensions/` references, `<workspace>/.agent/skills/`.
+   Artifact paths scored under this overlay:
+   - `.gemini/skills/<name>/SKILL.md`, `.agents/skills/<name>/SKILL.md`,
+     `<workspace>/.agent/skills/<name>/SKILL.md`
+   - `.gemini/commands/<name>.toml` (TOML format with
+     `{{args}}`/`!{...}`/`@{path}` template syntax)
+   - `.gemini/settings.json` (hooks + MCP servers embedded)
+   - `gemini-extension.json`
+   - `GEMINI.md` (hierarchical with `@file.md` imports)
+   **PR-A staging:** Same as Tier 2-Codex — detection works, overlay
+   `nlpm:conventions-antigravity` does not yet exist; universal floor
+   only until PR-B. Additional caveat: Antigravity 2.0 launched
+   2026-05-19; the directory layout is still settling (singular
+   `.agent/` vs plural `.agents/` cross-tool alias). Defer
+   Antigravity-specific scoring until the spec stabilizes (PR-B
+   trigger conditions documented in the design doc).
+
+   **Multi-tool repos.** When a repo has markers for more than one
+   tool (e.g., nlpm itself ships as both a Claude plugin AND a Codex
+   plugin), classify each artifact by its path — `.claude/*` artifacts
+   under Tier 2-Claude, `.codex/*` artifacts under Tier 2-Codex,
+   `.agents/skills/<name>/SKILL.md` under Tier 1 (open-spec surface
+   shared across tools). The repo does not get one tier; each artifact
+   gets one tier based on its path.
 
    Files outside all tiers (e.g., `.cursorrules`, `.opencode/commands/`)
    follow tool-specific non-skill schemas — drop the finding silently.
