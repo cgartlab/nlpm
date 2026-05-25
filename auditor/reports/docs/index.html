@@ -12,7 +12,7 @@
       <h1>NLPM Framework Reference</h1>
       <p class="proj">All rules, principles, and vocabulary concepts linked from reports.
         <span class="muted">·</span>
-        <span class="muted">2026-05-24T22:46:57Z</span>
+        <span class="muted">2026-05-25T22:47:43Z</span>
       </p>
     </div>
     <div class="hdr-right">
@@ -354,282 +354,79 @@
 
     <section id="artifact-types-wrap" class="doc-block">
       <h2>Artifact types</h2>
-      <section id="artifact-types"><h3><a href="#artifact-types" class="anchor">#</a> Artifact types overview</h3><p>Each row in a report's <em>type</em> column maps to one of the sections below.</p><section class="artifact-type" id="artifact-plugin-json"><h3><a href="#artifact-plugin-json" class="anchor">#</a> plugin.json</h3><p>The plugin manifest. Located at <code>.claude-plugin/plugin.json</code>.</p>
-<p><strong>Required fields:</strong></p>
-<ul>
-<li><code>name</code> — string, kebab-case, unique identifier</li>
-</ul>
-<p><strong>Optional fields:</strong></p>
-<ul>
-<li><code>version</code> — semver string (e.g. <code>&quot;0.1.0&quot;</code>)</li>
-<li><code>description</code> — one-line summary of what the plugin does</li>
-<li><code>author</code> — object: <code>{ &quot;name&quot;: &quot;...&quot;, &quot;email&quot;: &quot;...&quot;, &quot;url&quot;: &quot;...&quot; }</code></li>
-<li><code>homepage</code> — URL string</li>
-<li><code>repository</code> — URL string or object</li>
-<li><code>license</code> — SPDX identifier (e.g. <code>&quot;MIT&quot;</code>)</li>
-<li><code>keywords</code> — string array for discovery</li>
-</ul>
-<p><strong>Component path fields (all optional, string or string[]):</strong></p>
-<ul>
-<li><code>commands</code> — path(s) to command markdown files</li>
-<li><code>agents</code> — path(s) to agent markdown files</li>
-<li><code>skills</code> — path(s) to skill directories</li>
-<li><code>hooks</code> — path to hooks.json</li>
-<li><code>mcpServers</code> — path(s) to MCP server config</li>
-<li><code>lspServers</code> — path(s) to LSP server config</li>
-<li><code>outputStyles</code> — path(s) to output style definitions</li>
-</ul>
-<p><strong>Example:</strong></p>
-<pre><code class="lang-json">{
-  &quot;name&quot;: &quot;my-plugin&quot;,
-  &quot;version&quot;: &quot;0.2.1&quot;,
-  &quot;description&quot;: &quot;Does useful things&quot;,
-  &quot;author&quot;: { &quot;name&quot;: &quot;dev&quot; },
-  &quot;license&quot;: &quot;MIT&quot;,
-  &quot;keywords&quot;: [&quot;tools&quot;, &quot;productivity&quot;],
-  &quot;commands&quot;: &quot;commands/&quot;,
-  &quot;agents&quot;: &quot;agents/&quot;,
-  &quot;skills&quot;: &quot;skills/&quot;
-}</code></pre>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-command-frontmatter"><h3><a href="#artifact-command-frontmatter" class="anchor">#</a> Command Frontmatter</h3><p>Commands live in <code>commands/*.md</code>. Frontmatter is YAML between <code>---</code> delimiters.</p>
-<p><strong>Authoritative reference:</strong> &lt;https://code.claude.com/docs/en/slash-commands&gt;</p>
-<p><strong>Required fields:</strong></p>
-<ul>
-<li><code>description</code> — string; explains what the command does and when to invoke it</li>
-</ul>
-<p><strong>Optional fields:</strong></p>
-<ul>
-<li><code>name</code> — string; per the official docs, <strong>explicitly optional</strong>. When</li>
-</ul>
-<p>omitted, Claude Code falls back to the filename (or enclosing directory for SKILL.md-style layouts). Pre-v0.7.15 NLPM incorrectly flagged missing <code>name:</code> as a bug; the rule was corrected after Jeffallan/claude-skills#184 maintainer feedback citing the same docs.</p>
-<ul>
-<li><code>argument-hint</code> — string; shown in UI as placeholder (e.g. <code>&quot;[path]&quot;</code>, <code>&quot;&lt;file&gt;&quot;</code>)</li>
-<li><code>allowed-tools</code> — string array; tools Claude may call while executing this command</li>
-<li><code>model</code> — one of <code>haiku</code>, <code>sonnet</code>, <code>opus</code>; selects model tier</li>
-<li><code>user-invocable</code> — boolean; set <code>false</code> for shared partials that should not appear in menus</li>
-</ul>
-<p><strong>Body convention:</strong></p>
-<ul>
-<li>Write imperative instructions directed at Claude (not the user)</li>
-<li>Use numbered steps for multi-phase workflows</li>
-<li>Reference shared partials by relative path: <code>commands/shared/name.md</code></li>
-<li>Define the expected output format explicitly in the body</li>
-</ul>
-<p><strong>Example:</strong></p>
-<pre><code class="lang-yaml">---
-description: &quot;Lint all NL artifacts in the current project and report quality scores&quot;
-argument-hint: &quot;[path]&quot;
-allowed-tools: [&quot;Read&quot;, &quot;Glob&quot;]
-model: sonnet
----</code></pre>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-shared-partials"><h3><a href="#artifact-shared-partials" class="anchor">#</a> Shared Partials</h3><p>Reusable command fragments. Located in <code>commands/shared/</code>.</p>
-<p><strong>Rules:</strong></p>
-<ul>
-<li>MUST include <code>user-invocable: false</code> in frontmatter — prevents them appearing as top-level commands</li>
-<li>MUST have a clear <code>description</code> stating their purpose as a partial</li>
-<li>Referenced by full relative path from the consuming command file</li>
-<li>Can contain any mix of instructions, templates, or decision logic</li>
-</ul>
-<p><strong>Example frontmatter:</strong></p>
-<pre><code class="lang-yaml">---
-description: &quot;Shared: discover NL artifact files in a directory tree&quot;
-user-invocable: false
-allowed-tools: [&quot;Glob&quot;]
----</code></pre>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-agent-frontmatter"><h3><a href="#artifact-agent-frontmatter" class="anchor">#</a> Agent Frontmatter</h3><p>Agents live in <code>agents/*.md</code>. They are specialized Claude instances invoked by commands or other agents.</p>
-<p><strong>Documented fields:</strong></p>
-<ul>
-<li><code>name</code> — string; identifier used when referencing or invoking this agent</li>
-<li><code>description</code> — string; critical for reliable triggering — should contain 3+ specific phrases describing when to use this agent</li>
-</ul>
-<p><strong>Convention fields (not enforced by schema but strongly recommended):</strong></p>
-<ul>
-<li><code>model</code> — <code>haiku</code> / <code>sonnet</code> / <code>opus</code>; declare explicitly</li>
-<li><code>color</code> — one of <code>cyan</code>, <code>blue</code>, <code>magenta</code>, <code>yellow</code>, <code>green</code>, <code>red</code>; visual label in UI</li>
-<li><code>tools</code> — tools the agent body actually needs; two valid formats (both accepted by Claude Code):</li>
-<ul>
-<li>JSON array: <code>tools: [&quot;Read&quot;, &quot;Glob&quot;]</code></li>
-<li>Comma-separated string: <code>tools: Read, Glob, Grep</code></li>
-</ul>
-<li><code>skills</code> — skill references; two valid formats:</li>
-<ul>
-<li>JSON array: <code>skills: [&quot;nlpm:conventions&quot;]</code></li>
-<li>YAML list: <code>skills:\n  - nlpm:conventions</code></li>
-</ul>
-</ul>
-<p><strong>Best practice: include <code>&lt;example&gt;</code> blocks in description:</strong></p>
-<pre><code class="lang-markdown">---
-description: |
-  Scans a directory for Claude Code artifact files. Use this agent when
-  you need to discover commands, agents, skills, rules, or hooks. Also
-  triggers on &quot;inventory NL files&quot; or &quot;find plugin components&quot;.
-
-  &lt;example&gt;
-  Context: User asks to audit a plugin repo
-  user: find all the agent files in this plugin
-  assistant: I&#39;ll scan the directory structure for agent markdown files...
-  &lt;/example&gt;
-
-  &lt;example&gt;
-  Context: Command invokes scanner as sub-agent
-  user: /scan
-  assistant: Invoking scanner agent to discover NL artifacts...
-  &lt;/example&gt;
-model: haiku
-color: cyan
-tools: [&quot;Glob&quot;, &quot;Read&quot;]
-skills: [&quot;nlpm:conventions&quot;]
----</code></pre>
-<p>Two or more <code>&lt;example&gt;</code> blocks with diverse scenarios is the minimum for reliable triggering.</p>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-skill-structure"><h3><a href="#artifact-skill-structure" class="anchor">#</a> Skill Structure</h3><p>SKILL.md is a <strong>cross-tool open standard</strong> (Agent Skills spec, stewarded by the Agentic AI Foundation under the Linux Foundation). Anthropic published the spec on 2025-12-18; OpenAI/Microsoft/Google adopted within 48 hours. By March 2026, 32 tools (Claude Code, Codex, Gemini CLI, Cursor, Kiro, Continue, etc.) read the same SKILL.md format.</p>
-<p><strong>Authoritative reference:</strong> https://agentskills.io/specification</p>
+      <section id="artifact-types"><h3><a href="#artifact-types" class="anchor">#</a> Artifact types overview</h3><p>Each row in a report's <em>type</em> column maps to one of the sections below.</p><section class="artifact-type" id="artifact-skill-md-cross-tool-open-standard"><h3><a href="#artifact-skill-md-cross-tool-open-standard" class="anchor">#</a> SKILL.md — Cross-Tool Open Standard</h3><p>SKILL.md is the <strong>Agent Skills open spec</strong>, stewarded by the Agentic AI Foundation under the Linux Foundation. Anthropic published the spec on 2025-12-18; OpenAI, Microsoft, Google adopted within 48 hours. By 2026-03, 32+ tools read the same SKILL.md format (Claude Code, Codex, Gemini CLI / Antigravity, Cursor, Kiro, Continue, etc.).</p>
+<p><strong>Authoritative reference:</strong> &lt;https://agentskills.io/specification&gt;</p>
 <p><strong>Required frontmatter (per the open spec):</strong></p>
 <ul>
-<li><code>name</code> — string; 1-64 chars, lowercase + hyphens only, MUST match</li>
+<li><code>name</code> — string; 1-64 chars, lowercase + hyphens only, <strong>MUST match parent directory name</strong> (no leading/trailing/consecutive hyphens).</li>
+<li><code>description</code> — string; 1-1024 chars; should describe what the skill does AND when to use it.</li>
 </ul>
-<p>parent directory name. No leading/trailing/consecutive hyphens.</p>
-<ul>
-<li><code>description</code> — string; 1-1024 chars; should describe what the skill</li>
-</ul>
-<p>does AND when to use it.</p>
 <p><strong>Optional frontmatter (per the open spec):</strong></p>
 <ul>
-<li><code>license</code> — license name or reference to a bundled file</li>
-<li><code>compatibility</code> — environment requirements (max 500 chars; e.g.,</li>
+<li><code>license</code> — license name or reference to a bundled file.</li>
+<li><code>compatibility</code> — environment requirements, max 500 chars (e.g., &quot;Designed for Claude Code&quot;, &quot;Requires Python 3.14+ and uv&quot;).</li>
+<li><code>metadata</code> — arbitrary key-value mapping (<code>author</code>, <code>version</code>, etc. go here, NOT as top-level fields).</li>
+<li><code>allowed-tools</code> — space-separated tool list (experimental in spec; tool-specific in practice — e.g., <code>Bash(git:*) Read</code>).</li>
 </ul>
-<p>&quot;Designed for Claude Code&quot;, &quot;Requires Python 3.14+ and uv&quot;)</p>
-<ul>
-<li><code>metadata</code> — arbitrary key-value mapping (<code>author</code>, <code>version</code>, etc.</li>
-</ul>
-<p>go here, NOT as top-level fields)</p>
-<ul>
-<li><code>allowed-tools</code> — space-separated tool list (experimental; e.g.,</li>
-</ul>
-<p><code>Bash(git:*) Read</code>)</p>
-<p><strong>Path conventions (Claude Code):</strong></p>
-<ul>
-<li>Single plugin skill: <code>skills/&lt;name&gt;/SKILL.md</code></li>
-<li>Multi-skill plugin: <code>skills/&lt;plugin&gt;/&lt;name&gt;/SKILL.md</code></li>
-<li>Project-scoped: <code>.claude/skills/&lt;name&gt;/SKILL.md</code></li>
-</ul>
-<p><strong>Path conventions (other tools — all are valid skill paths per the open spec):</strong></p>
-<ul>
-<li>Codex: <code>.codex/skills/&lt;name&gt;/SKILL.md</code> (older) or <code>.agents/skills/&lt;name&gt;/SKILL.md</code> (canonical)</li>
-<li>Continue: <code>.continue/skills/&lt;name&gt;/SKILL.md</code></li>
-<li>Kiro: <code>.kiro/skills/&lt;name&gt;/SKILL.md</code></li>
-<li>Gemini CLI: <code>.gemini/skills/&lt;name&gt;/SKILL.md</code></li>
-</ul>
-<p>NLPM scoring applies the <strong>universal spec rules</strong> to all SKILL.md files regardless of path. Claude-Code-specific extensions (e.g., the <code>model:</code> field on agents, <code>## Output</code> section preferences) apply ONLY to files at Claude-canonical paths.</p>
+<p><strong>Tool-specific extensions to SKILL.md frontmatter</strong> live in the per-tool overlay skills. The scorer applies the universal spec rules to ALL SKILL.md files. Tool-specific overlay rules apply ONLY to files at the matching tool&#39;s canonical paths.</p>
+<p><strong>Skill paths (canonical, per tool):</strong></p>
+<table>
+<thead><tr><th>Tool</th><th>Path</th></tr></thead>
+<tbody>
+<tr><td>Open-spec (cross-tool)</td><td><code>.agents/skills/&lt;name&gt;/SKILL.md</code></td></tr>
+<tr><td>Claude Code</td><td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td></tr>
+<tr><td>Codex CLI</td><td><code>.agents/skills/&lt;name&gt;/SKILL.md</code></td></tr>
+<tr><td>Antigravity</td><td><code>&lt;workspace&gt;/.agent/skills/&lt;name&gt;/SKILL.md</code> (singular) AND <code>.agents/skills/&lt;name&gt;/SKILL.md</code> (cross-tool alias)</td></tr>
+<tr><td>Gemini CLI (legacy)</td><td><code>.gemini/skills/&lt;name&gt;/SKILL.md</code></td></tr>
+<tr><td>Continue, Cursor, Kiro</td><td><code>.&lt;tool&gt;/skills/&lt;name&gt;/SKILL.md</code></td></tr>
+</tbody></table>
 <p><strong>Body rules (recommendations, not spec requirements):</strong></p>
 <ul>
-<li>Keep under 500 lines — exceeding creates context bloat (spec recommends</li>
+<li>Keep under 500 lines — exceeding creates context bloat (spec recommends under 5000 tokens for the body, with overflow in <code>references/</code>).</li>
+<li>Reference material — imperatives belong in commands/agents.</li>
+<li>Include a scope note: what this skill covers and what it does NOT cover.</li>
+<li>Cross-reference related skills with their <code>plugin:skill</code> identifiers.</li>
 </ul>
-<p>under 5000 tokens for the body, with overflow in <code>references/</code>)</p>
-<ul>
-<li>Reference material — imperatives belong in commands/agents</li>
-<li>Include a scope note: what this skill covers and what it does NOT cover</li>
-<li>Cross-reference related skills with their <code>plugin:skill</code> identifiers</li>
-</ul>
-<p>The spec explicitly says &quot;no format restrictions&quot; on the body — do NOT penalize SKILL.md files for missing <code>## Output</code> or other section conventions. Those are Claude-Code-style preferences, not spec violations.</p>
+<p>The spec explicitly says &quot;no format restrictions&quot; on the body — do NOT penalize SKILL.md files for missing <code>## Output</code> or other section conventions. Those are tool-specific style preferences, not spec violations.</p>
 <p><strong>Supporting directories (per the spec):</strong></p>
 <ul>
 <li><code>scripts/</code> — executable code (Python, Bash, JavaScript)</li>
-<li><code>references/</code> — additional docs loaded on demand (REFERENCE.md,</li>
-</ul>
-<p>FORMS.md, domain-specific files)</p>
-<ul>
+<li><code>references/</code> — additional docs loaded on demand</li>
 <li><code>assets/</code> — templates, images, data files</li>
 </ul>
 <p><strong>Progressive disclosure:</strong></p>
 <ol>
-<li>Metadata (~100 tokens): name + description loaded at startup for ALL skills</li>
-<li>Instructions (&lt;5000 tokens): full SKILL.md body loaded when activated</li>
-<li>Resources: scripts/references/assets loaded only when needed</li>
+<li>Metadata (~100 tokens): name + description loaded at startup for ALL skills.</li>
+<li>Instructions (&lt;5000 tokens): full SKILL.md body loaded when activated.</li>
+<li>Resources: scripts/references/assets loaded only when needed.</li>
 </ol>
 <p>---</p></section>
-<section class="artifact-type" id="artifact-rules"><h3><a href="#artifact-rules" class="anchor">#</a> Rules</h3><p>Rules live in <code>.claude/rules/&lt;name&gt;.md</code>.</p>
-<p><strong>Frontmatter:</strong></p>
+<section class="artifact-type" id="artifact-agents-md-canonical-universal-memory-file"><h3><a href="#artifact-agents-md-canonical-universal-memory-file" class="anchor">#</a> AGENTS.md — Canonical Universal Memory File</h3><p>Per nlpm decision (<code>analysis/multi-tool-design-2026-05.md</code> §5), AGENTS.md is the canonical universal memory file across all tools nlpm supports.</p>
+<p><strong>Tool-native support:</strong></p>
 <ul>
-<li><code>description</code> — string (required); summary shown in rule lists</li>
-<li><code>paths</code> — string array (optional); glob patterns scoping which files this rule applies to</li>
+<li><strong>Codex CLI:</strong> reads AGENTS.md natively. Hierarchical (root→cwd; closer overrides earlier). 32 KiB cap. <code>~/.codex/AGENTS.override.md</code> for personal overlays.</li>
+<li><strong>Antigravity (and Gemini CLI):</strong> reads <code>GEMINI.md</code> natively, but <code>context.fileName</code> setting accepts an array — set to <code>[&quot;AGENTS.md&quot;, &quot;GEMINI.md&quot;]</code> to make it read AGENTS.md.</li>
+<li><strong>Claude Code:</strong> reads <code>CLAUDE.md</code> natively, supports <code>@file.md</code> import syntax. The canonical pattern is a one-line <code>CLAUDE.md</code> containing <code>@AGENTS.md</code>.</li>
 </ul>
-<p><strong>Body format:</strong></p>
+<p><strong>Recommended pattern for multi-tool projects:</strong></p>
+<pre><code>project-root/
+├── AGENTS.md           # canonical content — all instructions live here
+├── CLAUDE.md           # one line: @AGENTS.md
+├── GEMINI.md           # one line: @AGENTS.md  (only if Gemini-native @-import works)
+└── .gemini/settings.json  # set context.fileName: [&quot;AGENTS.md&quot;]</code></pre>
+<p>This is exactly how nlpm itself is structured (<code>CLAUDE.md</code> → <code>@AGENTS.md</code>).</p>
+<p><strong>Body conventions</strong> (universal):</p>
 <ul>
-<li>Lead with a <strong>bold imperative</strong>: <code>**Always do X.**</code> or <code>**Use Y instead of Z.**</code></li>
-<li>Follow immediately with rationale: &quot;Because W, using X ensures...&quot;</li>
-<li>Be specific and testable — vague rules cannot be linted or enforced</li>
-<li>State what to DO, not only what to avoid (Pink Elephant effect: prohibitions without alternatives are ignored)</li>
+<li>Open with a one-line project description.</li>
+<li><code>## Architecture</code> or <code>## Project Structure</code> — what lives where.</li>
+<li><code>## Build</code> / <code>## Run</code> / <code>## Test</code> — verifiable commands.</li>
+<li><code>## Prerequisites</code> — required tools / versions / setup.</li>
+<li><code>## Conventions</code> — naming, style, patterns.</li>
 </ul>
-<p><strong>Budget:</strong> Under 500 lines total per rules file.</p>
-<p><strong>Naming convention for ordered sets:</strong> <code>NN-kebab-name.md</code> (e.g. <code>01-formatting.md</code>, <code>02-naming.md</code>)</p>
-<p><strong>Example:</strong></p>
-<pre><code class="lang-markdown">---
-description: &quot;Always use kebab-case for file and plugin names&quot;
-paths: [&quot;**/*.json&quot;, &quot;**/*.md&quot;]
----
-
-**Use kebab-case for all file and plugin names.**
-
-Because Claude Code resolves plugin references by exact string match, inconsistent casing
-causes lookup failures. `my-plugin` and `MyPlugin` are treated as different identifiers.
-
-Correct: `my-plugin`, `tdd-guardian`, `echo-sleuth`
-Incorrect: `myPlugin`, `MyPlugin`, `my_plugin`</code></pre>
+<p><strong>Tool-specific memory-file extensions</strong> (e.g., Claude Code&#39;s <code>@</code>-import syntax, Gemini&#39;s <code>@{path}</code> injection, Codex&#39;s <code>project_doc_fallback_filenames</code>) live in the per-tool overlays.</p>
 <p>---</p></section>
-<section class="artifact-type" id="artifact-hook-events"><h3><a href="#artifact-hook-events" class="anchor">#</a> Hook Events</h3><p>Hook events are <strong>case-sensitive</strong>. Using wrong case silently ignores the hook.</p>
-<p><strong>Available events:</strong> | Event | Trigger | |-------|---------| | <code>PreToolUse</code> | Before any tool call | | <code>PostToolUse</code> | After successful tool call | | <code>PostToolUseFailure</code> | After failed tool call | | <code>PermissionRequest</code> | When Claude requests permission | | <code>UserPromptSubmit</code> | When user submits a prompt | | <code>Stop</code> | When main agent stops | | <code>SubagentStop</code> | When sub-agent stops | | <code>SessionStart</code> | Session initialization | | <code>SessionEnd</code> | Session teardown | | <code>PreCompact</code> | Before context compaction | | <code>Notification</code> | On notification events | | <code>InstructionsLoaded</code> | After instructions load | | <code>TaskCompleted</code> | After Claude completes a task |</p>
-<p><strong>Hook types:</strong> <code>command</code>, <code>prompt</code>, <code>agent</code></p>
-<p><strong>Matcher:</strong> Regex pattern matched against the tool name (for tool hooks). Empty string matches all.</p>
-<p><strong>Permission decision output</strong> (for <code>PermissionRequest</code> hooks):</p>
-<pre><code class="lang-json">{
-  &quot;hookSpecificOutput&quot;: {
-    &quot;permissionDecision&quot;: &quot;allow&quot;,
-    &quot;permissionDecisionReason&quot;: &quot;This tool call is safe because...&quot;
-  }
-}</code></pre>
-<p><code>permissionDecision</code> values: <code>&quot;allow&quot;</code> or <code>&quot;deny&quot;</code></p>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-hooks-json-format"><h3><a href="#artifact-hooks-json-format" class="anchor">#</a> hooks.json Format</h3><p>Located at <code>.claude/hooks.json</code> or path specified in <code>plugin.json</code>.</p>
-<pre><code class="lang-json">{
-  &quot;hooks&quot;: {
-    &quot;PreToolUse&quot;: [
-      {
-        &quot;matcher&quot;: &quot;Write|Edit&quot;,
-        &quot;hooks&quot;: [
-          {
-            &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/scripts/pre-write-check.sh&quot;
-          }
-        ]
-      }
-    ],
-    &quot;SessionStart&quot;: [
-      {
-        &quot;matcher&quot;: &quot;&quot;,
-        &quot;hooks&quot;: [
-          {
-            &quot;type&quot;: &quot;prompt&quot;,
-            &quot;prompt&quot;: &quot;You are now in strict TDD mode. No production code without a failing test.&quot;
-          }
-        ]
-      }
-    ]
-  }
-}</code></pre>
-<p><strong>Structure rules:</strong></p>
-<ul>
-<li>Top-level key: <code>&quot;hooks&quot;</code></li>
-<li>Second-level keys: event names (case-sensitive)</li>
-<li>Each event maps to an array of matcher objects</li>
-<li>Each matcher object: <code>{ &quot;matcher&quot;: &quot;&lt;regex&gt;&quot;, &quot;hooks&quot;: [...] }</code></li>
-<li>Each hook object: <code>{ &quot;type&quot;: &quot;command&quot;|&quot;prompt&quot;|&quot;agent&quot;, &quot;&lt;type-field&gt;&quot;: &quot;...&quot; }</code> where the field name matches the type: <code>&quot;command&quot;</code> for type <code>command</code>, <code>&quot;prompt&quot;</code> for type <code>prompt</code>, <code>&quot;agent&quot;</code> for type <code>agent</code></li>
-</ul>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-general-prompt-engineering"><h3><a href="#artifact-general-prompt-engineering" class="anchor">#</a> General Prompt Engineering</h3><p><strong>Layer order</strong> (imperative for complex prompts):</p>
+<section class="artifact-type" id="artifact-general-prompt-engineering"><h3><a href="#artifact-general-prompt-engineering" class="anchor">#</a> General Prompt Engineering</h3><p>Universal patterns applicable to any NL artifact (commands, agents, skills, prompts) regardless of tool.</p>
+<p><strong>Layer order</strong> (imperative for complex prompts):</p>
 <ol>
 <li>Role/persona — &quot;You are a strict code reviewer...&quot;</li>
 <li>Context — project state, prior decisions, file paths, constraints</li>
@@ -641,45 +438,38 @@ Incorrect: `myPlugin`, `MyPlugin`, `my_plugin`</code></pre>
 <p><strong>Positive framing:</strong> State what to do. &quot;Use imperative verbs&quot; beats &quot;Don&#39;t use passive voice.&quot; The brain processes prohibitions poorly under inference load (Pink Elephant effect).</p>
 <p><strong>Explicit output format:</strong> Every command and agent body should define exactly what the output should look like — section names, table formats, score displays, etc.</p>
 <p>---</p></section>
-<section class="artifact-type" id="artifact-naming-conventions"><h3><a href="#artifact-naming-conventions" class="anchor">#</a> Naming Conventions</h3><table>
+<section class="artifact-type" id="artifact-vague-quantifiers-r01"><h3><a href="#artifact-vague-quantifiers-r01" class="anchor">#</a> Vague Quantifiers (R01)</h3><p>The R01 rule penalizes unbounded quantifiers without measurable criteria. The penalty applies regardless of which tool the artifact targets.</p>
+<p><strong>Penalized terms:</strong> <code>appropriate</code>, <code>relevant</code>, <code>as needed</code>, <code>sufficient</code>, <code>adequate</code>, <code>reasonable</code>, <code>properly</code>, <code>correctly</code>, <code>some</code>, <code>several</code>, <code>various</code>.</p>
+<p><strong>Carve-outs (do NOT penalize):</strong></p>
+<ul>
+<li><code>relevant</code> in a markdown header (e.g., <code>## Relevant X</code>).</li>
+<li><code>relevant to &lt;named-scope&gt;</code> constructions (semantic &quot;pertinent to&quot;).</li>
+<li>Any term followed by a measurable criterion clause (e.g., &quot;appropriate to the SLO target of 99.9% uptime&quot;).</li>
+</ul>
+<p>See <code>nlpm:scoring</code> for the full vague-quantifier penalty table and cap (-2 each, -20 cap).</p>
+<p>---</p></section>
+<section class="artifact-type" id="artifact-naming-conventions-universal"><h3><a href="#artifact-naming-conventions-universal" class="anchor">#</a> Naming Conventions (universal)</h3><table>
 <thead><tr><th>Item</th><th>Convention</th><th>Example</th></tr></thead>
 <tbody>
 <tr><td>File names</td><td>kebab-case</td><td><code>tdd-guardian.md</code>, <code>pre-write-check.sh</code></td></tr>
-<tr><td>Plugin names</td><td>kebab-case</td><td><code>nlpm</code>, <code>echo-sleuth</code></td></tr>
+<tr><td>Plugin/package names</td><td>kebab-case</td><td><code>nlpm</code>, <code>echo-sleuth</code></td></tr>
 <tr><td>Skill references</td><td><code>plugin-name:skill-name</code></td><td><code>nlpm:conventions</code>, <code>tdd-guardian:rules</code></td></tr>
 <tr><td>Rule files (ordered)</td><td><code>NN-kebab.md</code></td><td><code>01-formatting.md</code></td></tr>
-<tr><td>Environment variable</td><td>SCREAMING_SNAKE</td><td><code>CLAUDE_PLUGIN_ROOT</code></td></tr>
+<tr><td>Environment variables</td><td>SCREAMING_SNAKE</td><td><code>OPENAI_API_KEY</code>, <code>CLAUDE_PLUGIN_ROOT</code></td></tr>
+<tr><td>Plugin directory env vars</td><td><code>&lt;TOOL&gt;_PLUGIN_ROOT</code></td><td><code>CLAUDE_PLUGIN_ROOT</code>, <code>CODEX_PLUGIN_ROOT</code></td></tr>
 </tbody></table>
-<p><strong>Portable paths:</strong> Always use <code>${CLAUDE_PLUGIN_ROOT}</code> when referencing files within a plugin (scripts, configs). Hardcoded absolute paths break portability.</p>
+<p><strong>Portable paths:</strong> Within a plugin, always reference files via the tool&#39;s plugin-root environment variable (e.g., <code>${CLAUDE_PLUGIN_ROOT}</code> for Claude, equivalent for Codex). Hardcoded absolute paths break portability.</p>
+<p>Tool-specific naming details (e.g., the exact <code>CLAUDE_PLUGIN_ROOT</code> semantics) live in the per-tool overlays.</p>
 <p>---</p></section>
-<section class="artifact-type" id="artifact-reference-syntax"><h3><a href="#artifact-reference-syntax" class="anchor">#</a> Reference Syntax</h3><p><strong>Commands referencing shared partials:</strong></p>
-<pre><code>&lt;!-- Include: commands/shared/discover.md --&gt;</code></pre>
-<p>Or by instruction: &quot;Follow the steps in commands/shared/discover.md&quot;</p>
-<p><strong>Agents referencing skills in frontmatter:</strong></p>
-<pre><code class="lang-yaml">skills: [&quot;nlpm:conventions&quot;, &quot;nlpm:patterns&quot;]</code></pre>
-<p><strong>Hooks referencing scripts:</strong></p>
-<pre><code class="lang-json">&quot;command&quot;: &quot;${CLAUDE_PLUGIN_ROOT}/scripts/check.sh&quot;</code></pre>
-<p><strong>Cross-plugin skill references</strong> use the same <code>plugin:skill</code> format. The plugin must be installed for the reference to resolve.</p>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-memory-file-conventions"><h3><a href="#artifact-memory-file-conventions" class="anchor">#</a> Memory File Conventions</h3><p>Memory files are <code>.md</code> files that Claude Code writes and reads as persistent per-project knowledge.</p>
-<p><strong>Location:</strong></p>
-<pre><code>~/.claude/projects/&lt;project-slug&gt;/memory/</code></pre>
-<p><strong>Index file:</strong> <code>MEMORY.md</code> lives at the same level as individual memory files. It is a one-line-per-entry index, not a memory file itself. Each line references one memory file by filename.</p>
-<p><strong>Individual memory files</strong> MUST include YAML frontmatter:</p>
-<pre><code class="lang-yaml">---
-name: &quot;short identifier&quot;
-description: &quot;one-line summary of what this memory contains&quot;
-type: user | feedback | project | reference
----</code></pre>
-<p><strong><code>type</code> values:</strong> | Value | Meaning | |-------|---------| | <code>user</code> | Preferences, habits, or facts about the user | | <code>feedback</code> | Corrections or lessons from past sessions | | <code>project</code> | Project-specific facts, decisions, or context | | <code>reference</code> | External reference material copied into memory |</p>
-<p><strong>Rules:</strong></p>
-<ul>
-<li>Every memory file must appear in <code>MEMORY.md</code> — orphaned files (present in the directory but not in the index) are flagged by the scorer</li>
-<li><code>MEMORY.md</code> itself is the index; it does not need frontmatter and is not scored as a memory file</li>
-<li>Memory files should not reference other files or functions that have since been deleted — stale references reduce the signal-to-noise ratio of the memory store</li>
-</ul>
-<p>---</p></section>
-<section class="artifact-type" id="artifact-rule-overrides-in-nlpm-local-md"><h3><a href="#artifact-rule-overrides-in-nlpm-local-md" class="anchor">#</a> Rule Overrides in nlpm.local.md</h3><p>Users can suppress or adjust individual rules in <code>.claude/nlpm.local.md</code>:</p>
+<section class="artifact-type" id="artifact-rule-overrides-claude-nlpm-local-md-or-equivalent"><h3><a href="#artifact-rule-overrides-claude-nlpm-local-md-or-equivalent" class="anchor">#</a> Rule Overrides (`.claude/nlpm.local.md` or equivalent)</h3><p>The override system is universal. The configuration file path is per-tool:</p>
+<table>
+<thead><tr><th>Tool</th><th>Config path</th></tr></thead>
+<tbody>
+<tr><td>Claude Code</td><td><code>.claude/nlpm.local.md</code></td></tr>
+<tr><td>Codex CLI</td><td><code>.codex/nlpm.local.md</code></td></tr>
+<tr><td>Antigravity</td><td><code>.gemini/nlpm.local.md</code> (or <code>.agent/nlpm.local.md</code> — TBD post-2026-06-18)</td></tr>
+</tbody></table>
+<p>Frontmatter format (identical across tools):</p>
 <pre><code class="lang-yaml">---
 strictness: standard
 score_threshold: 70
@@ -689,41 +479,36 @@ rule_overrides:
   R09: { min_examples: 1 }      # require only 1 example block instead of 2
   R10: { suppress: true }       # disable model tier checking entirely
   R23: { budget: 800 }          # increase rules budget from 500 to 800 lines
+  R51: { enabled: true, vocabulary_skill: skills/myplugin/vocabulary/ }
 ---</code></pre>
 <p><strong>Override types:</strong></p>
 <table>
 <thead><tr><th>Type</th><th>Effect</th><th>Example</th></tr></thead>
 <tbody>
-<tr><td><code>suppress: true</code></td><td>Disable the rule entirely (penalty becomes 0)</td><td><code>R10: { suppress: true }</code></td></tr>
-<tr><td><code>enabled: true</code></td><td>Activate a rule that ships <strong>disabled by default</strong> (currently only R51)</td><td><code>R51: { enabled: true, vocabulary_skill: skills/myplugin/vocabulary/ }</code></td></tr>
-<tr><td><code>max_penalty: N</code></td><td>Cap the penalty at N (less negative = more lenient)</td><td><code>R01: { max_penalty: -10 }</code></td></tr>
-<tr><td><code>threshold: N</code></td><td>Adjust numeric thresholds (line limits, counts)</td><td><code>R05: { threshold: 600 }</code></td></tr>
+<tr><td><code>suppress: true</code></td><td>Disable the rule (penalty becomes 0)</td><td><code>R10: { suppress: true }</code></td></tr>
+<tr><td><code>enabled: true</code></td><td>Activate a rule that ships disabled by default (currently only R51)</td><td><code>R51: { enabled: true, vocabulary_skill: ... }</code></td></tr>
+<tr><td><code>max_penalty: N</code></td><td>Cap the penalty (less negative = more lenient)</td><td><code>R01: { max_penalty: -10 }</code></td></tr>
+<tr><td><code>threshold: N</code></td><td>Adjust numeric thresholds</td><td><code>R05: { threshold: 600 }</code></td></tr>
 <tr><td><code>min_examples: N</code></td><td>Adjust minimum example counts</td><td><code>R09: { min_examples: 1 }</code></td></tr>
-<tr><td><code>vocabulary_skill: &lt;path&gt;</code></td><td>Path to the project&#39;s <code>vocabulary</code> skill (R51 only). Without it, R51 emits an advisory and contributes zero penalty.</td><td><code>R51: { enabled: true, vocabulary_skill: skills/myplugin/vocabulary/ }</code></td></tr>
+<tr><td><code>vocabulary_skill: &lt;path&gt;</code></td><td>Path to project&#39;s <code>vocabulary</code> skill (R51 only)</td><td><code>R51: { enabled: true, vocabulary_skill: ... }</code></td></tr>
 </tbody></table>
 <p>Rules not listed in <code>rule_overrides</code> use their defaults from <code>nlpm:scoring</code>. Rules that ship disabled (R51) contribute zero penalty unless <code>enabled: true</code> is set explicitly.</p>
 <p>---</p></section>
-<section class="artifact-type" id="artifact-claude-code-tool-catalog"><h3><a href="#artifact-claude-code-tool-catalog" class="anchor">#</a> Claude Code Tool Catalog</h3><p>The following tool names are valid in <code>tools:</code> and <code>allowed-tools:</code> fields. Do NOT flag any of these as &quot;undocumented&quot; or &quot;unknown&quot;.</p>
-<p><strong>Built-in tools:</strong></p>
+<section class="artifact-type" id="artifact-universal-tool-references"><h3><a href="#artifact-universal-tool-references" class="anchor">#</a> Universal Tool References</h3><p><strong>MCP tools</strong> follow the cross-tool pattern: <code>mcp__&lt;server-name&gt;__&lt;tool-name&gt;</code>. Example: <code>mcp__mermaider__validate_syntax</code>.</p>
+<p>Per-tool built-in tool catalogs live in the overlays:</p>
 <ul>
-<li>File I/O: <code>Read</code>, <code>Write</code>, <code>Edit</code>, <code>MultiEdit</code>, <code>NotebookEdit</code></li>
-<li>Discovery: <code>Glob</code>, <code>Grep</code></li>
-<li>Execution: <code>Bash</code>, <code>BashOutput</code>, <code>KillBash</code></li>
-<li>Agent: <code>Task</code></li>
-<li>Web: <code>WebFetch</code>, <code>WebSearch</code></li>
-<li>User interaction: <code>AskUserQuestion</code></li>
-<li>Planning: <code>TodoWrite</code></li>
-<li>Commands: <code>SlashCommand</code></li>
+<li>Claude Code built-ins → <code>nlpm:conventions-claude</code> §16</li>
+<li>Codex CLI built-ins → <code>nlpm:conventions-codex</code></li>
+<li>Antigravity built-ins → <code>nlpm:conventions-antigravity</code></li>
 </ul>
-<p><strong>MCP tools follow the pattern:</strong> <code>mcp__&lt;server-name&gt;__&lt;tool-name&gt;</code> Example: <code>mcp__mermaider__validate_syntax</code>, <code>mcp__codex__codex</code></p>
-<p>Tool names are case-sensitive. Any string matching the patterns above is a valid tool reference regardless of whether this document pre-dates the tool&#39;s introduction to Claude Code.</p>
 <p>---</p>
 <h4>Scope Note</h4>
-<p>This skill covers Claude Code plugin component schemas and conventions. It does NOT cover:</p>
+<p>This skill covers the universal floor — conventions that apply regardless of which tool the artifact targets. It does NOT cover:</p>
 <ul>
-<li>Scoring/quality rubric -&gt; see <code>nlpm:scoring</code></li>
-<li>Anti-patterns and best practices catalog -&gt; see <code>nlpm:patterns</code></li>
-<li>General software engineering conventions outside Claude Code artifacts</li>
+<li>Tool-specific schemas → see <code>nlpm:conventions-claude</code> / <code>nlpm:conventions-codex</code> / <code>nlpm:conventions-antigravity</code></li>
+<li>Penalty tables → see <code>nlpm:scoring</code></li>
+<li>Anti-patterns and best practices catalog → see <code>nlpm:patterns</code></li>
+<li>General software engineering conventions outside NL programming artifacts</li>
 </ul></section></section>
     </section>
 

@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-24T22:46:57Z",
+  "generated_at": "2026-05-25T22:47:43Z",
   "since": null,
   "summary": {
-    "total_repos": 217,
-    "total_findings": 3365,
-    "high_findings": 264,
+    "total_repos": 218,
+    "total_findings": 3385,
+    "high_findings": 283,
     "total_advisories": 22,
     "high_advisories": 3,
     "repos_with_drift": 3,
@@ -823,6 +823,18 @@
       "security": "PASS",
       "total_findings": 20,
       "high_findings": 0,
+      "medium_findings": 0,
+      "vocab_drift_count": 0,
+      "vocab_drift_high": 0
+    },
+    {
+      "repo": "viticci/shortcuts-playground-plugin",
+      "status": "audited",
+      "stars": 615,
+      "score": 91,
+      "security": "CLEAR",
+      "total_findings": 20,
+      "high_findings": 19,
       "medium_findings": 0,
       "vocab_drift_count": 0,
       "vocab_drift_high": 0
@@ -2556,7 +2568,7 @@
       "vocab_drift_high": 0
     },
     {
-      "repo": "xiaolai/nlpm-for-claude",
+      "repo": "xiaolai/nlpm",
       "status": "audited",
       "stars": null,
       "score": 100,
@@ -2619,8 +2631,8 @@
   "rule_distribution": [
     {
       "rule_id": "R01",
-      "total": 256,
-      "repos_affected": 43
+      "total": 257,
+      "repos_affected": 44
     },
     {
       "rule_id": "UNCLASSIFIED",
@@ -2639,8 +2651,8 @@
     },
     {
       "rule_id": "R05",
-      "total": 135,
-      "repos_affected": 21
+      "total": 137,
+      "repos_affected": 22
     },
     {
       "rule_id": "R22",
@@ -2664,8 +2676,8 @@
     },
     {
       "rule_id": "R07",
-      "total": 107,
-      "repos_affected": 23
+      "total": 109,
+      "repos_affected": 24
     },
     {
       "rule_id": "SEC-unpinned-semver",
@@ -2694,8 +2706,8 @@
     },
     {
       "rule_id": "R10",
-      "total": 78,
-      "repos_affected": 16
+      "total": 82,
+      "repos_affected": 17
     },
     {
       "rule_id": "BUG-broken-reference",
@@ -2703,19 +2715,19 @@
       "repos_affected": 33
     },
     {
+      "rule_id": "R04",
+      "total": 53,
+      "repos_affected": 13
+    },
+    {
       "rule_id": "BUG-undeclared-tool",
       "total": 52,
       "repos_affected": 22
     },
     {
-      "rule_id": "R04",
-      "total": 51,
-      "repos_affected": 12
-    },
-    {
       "rule_id": "CC-terminology-drift",
-      "total": 50,
-      "repos_affected": 39
+      "total": 51,
+      "repos_affected": 40
     },
     {
       "rule_id": "R03",
@@ -2724,8 +2736,8 @@
     },
     {
       "rule_id": "CC-stale-count",
-      "total": 44,
-      "repos_affected": 32
+      "total": 45,
+      "repos_affected": 33
     },
     {
       "rule_id": "CC-broken-relative-path",
@@ -3795,6 +3807,20 @@
         "repo_report_rendered": 4,
         "audit_complete": 3,
         "advisories_aggregated": 1,
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-05-25",
+      "counts": {
+        "status_check": 6,
+        "classifications_emitted": 1,
+        "search_complete": 1,
+        "scorer_drift_check": 1,
+        "findings_aggregated": 1,
+        "repo_report_rendered": 1,
+        "audit_complete": 1,
         "report_generated": 1
       }
     }
