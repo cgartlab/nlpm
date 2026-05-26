@@ -38,7 +38,20 @@ NLPM also runs as a self-evolving GitHub Actions pipeline that audits real plugi
 
 ## Installation
 
+Two install paths — both reach the same code. Pick one:
+
+**Via Anthropic's official community marketplace** (curated; updates lag the maintainer's marketplace by up to ~24h):
+
 ```bash
+claude plugin marketplace add anthropics/claude-plugins-community
+claude plugin install nlpm@claude-community --scope project   # or --scope user
+```
+
+**Via the xiaolai marketplace** (latest version lands here first):
+
+```bash
+claude plugin marketplace add xiaolai/claude-plugin-marketplace
+
 # Project scope (recommended)
 claude plugin install nlpm@xiaolai --scope project
 
@@ -46,7 +59,7 @@ claude plugin install nlpm@xiaolai --scope project
 claude plugin install nlpm@xiaolai --scope user
 ```
 
-> **Install fails with "Plugin not found in marketplace 'xiaolai'"?** Your local marketplace clone is stale. Run `claude plugin marketplace update xiaolai` and retry — `plugin install` does not auto-refresh.
+> **Install fails with "Plugin not found in marketplace 'xiaolai'"?** Your local marketplace clone is stale. Run `claude plugin marketplace update xiaolai` and retry — `plugin install` does not auto-refresh. (The community marketplace doesn't have this caveat.)
 
 ## Quick Start
 
