@@ -36,8 +36,12 @@ on:
       - 'agents/**'
       # Auditor outputs the site mirrors as static passthrough
       - 'auditor/reports/**'
-      - 'auditor/case-studies/**'
       - 'auditor/exemplars/**'
+      # Case studies live at the repo root (case-studies/), not under
+      # auditor/. The misconfigured auditor/case-studies/** path meant
+      # new case studies sat on main for up to ~24h before deploying,
+      # riding the daily 23:00 UTC cron instead of the push trigger.
+      - 'case-studies/**'
       # Report-page templates the local + online renderers share
       - 'templates/report/**'
       # Privacy policy at repo root — site/build.sh copies it into the
