@@ -744,6 +744,22 @@ jobs:
           echo "bundle_path=/tmp/report-bundle" >> "$GITHUB_OUTPUT"
         id: bundle
 
+      - name: Sanitize repo slug for artifact name
+        # upload-artifact@v5 rejects '/' in name. Convert 'owner/repo' to
+        # 'owner-repo' so the artifact can upload. Without this every
+        # contribute run fails for every external repo (all slugs contain '/').
+        # Bug surfaced 2026-05-26 after multiple manual contribute reruns
+        # all failed with "Invalid characters... Forward slash /".
+        id: safe_slug
+        if: |
+          steps.pushback_gate.outputs.gated != 'true' &&
+          steps.sidecar.outputs.skip_contribute != 'true' &&
+          steps.bundle.outputs.skip != 'true'
+        run: |
+          slug="${{ steps.target.outputs.repo }}"
+          slug="${slug//\//-}"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+
       - name: Publish artifact
         if: |
           steps.pushback_gate.outputs.gated != 'true' &&
@@ -751,7 +767,7 @@ jobs:
           steps.bundle.outputs.skip != 'true'
         uses: actions/upload-artifact@v5
         with:
-          name: nlpm-audit-${{ steps.target.outputs.repo }}-${{ github.run_id }}
+          name: nlpm-audit-${{ steps.safe_slug.outputs.slug }}-${{ github.run_id }}
           path: /tmp/report-bundle/
           retention-days: 90
           if-no-files-found: warn
