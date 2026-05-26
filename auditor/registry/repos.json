@@ -7850,7 +7850,7 @@
       "stars": 615,
       "artifacts": 9,
       "description": "Shortcuts Playground: A Claude Code and Codex plugin for building, validating, signing, and remixing macOS/iOS Shortcuts with natural language.",
-      "status": "audited",
+      "status": "contributed",
       "score": 91,
       "audit_issue": 275,
       "prs": [],
@@ -7858,7 +7858,8 @@
       "security": "CLEAR",
       "commit_sha_at_audit": "14550f1c722aecbdaae158465666dc3d9da771bb",
       "exemplar_published": true,
-      "exemplar_path": "auditor/exemplars/viticci-shortcuts-playground-plugin.md"
+      "exemplar_path": "auditor/exemplars/viticci-shortcuts-playground-plugin.md",
+      "pipeline_prs": []
     }
   }
 }
