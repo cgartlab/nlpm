@@ -5,8 +5,9 @@ hero:
   name: NLPM
   text: Natural Language Programming Manager
   tagline: |
-    Scores, audits, and disciplines natural-language artifacts in
-    Claude Code plugins. 51 rules, 6 vocabulary principles, cross-repo
+    Scores, audits, and disciplines natural-language artifacts across
+    Claude Code, Codex CLI, and Antigravity. Tier-aware scoring with
+    per-tool overlays, 51 rules, 6 vocabulary principles, cross-repo
     dashboards, registry-free drift detection.
   actions:
     - theme: brand
@@ -50,16 +51,17 @@ features:
     details: |
       Manifest-vs-disk consistency, broken references, orphan
       components, behavioral contradictions. The single check that
-      no other Claude Code validator covers systematically.
+      no other validator covers systematically across Claude Code,
+      Codex CLI, and Antigravity.
   - icon:
       src: /icons/globe.svg
       width: 32
       height: 32
     title: Auditor pipeline
     details: |
-      Continuous audits of public Claude Code plugins. Findings,
-      vocabulary drift, security signals — all on one cross-repo
-      dashboard.
+      Continuous audits of public Claude Code plugins (Codex and
+      Antigravity discovery coming next). Findings, vocabulary drift,
+      security signals — all on one cross-repo dashboard.
   - icon:
       src: /icons/terminal.svg
       width: 32

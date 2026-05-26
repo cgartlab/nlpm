@@ -9,20 +9,42 @@ NLPM ships in two shapes. The **plugin** runs inside Claude Code and
 gives you eleven slash commands backed by six specialist agents and a
 catalog of reference skills. The **standalone binaries** (pure-Python,
 stdlib-only, no `pip install`) cover the deterministic subset for
-environments without Claude Code — pre-commit hooks, CI runners,
-release scripts.
+environments without Claude Code — Codex CLI projects, Antigravity
+projects, pre-commit hooks, CI runners, release scripts.
 
-Both share the same rule registry (`skills/nlpm/rules/SKILL.md`, R01–R51)
-and the same vocabulary registry (`skills/nlpm/vocabulary/registry.yaml`),
-so a finding in your editor matches a finding in CI exactly.
+The scoring rubric covers **all three tools NLPM supports** (Claude Code,
+Codex CLI, Antigravity) via tier-aware overlays — `nlpm:conventions`
+(universal floor: SKILL.md open spec, AGENTS.md, R01) plus
+`nlpm:conventions-claude` / `nlpm:conventions-codex` /
+`nlpm:conventions-antigravity` (per-tool schemas, hook events,
+marketplace formats). The scorer auto-classifies each artifact by
+its path and applies the matching overlay.
+
+Both shapes share the same rule registry (`skills/nlpm/rules/SKILL.md`,
+R01–R51) and the same vocabulary registry
+(`skills/nlpm/vocabulary/registry.yaml`), so a finding in your editor
+matches a finding in CI exactly.
 
 ## Install
 
-Two installation paths, pick whichever fits.
+Three installation paths, pick whichever fits.
 
-### As a Claude Code plugin
+### As a Claude Code plugin — via Anthropic's community marketplace
+
+Curated; updates lag the maintainer marketplace by ~24h.
 
 ```bash
+claude plugin marketplace add anthropics/claude-plugins-community
+claude plugin install nlpm@claude-community --scope project   # or --scope user
+```
+
+### As a Claude Code plugin — via the xiaolai marketplace
+
+Latest version lands here first.
+
+```bash
+claude plugin marketplace add xiaolai/claude-plugin-marketplace
+
 # Project scope (recommended — lives with the repo)
 claude plugin install nlpm@xiaolai --scope project
 
@@ -30,9 +52,9 @@ claude plugin install nlpm@xiaolai --scope project
 claude plugin install nlpm@xiaolai --scope user
 ```
 
-The first install refreshes the marketplace cache automatically. If
-you see "Plugin not found", run `claude plugin marketplace update xiaolai`
-and retry.
+If you see "Plugin not found in marketplace 'xiaolai'", run
+`claude plugin marketplace update xiaolai` and retry — `plugin install`
+does not auto-refresh. The community marketplace doesn't have this caveat.
 
 ### As a standalone binary
 
