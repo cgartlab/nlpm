@@ -1663,7 +1663,7 @@
       "strategy": "progressive"
     },
     "Yuan1z0825/nature-skills": {
-      "status": "contributed",
+      "status": "tracked",
       "score": 93,
       "strategy": "single",
       "security": "REVIEW",
@@ -1679,13 +1679,13 @@
       "prs": [
         {
           "number": 30,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-05-26T14:22:37Z",
           "title": "fix: add 4 missing skills to plugin.json description",
-          "updatedAt": "2026-05-24T18:27:31Z",
+          "updatedAt": "2026-05-26T14:22:37Z",
           "createdAt": "2026-05-24T18:27:31Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:9c0aef17327329af98c0219edcedecef46b4c2c5962bab99763317d2795df3a8"
           ],
@@ -1696,13 +1696,13 @@
         },
         {
           "number": 31,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-05-26T14:22:27Z",
           "title": "fix: use requirements.txt in install.sh and add version upper bounds",
-          "updatedAt": "2026-05-24T18:28:21Z",
+          "updatedAt": "2026-05-26T14:22:27Z",
           "createdAt": "2026-05-24T18:28:21Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:6cb7bdb0e91d2adbfc0fc2feae41cc90ed023f5a562e317a7e9f1e9d15d3719d",
             "sha256:6b051c6ca2e76f467c6c8023369c8a9cb3e421abe6ea490c325df91fc46065c7"
@@ -1715,13 +1715,13 @@
         },
         {
           "number": 32,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-05-26T14:22:04Z",
+          "closedAt": "2026-05-26T14:22:04Z",
           "title": "fix: add 4 shipped skills to plugin.json description",
-          "updatedAt": "2026-05-26T07:18:24Z",
+          "updatedAt": "2026-05-26T14:22:04Z",
           "createdAt": "2026-05-25T00:48:39Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [
             "sha256:9c0aef17327329af98c0219edcedecef46b4c2c5962bab99763317d2795df3a8"
           ],
@@ -1732,13 +1732,13 @@
         },
         {
           "number": 33,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
+          "state": "MERGED",
+          "mergedAt": "2026-05-26T14:21:45Z",
+          "closedAt": "2026-05-26T14:21:45Z",
           "title": "fix: add upper version bounds and install from requirements.txt",
-          "updatedAt": "2026-05-25T00:49:38Z",
+          "updatedAt": "2026-05-26T14:21:46Z",
           "createdAt": "2026-05-25T00:49:38Z",
-          "outcome": "open",
+          "outcome": "merged",
           "fingerprints": [
             "sha256:6cb7bdb0e91d2adbfc0fc2feae41cc90ed023f5a562e317a7e9f1e9d15d3719d",
             "sha256:6b051c6ca2e76f467c6c8023369c8a9cb3e421abe6ea490c325df91fc46065c7"
@@ -1750,7 +1750,8 @@
           "stale_90d_emitted": false
         }
       ],
-      "rule_adopted": false
+      "rule_adopted": false,
+      "case_study_candidate": true
     },
     "ZeframLou/call-me": {
       "artifacts": 3,
@@ -8002,7 +8003,7 @@
           "mergedAt": null,
           "closedAt": null,
           "title": "fix: remove duplicate skill entries in hunt-dispatch taxonomy",
-          "updatedAt": "2026-05-26T07:19:59Z",
+          "updatedAt": "2026-05-26T13:20:37Z",
           "createdAt": "2026-05-26T07:19:59Z",
           "outcome": "open",
           "fingerprints": [
