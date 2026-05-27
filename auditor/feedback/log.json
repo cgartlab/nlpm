@@ -3927,10 +3927,10 @@
     "last_updated": "2026-04-10",
     "total_events": 16,
     "total_audits": 10,
-    "total_prs_submitted": 285,
+    "total_prs_submitted": 281,
     "total_prs_merged": 101,
     "total_prs_rejected": 53,
     "total_prs_applied_separately": 20,
-    "updated_at": "2026-05-26T22:29:12.358983Z"
+    "updated_at": "2026-05-27T22:31:52.932205Z"
   }
 }
