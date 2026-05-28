@@ -12,7 +12,7 @@
       <h1>NLPM Framework Reference</h1>
       <p class="proj">All rules, principles, and vocabulary concepts linked from reports.
         <span class="muted">·</span>
-        <span class="muted">2026-05-27T22:59:08Z</span>
+        <span class="muted">2026-05-28T22:57:17Z</span>
       </p>
     </div>
     <div class="hdr-right">
@@ -424,6 +424,9 @@
 <li><code>## Conventions</code> — naming, style, patterns.</li>
 </ul>
 <p><strong>Tool-specific memory-file extensions</strong> (e.g., Claude Code&#39;s <code>@</code>-import syntax, Gemini&#39;s <code>@{path}</code> injection, Codex&#39;s <code>project_doc_fallback_filenames</code>) live in the per-tool overlays.</p>
+<h5>Agent workflow programs (recognized variant, no penalty rubric yet)</h5>
+<p>Some repos ship a single project-root Markdown file that drives an autonomous agent loop — imperative numbered steps with output formats and error paths, sitting between a memory file (AGENTS.md-shaped context) and a slash command (workflow with verifiable side effects). Karpathy&#39;s <code>program.md</code> in <a href="https://github.com/karpathy/autoresearch"><code>karpathy/autoresearch</code></a> is the canonical example (audited 2026-05-28 at score ~90; see <a href="../../../auditor/exemplars/karpathy-autoresearch.md"><code>auditor/exemplars/karpathy-autoresearch.md</code></a>). The README explicitly frames it as natural-language programming: &quot;you are programming the <code>program.md</code> Markdown files that provide context to the AI agents.&quot;</p>
+<p>nlpm recognizes the pattern but does not yet have a dedicated penalty rubric — the universal floor (R01 vague quantifiers, R03 positive framing, R09 prompt layers) + the command rules (R14–R17) + the memory-file rules (R33–R39) cover it adequately as a hybrid. A standalone rubric is deferred until N≥3 examples surface, per the same &quot;don&#39;t build for an empty corpus&quot; discipline applied to multi-tool discovery.</p>
 <p>---</p></section>
 <section class="artifact-type" id="artifact-general-prompt-engineering"><h3><a href="#artifact-general-prompt-engineering" class="anchor">#</a> General Prompt Engineering</h3><p>Universal patterns applicable to any NL artifact (commands, agents, skills, prompts) regardless of tool.</p>
 <p><strong>Layer order</strong> (imperative for complex prompts):</p>
