@@ -4,12 +4,22 @@ name: Pre-Release Quality Gate
 # or `.codex-plugin/plugin.json` (i.e., is a release prep PR), this workflow
 # must pass before merge. Two assertions:
 #
-#   1. SCORE GATE — every NL artifact scores 100/100 against nlpm's own
-#      rubric. Combination of bin/nlpm-check (deterministic floor — manifest
-#      parsing, manifest-vs-disk diff, frontmatter required fields, hook
-#      event-name case) and the LLM-judged scorer (via claude-code-action)
-#      against the full Tier 2-Claude rubric (vague quantifiers, instruction
-#      quality, output format, scope notes, etc.).
+#   1. SCORE GATE — every NL artifact scores at least MIN_SCORE (95)
+#      against nlpm's own rubric. Combination of bin/nlpm-check
+#      (deterministic floor — manifest parsing, manifest-vs-disk diff,
+#      frontmatter required fields, hook event-name case) and the
+#      LLM-judged scorer (via claude-code-action) against the full Tier
+#      2-Claude rubric (vague quantifiers, instruction quality, output
+#      format, scope notes, etc.).
+#
+#      Why >= 95 and not == 100: the LLM scorer is non-deterministic —
+#      back-to-back runs on the identical corpus flag near-disjoint sets
+#      of artifacts in the 90-96 band purely from scoring variance (an
+#      artifact scoring 100 one run scores 92 the next). An exact-100
+#      gate is therefore statistically unpassable and would block every
+#      release on noise. 95 tolerates normal variance while still
+#      catching genuine multi-point defects. The deterministic floor
+#      (bin/nlpm-check) remains the exact, reproducible hard line.
 #
 #   2. VOCAB INTEGRITY GATE — zero vocabulary drift clusters detected by
 #      the vocab-drift-scanner on the nlpm corpus.
@@ -185,6 +195,11 @@ jobs:
         run: |
           set -u
           FAILED=0
+          # Minimum per-artifact LLM score. See the header comment for why
+          # this is 95, not 100 (LLM scorer variance). The deterministic
+          # floor (bin/nlpm-check) is the exact hard line; this is the
+          # variance-tolerant judged-quality threshold.
+          MIN_SCORE=95
 
           # --- Score gate ---
           if [ ! -f /tmp/scores.tsv ]; then
@@ -192,15 +207,15 @@ jobs:
             FAILED=1
           else
             TOTAL=$(awk 'NR>1' /tmp/scores.tsv | wc -l | tr -d ' ')
-            SUB_100=$(awk -F'\t' 'NR>1 && $2 != "" && ($2+0) < 100 {print $1 "\t" $2}' /tmp/scores.tsv)
-            if [ -n "$SUB_100" ]; then
-              echo "::error::Score gate FAILED — $(echo "$SUB_100" | wc -l | tr -d ' ') of $TOTAL artifacts score below 100:"
-              echo "$SUB_100" | while IFS=$'\t' read -r file score; do
-                echo "::error file=${file}::score=${score}/100 (release requires 100)"
+            SUB=$(awk -F'\t' -v min="$MIN_SCORE" 'NR>1 && $2 != "" && ($2+0) < min {print $1 "\t" $2}' /tmp/scores.tsv)
+            if [ -n "$SUB" ]; then
+              echo "::error::Score gate FAILED — $(echo "$SUB" | wc -l | tr -d ' ') of $TOTAL artifacts score below ${MIN_SCORE}:"
+              echo "$SUB" | while IFS=$'\t' read -r file score; do
+                echo "::error file=${file}::score=${score}/100 (release requires >= ${MIN_SCORE})"
               done
               FAILED=1
             else
-              echo "::notice::Score gate PASSED — all $TOTAL artifacts at 100/100."
+              echo "::notice::Score gate PASSED — all $TOTAL artifacts >= ${MIN_SCORE}/100."
             fi
           fi
 
