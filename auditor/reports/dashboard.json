@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-05T00:28:01Z",
+  "generated_at": "2026-06-05T22:49:58Z",
   "since": null,
   "summary": {
     "total_repos": 218,
@@ -361,7 +361,7 @@
     },
     {
       "repo": "webdevtodayjason/sub-agents",
-      "status": "contributed",
+      "status": "complete",
       "stars": 189,
       "score": 78,
       "security": "REVIEW",
@@ -3860,6 +3860,16 @@
       "counts": {
         "status_check": 4,
         "classifications_emitted": 1
+      }
+    },
+    {
+      "day": "2026-06-05",
+      "counts": {
+        "finding_outcome": 9,
+        "status_check": 8,
+        "dashboard_rendered": 1,
+        "report_generated": 2,
+        "no_narrative": 1
       }
     }
   ],
