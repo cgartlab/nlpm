@@ -24,6 +24,7 @@ Each command does one thing -- no flags (except `--changed` on score).
 - commands/vocab-init.md -- `/nlpm:vocab-init` -- bootstrap a vocabulary skill for any project (runs extractor, seeds canonical noun/verb tables, writes R51 opt-in stub). Adopter-facing entry point for vocabulary discipline.
 - commands/vocab-drift.md -- `/nlpm:vocab-drift` -- registry-free vocabulary drift scan (dispatches vocab-drift-scanner). Advisory only; no penalty. Use before/alongside R51.
 - commands/report.md -- `/nlpm:report` -- self-contained HTML report (per-file scores, trend, cross-component graph, vocabulary noun-verb map via AntV G6, drift candidates, findings). Output: `.claude/nlpm-reports/index.html`. file://-openable, no server.
+- commands/spec-sync.md -- `/nlpm:spec-sync` -- sync the tool overlays (conventions-claude/codex/antigravity) with upstream official specs (dispatches spec-researcher per tool in parallel; applies corrections, propagates for self-consistency, verifies via bin/nlpm-check). Never commits/pushes.
 - commands/shared/discover.md -- artifact discovery patterns (not user-invocable)
 - commands/shared/classify.md -- artifact type classification (not user-invocable)
 - commands/shared/append-history.md -- snapshot persistence to .claude/nlpm-history.json with scope marker (not user-invocable). Used by /nlpm:init, /nlpm:score, /nlpm:trend so trend data accumulates without manual upkeep.
@@ -37,6 +38,7 @@ Each command does one thing -- no flags (except `--changed` on score).
 - agents/tester.md -- sonnet, evaluates artifacts against test specs (skills: testing, conventions, scoring)
 - agents/security-scanner.md -- sonnet, security risk detection in executable artifacts (skills: security)
 - agents/vocab-drift-scanner.md -- sonnet, judgment-based clustering of likely-synonymous nouns/verbs across a corpus; no registry required (skills: vocabulary, conventions). Output is advisory only.
+- agents/spec-researcher.md -- sonnet, research-and-diff one tool's current official docs against an overlay; returns a tagged gap report (FIX/REMOVE/ADD/CONFIRM/RESOLVED) with a confidence guard. Read-only on web and repo; never edits (tools: Read, Glob, Grep, WebFetch, WebSearch).
 
 ## Skills
 

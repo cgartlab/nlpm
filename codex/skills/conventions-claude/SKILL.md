@@ -1,7 +1,7 @@
 ---
 name: conventions-claude
-description: "Use when scoring or writing Claude Code artifacts — covers .claude/ paths, plugin.json schema, command + agent + skill frontmatter (including v2.1.x additions: context:fork, agent:, paths:, skill-scoped hooks:), CLAUDE.md, hook events, hooks.json format, settings.json, LSP, monitors, memory file conventions, and the Claude Code built-in tool catalog."
-version: 0.1.0
+description: "Use when scoring or writing Claude Code artifacts — covers .claude/ paths, plugin.json schema, command + agent + skill frontmatter, CLAUDE.md, hook events, hooks.json format, settings.json, LSP, monitors, memory file conventions, and the Claude Code built-in tool catalog. Refreshed 2026-06-07 against docs map dated 2026-06-05 (Claude Code ≥ v2.1.16x)."
+version: 0.2.0
 ---
 
 # Claude Code Conventions
@@ -18,6 +18,8 @@ Tool-specific overlay for Claude Code plugin artifacts. Loaded by the scorer and
 - <https://code.claude.com/docs/en/settings.md>
 - <https://code.claude.com/docs/en/memory.md>
 - <https://code.claude.com/docs/en/slash-commands.md>
+- <https://code.claude.com/docs/en/tools-reference.md> — **authoritative built-in tool catalog** (see §16)
+- <https://code.claude.com/docs/en/plugin-marketplaces.md>
 
 ---
 
@@ -28,16 +30,26 @@ The plugin manifest.
 **Required fields:**
 - `name` — string, kebab-case, unique identifier
 
+The manifest is **fully optional** — components auto-discover from conventional paths, and only `name` is required when present. Unrecognized top-level fields are ignored with a warning (error only under `claude plugin validate --strict`).
+
 **Optional fields:**
 - `version` — semver string (e.g. `"0.1.0"`). If omitted, commit SHA is used (every commit = new version). For stable releases, set explicit semver.
 - `description` — one-line summary
+- `displayName` — human-readable name shown in installer UI (v2.1.143+)
 - `author` — object: `{ "name": "...", "email": "...", "url": "..." }`
 - `homepage` — URL string
 - `repository` — URL string or object
 - `license` — SPDX identifier
 - `keywords` — string array for discovery
-- `agent` — sets the default agent when the plugin is enabled
-- `category` — marketplace category (e.g. `"developer-tools"`)
+- `$schema` — URL to the manifest JSON Schema (editor validation)
+- `defaultEnabled` — boolean; whether the plugin is enabled on install (v2.1.154+)
+- `userConfig` — object; per-key prompts shown to the user at enable time; values exposed as `${user_config.<key>}` substitutions
+- `channels` — array; message-injection channel bindings
+- `dependencies` — array of other plugins this one requires (supports semver constraints)
+
+**NOT plugin.json fields (common mistake):**
+- `agent` — this is a **settings.json** default key (a plugin's bundled `settings.json` supports only `agent` and `subagentStatusLine`), not a manifest field.
+- `category` — belongs to a **marketplace.json** plugin entry, not the manifest.
 
 **Component path fields (all optional, string or string[]):**
 - `commands` — path(s) to command markdown files
@@ -45,8 +57,10 @@ The plugin manifest.
 - `skills` — path(s) to skill directories
 - `hooks` — path to hooks.json
 - `mcpServers` — path(s) to MCP server config
-- `lspServers` — path(s) to LSP server config (stable in 2026)
+- `lspServers` — path(s) to LSP server config (stable in 2026; schema in §12)
 - `outputStyles` — path(s) to output style definitions
+- `experimental.themes` — path(s) to theme definitions (was top-level `themes`; now nested under `experimental`)
+- `experimental.monitors` — path(s) to monitor config (was top-level `monitors`; schema in §13). Top-level still works but `claude plugin validate` warns; a future release will require the `experimental.*` form.
 
 **Example:**
 ```json
@@ -88,7 +102,8 @@ Existing `.claude/commands/` files continue to function. New code should prefer 
 - `argument-hint` — string; placeholder shown in UI (e.g., `"[path]"`)
 - `arguments` — space-separated or YAML list of named arguments for `$name` substitution (e.g., `"issue branch"`)
 - `allowed-tools` — string array OR space-separated string; pre-approved tools (no per-use prompt). Format: `"Read Grep Bash(git *)"` or `["Read", "Grep"]`.
-- `model` — `haiku` / `sonnet` / `opus`; overrides session model for one turn.
+- `disallowed-tools` — string array OR space-separated string; tools removed from the pool while the skill is active.
+- `model` — `haiku` / `sonnet` / `opus` / a full model ID / **`inherit`** (keep the active model); overrides session model for one turn.
 - `effort` — `low` / `medium` / `high` / `xhigh` / `max`; overrides session effort.
 - `user-invocable` — boolean; `false` hides from menu (only Claude invokes).
 - `disable-model-invocation` — boolean; `true` means only the user invokes (manual `/skill-name` only).
@@ -114,6 +129,10 @@ Existing `.claude/commands/` files continue to function. New code should prefer 
 - ` ```! ` fenced blocks — multi-line commands.
 - Disabled if `"disableSkillShellExecution": true` in settings.
 
+### 2.4 String substitutions (valid in command/skill bodies)
+
+`$ARGUMENTS`, `$ARGUMENTS[N]`, `$N` (positional), `$name` (named argument), `${CLAUDE_SESSION_ID}`, `${CLAUDE_EFFORT}`, `${CLAUDE_SKILL_DIR}`, `${CLAUDE_PLUGIN_ROOT}`. Do NOT flag these as undefined variables.
+
 ---
 
 ## 3. Shared Partials
@@ -132,22 +151,32 @@ Reusable command fragments located in `commands/shared/`.
 
 Agents live in `.claude/agents/<name>.md`.
 
+**The system prompt is the markdown body** of the file (in `--agents` JSON form it is the `prompt` key). There is **no `system-prompt` frontmatter key** — flagging or recommending one is a bug (corrected 2026-06-07 against `sub-agents.md`).
+
 **Documented fields:**
 - `name` — string; identifier for invocation
 - `description` — string; critical for reliable triggering — should contain 3+ specific phrases describing when to use this agent
-- `system-prompt` — string (block scalar); custom system instructions
-
-**Convention fields (strongly recommended):**
-- `model` — `haiku` / `sonnet` / `opus`
-- `effort` — `low` / `medium` / `high` / `xhigh` / `max`
-- `color` — one of `cyan`, `blue`, `magenta`, `yellow`, `green`, `red`; visual label
 - `tools` — tools the agent body uses; two valid formats:
   - JSON array: `tools: ["Read", "Glob"]`
   - Comma-separated string: `tools: Read, Glob, Grep`
-- `tool-restrictions` — alternative to `tools:`; `{ allow: [...], deny: [...] }`
+- `disallowedTools` — tools removed from the inherited pool (this is the correct key — there is **no** `tool-restrictions: {allow, deny}` key; the old nlpm name was wrong)
+- `model` — `haiku` / `sonnet` / `opus` / a full ID (e.g. `claude-opus-4-8`) / `inherit`; **defaults to `inherit`**
 - `skills` — preload skill content into this agent's context at startup. Two valid formats:
   - JSON array: `skills: ["nlpm:conventions"]`
   - YAML list: `skills:\n  - nlpm:conventions`
+
+**Convention / additional fields:**
+- `effort` — `low` / `medium` / `high` / `xhigh` / `max`
+- `color` — one of `red`, `blue`, `green`, `yellow`, `purple`, `orange`, `pink`, `cyan`; visual label. **`magenta` is NOT valid** (old nlpm list had it; the current valid set adds `purple`, `orange`, `pink`).
+- `permissionMode` — `default` / `acceptEdits` / `auto` / `dontAsk` / `bypassPermissions` / `plan`
+- `isolation` — only valid value `"worktree"` (runs the agent in a git worktree)
+- `memory` — `user` / `project` / `local`
+- `maxTurns` — integer turn cap
+- `background` — boolean; run asynchronously
+- `initialPrompt` — string; seeds the agent's first turn
+- `mcpServers`, `hooks` — agent-scoped overrides
+
+**Plugin-shipped agents are restricted:** `hooks`, `mcpServers`, and `permissionMode` are **ignored** for agents distributed inside a plugin (security). Score plugin agents accordingly.
 
 **Best practice: include `<example>` blocks in description.** Two or more `<example>` blocks with diverse scenarios is the minimum for reliable triggering.
 
@@ -194,7 +223,7 @@ Rules live in `.claude/rules/<name>.md`.
 
 Hook events are **case-sensitive**. Using wrong case silently ignores the hook.
 
-**Confirmed against 2026-05 docs refresh:**
+**Confirmed against 2026-06-07 docs refresh (`hooks.md`):**
 
 | Event | Trigger | Context fields |
 |---|---|---|
@@ -208,8 +237,11 @@ Hook events are **case-sensitive**. Using wrong case silently ignores the hook.
 | `StopFailure` | Once per turn — Claude failed to complete | `reason` |
 | `FileChanged` | Per file change | `filename`, `watcher_path` |
 
-**Present in older conventions docs, status uncertain in current docs — verify before flagging:**
-`SubagentStop`, `PreCompact`, `Notification`, `PostToolUseFailure`, `InstructionsLoaded`, `TaskCompleted`. nlpm should NOT penalize these as "unknown" until verified against current `code.claude.com/docs/en/hooks.md`.
+**Now confirmed real (were "uncertain" in v0.1.0 — resolved 2026-06-07):**
+`SubagentStop`, `PreCompact`, `Notification`, `PostToolUseFailure`, `InstructionsLoaded`, `TaskCompleted` (exact spelling — not `TaskComplete`). These are valid events; do NOT flag them as unknown.
+
+**Additional current events (add to the known-event allow-list):**
+`Setup`, `SubagentStart`, `UserPromptExpansion`, `PermissionDenied`, `PostToolBatch`, `MessageDisplay`, `TaskCreated`, `TeammateIdle`, `ConfigChange`, `CwdChanged`, `WorktreeCreate`, `WorktreeRemove`, `PostCompact`, `Elicitation`, `ElicitationResult`. Any string matching a documented event name is valid regardless of whether it post-dates this doc — when in doubt, verify against `code.claude.com/docs/en/hooks.md` rather than penalizing.
 
 **Hook types** (canonical, all lowercase in JSON):
 - `command` — shell script (stdin/stdout)
@@ -218,14 +250,16 @@ Hook events are **case-sensitive**. Using wrong case silently ignores the hook.
 - `prompt` — LLM evaluation
 - `agent` — subagent verification
 
+A `command` hook may add `"shell": "powershell"` to run that hook in PowerShell instead of the default shell.
+
 **Matcher patterns:** string (exact), pipe-separated list (`Bash|Edit`), or regex (non-alphanumeric chars).
 
 **MCP tool naming:** `mcp__<server>__<tool>` (e.g., `mcp__memory__write.*`). Hook matchers use this format.
 
 **Exit codes (command hooks):**
-- `0` — success (stdout as JSON or context)
-- `2` — blocking error (action denied, stderr shown)
-- `1, 3+` — non-blocking (logged in debug only)
+- `0` — success (stdout to debug log; for `UserPromptSubmit`, `UserPromptExpansion`, and `SessionStart`, stdout is injected as context)
+- `2` — blocking error (action denied, stderr fed to Claude) — **only on blockable events**. Non-blockable events ignore exit 2: `PostToolUse`, `PostToolUseFailure`, `Notification`, `SessionStart`, `SessionEnd`, `InstructionsLoaded`, `StopFailure`, `MessageDisplay`.
+- `1, 3+` — non-blocking error (logged in debug only)
 
 ---
 
@@ -316,11 +350,22 @@ This makes AGENTS.md the canonical universal memory file. AGENTS.md is what Code
 
 | Field | Purpose |
 |---|---|
-| `permissions` | Permission policy (allow/deny rules, modes) |
+| `permissions` | Permission policy (allow/deny rules, modes); incl. `permissions.additionalDirectories` |
 | `hooks` | Hook event registrations (alternative to `hooks/hooks.json` for project-scoped hooks) |
 | `model` | Default model selection |
-| `theme` | UI theme |
 | `disableSkillShellExecution` | If `true`, disables `!`...`` and ` ```! ` dynamic blocks in skills |
+| `env` | Environment variables injected into the session |
+| `statusLine` | Custom status line command/config |
+| `agent` | Default agent (also the only default-settings key, besides `subagentStatusLine`, a plugin may set) |
+| `effortLevel` | Default effort |
+| `language`, `outputStyle` | Locale / output style defaults |
+| `enabledPlugins` | Plugins enabled for the project |
+| `claudeMd`, `claudeMdExcludes` | Extra memory file globs / exclusions |
+| `autoMemoryEnabled`, `autoMemoryDirectory` | Auto-memory toggle + location (see §15) |
+| `sandbox.enabled` | Sandbox execution toggle |
+| `extraKnownMarketplaces`, `strictKnownMarketplaces` | Marketplace trust config |
+
+> `theme` is **not** a documented `settings.json` field — do not flag its absence or treat it as valid here (removed from this list 2026-06-07). The above is representative, not exhaustive; treat unrecognized-but-plausible keys as advisory, not errors.
 
 **Rule:** `.local.json` is gitignored (per-user); the non-local file is shared. NEVER set `bypassPermissions: true` in the shared file.
 
@@ -328,17 +373,13 @@ This makes AGENTS.md the canonical universal memory file. AGENTS.md is what Code
 
 ## 12. LSP Servers (`.lsp.json`)
 
-**Stable in 2026 (was experimental in 2025).** Plugin-level LSP server registrations.
-
-Schema details out of scope for this version; PR-B trigger: when scoring shows LSP-related findings appearing in audits, add a dedicated subsection here. Until then, scorer recognizes presence of `.lsp.json` and validates JSON-parse only.
+**Stable in 2026** (was experimental in 2025). `.lsp.json` file, or a `lspServers` object in `plugin.json`. Required fields `command` + `extensionToLanguage`. **Full per-server schema → [reference.md](reference.md#lsp-servers).**
 
 ---
 
 ## 13. Monitors (`monitors/monitors.json`)
 
-**Stable in 2026 (was experimental in 2025).** Plugin-level background watchers (logs, files, status).
-
-Schema details out of scope for this version (same staging as LSP). Scorer validates JSON-parse only.
+**Stable in 2026** (was experimental in 2025). Plugin background watchers; requires v2.1.105+; inline via `experimental.monitors` (§1). Per-entry required `name` + `command` + `description`. **Full schema → [reference.md](reference.md#monitors).**
 
 ---
 
@@ -368,7 +409,7 @@ skills: ["nlpm:conventions", "nlpm:conventions-claude"]
 
 ## 15. Memory File Conventions (`~/.claude/projects/<slug>/memory/`)
 
-Claude Code writes per-project persistent memory at `~/.claude/projects/<project-slug>/memory/`.
+Claude Code writes per-project persistent memory at `~/.claude/projects/<project-slug>/memory/` ("Auto memory", v2.1.59+). Toggled by `autoMemoryEnabled`; location overridable via `autoMemoryDirectory` (§11). At session start the first ~200 lines / 25 KB of `MEMORY.md` plus topic files are loaded into context.
 
 **Index file:** `MEMORY.md` (no frontmatter; one-line-per-entry index).
 
@@ -400,24 +441,9 @@ type: user | feedback | project | reference
 
 ## 16. Claude Code Tool Catalog
 
-Tool names valid in `tools:` and `allowed-tools:`. Do NOT flag any as "undocumented" or "unknown".
+Tool names valid in `tools:`, `allowed-tools:`, `disallowed-tools:`. **Never flag a well-formed tool name as "unknown" or "undocumented"** — the catalog grows and any string matching `Pascal`-name or `mcp__<server>__<tool>` patterns is valid. Key renames: `Task` → **`Agent`** (alias kept); `MultiEdit`, `BashOutput`, `KillBash` **removed**; `TodoWrite` default-off (→ `Task*` family); `SlashCommand` folded into `Skill`.
 
-**Built-in tools:**
-- File I/O: `Read`, `Write`, `Edit`, `MultiEdit`, `NotebookEdit`
-- Discovery: `Glob`, `Grep`
-- Execution: `Bash`, `BashOutput`, `KillBash`
-- Agent: `Task`
-- Web: `WebFetch`, `WebSearch`
-- User interaction: `AskUserQuestion`
-- Planning: `TodoWrite`
-- Commands: `SlashCommand`
-- Scheduling: `ScheduleWakeup`
-- Skill invocation: `Skill`
-- Tool discovery: `ToolSearch`
-
-**MCP tools:** `mcp__<server-name>__<tool-name>` (e.g., `mcp__mermaider__validate_syntax`).
-
-Tool names are case-sensitive. Any string matching the patterns above is a valid tool reference regardless of whether this document pre-dates the tool's introduction.
+**Full catalog — built-in tools, renames/removals, MCP naming → [reference.md](reference.md#tool-catalog).** Authoritative source: `code.claude.com/docs/en/tools-reference.md`.
 
 ---
 
@@ -458,7 +484,12 @@ This skill covers Claude Code conventions. It does NOT cover:
 - Universal SKILL.md spec → `nlpm:conventions`
 - Penalty tables → `nlpm:scoring`
 
-**Uncertainties flagged for verification:**
-- `SubagentStop`, `PreCompact`, `Notification`, `PostToolUseFailure`, `InstructionsLoaded`, `TaskCompleted` — present in older nlpm conventions, status in current docs unverified (PR-B refresh did not enumerate them).
-- LSP server schema (`.lsp.json`) — stable but no detailed field list captured.
-- Monitor schema (`monitors/monitors.json`) — same.
+**Resolved in the 2026-06-07 refresh (no longer uncertain):**
+- The six previously-uncertain hook events are confirmed real (§7).
+- LSP server schema (`.lsp.json`) — now documented (§12).
+- Monitor schema (`monitors/monitors.json`) — now documented (§13).
+
+**Still approximate (verify before citing a specific tag):**
+- Exact version-gate tags (e.g. v2.1.142 for `TodoWrite` default-off, v2.1.154 for `defaultEnabled`) came from a summarizing fetch; the *change* is confirmed, the precise version is approximate.
+- `userConfig` / `channels` / `dependencies` plugin.json field shapes are listed but not field-by-field enumerated here.
+- `plugin-marketplaces.md` full field schema not yet folded into §17.

@@ -16,7 +16,7 @@ description: |
   assistant: "I'll dispatch the vocab-drift-scanner to check whether the registry is exhaustive or whether real drift is going unflagged."
   </example>
 model: sonnet
-color: magenta
+color: purple
 tools: Read, Glob, Grep
 skills:
   - nlpm:vocabulary
