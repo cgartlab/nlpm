@@ -2450,3 +2450,4 @@
 {"timestamp":"2026-06-07T10:04:10Z","workflow":"refine-rules","event":"proposals_prepared","run_id":"27089395941","run_number":7,"data":{"proposals":6,"skipped_existing_open":0}}
 {"timestamp":"2026-06-07T12:46:03Z","workflow":"track","event":"status_check","run_id":"27092820358","run_number":302,"data":{"contributed":38,"tracked":32,"case_study_ready":36,"rule_adopted":2}}
 {"timestamp":"2026-06-09T23:20:09Z","workflow":"daily-report","event":"report_generated","run_id":"27242152981","run_number":1,"data":{"total_repos":218}}
+{"timestamp":"2026-06-09T23:50:35Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"27243357932","run_number":1,"data":{"repos":218,"findings":3385,"advisories":22}}
