@@ -1135,70 +1135,6 @@
             "R02"
           ],
           "stale_90d_emitted": false
-        },
-        {
-          "number": 9,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: add required name field to all command frontmatters",
-          "updatedAt": "2026-05-12T07:10:57Z",
-          "createdAt": "2026-05-12T07:10:57Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:6eed33380e90876a8e3c447aac7cd36e468175754a2464efc52ece117614ae39",
-            "sha256:b0fa4d8356cffaf12a2c83cbeedd7e9bc9dea017d29c50299861948ae08f177c",
-            "sha256:3fc7f0c8602c01df4b23b68589b692eaaeacc30b1cd04bc1b869b1f740c929f3",
-            "sha256:fa74db40310af7ec142b63c14ad4720009fd29d5c996a44932365785cbc66d82",
-            "sha256:93655d819dd0a49bf7a3a0eb1e7465bc84add8ebc6b8760ec42ba272fb8c4c03",
-            "sha256:87269423d652e1782ee4be88fedcc96182f4a48b2c414255d1c29a907aa441b5",
-            "sha256:a345c522a4743cb1288d3d30ec90f1c849f89fdc6e9c67e1c5dfef597795dd5f",
-            "sha256:53cb8a5f9e270576cc8aadeb9f79570dcfc9f009fad78bbf56a3827c8b7ebd50",
-            "sha256:581e353e0ba1d3f382f484e1282a00c830aa88e585aabb5ccc4cf296e206a3c9",
-            "sha256:82a190f00f6a5177e8d18527bb0938f6ad52d26a22f891ea8c64958427df9cc0",
-            "sha256:5e111a9a2215034bdd9bb22316e2c83a68765d2edb5a1c09db9135c555478fa5",
-            "sha256:bab7ed7209b79b190fecec63c222a1c7e19a430f65226bcd442f2ed39b7909eb",
-            "sha256:6fe4f9c3268775c38a37696063de63042059952388251a58eb8525ead33d71ff",
-            "sha256:a46c52c42bcc6d70e42973d0632cd23e5792ee75b85b9e358d963d0dd11974ab",
-            "sha256:59ad51eb5bf8055568aefef6f6784f8ab83a3f9bd02eb0bf74b815060db20052",
-            "sha256:3cab8d37ade794861fd9ee896ad5edd7479f72178ddbe4ca5cb9262c63f0bd86"
-          ],
-          "rule_ids": [
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02",
-            "R02"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 10,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: document missing prerequisite scripts in research-news skill",
-          "updatedAt": "2026-05-12T07:12:06Z",
-          "createdAt": "2026-05-12T07:12:06Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:0008281b27dde06459854e8b92d747bd6b8b4e652a8789aaef57a4abadfed533"
-          ],
-          "rule_ids": [
-            "R27"
-          ],
-          "stale_90d_emitted": false
         }
       ],
       "rule_adopted": false,
@@ -1215,47 +1151,7 @@
         97,
         98
       ],
-      "prs": [
-        {
-          "number": 96,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-25T13:00:57Z",
-          "title": "fix: expand ${PLUGIN_DIR} with double quotes in hook echo commands",
-          "updatedAt": "2026-04-25T13:03:02Z",
-          "createdAt": "2026-04-21T12:27:38Z",
-          "outcome": "applied_separately",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 97,
-          "state": "MERGED",
-          "mergedAt": "2026-04-25T12:58:20Z",
-          "closedAt": "2026-04-25T12:58:20Z",
-          "title": "fix: use printf instead of echo to pipe TOOL_INPUT into grep",
-          "updatedAt": "2026-04-25T12:58:20Z",
-          "createdAt": "2026-04-21T12:28:08Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 98,
-          "state": "MERGED",
-          "mergedAt": "2026-04-25T12:55:48Z",
-          "closedAt": "2026-04-25T12:55:48Z",
-          "title": "fix: log skipped invalid gitignore patterns to stderr",
-          "updatedAt": "2026-04-25T12:55:48Z",
-          "createdAt": "2026-04-21T12:28:47Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 86,
       "security": "CLEAR",
@@ -1935,25 +1831,6 @@
             "SEC-unpinned-npm-install"
           ],
           "stale_90d_emitted": false
-        },
-        {
-          "number": 2,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: add required description frontmatter to all 26 command files",
-          "updatedAt": "2026-05-12T07:08:34Z",
-          "createdAt": "2026-05-12T07:08:34Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:811d41b02831543cc8ff0f0278c54432dfe165190e662069b71588c9bd25d744",
-            "sha256:fcc3de47c8d1ac6e3879e70553f3df647f58d0119aedc1a67eff445b25419208"
-          ],
-          "rule_ids": [
-            "BUG-missing-frontmatter",
-            "R01"
-          ],
-          "stale_90d_emitted": false
         }
       ],
       "rule_adopted": false,
@@ -2009,47 +1886,7 @@
         334,
         335
       ],
-      "prs": [
-        {
-          "number": 333,
-          "state": "MERGED",
-          "mergedAt": "2026-04-23T13:10:59Z",
-          "closedAt": "2026-04-23T13:10:59Z",
-          "title": "fix: replace hardcoded /Users/avifen path with ~/.agentsys in web-ctl skills",
-          "updatedAt": "2026-04-23T13:10:59Z",
-          "createdAt": "2026-04-21T12:27:08Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 334,
-          "state": "MERGED",
-          "mergedAt": "2026-04-23T13:24:32Z",
-          "closedAt": "2026-04-23T13:24:32Z",
-          "title": "fix: move prepare lifecycle hook to explicit setup-hooks script",
-          "updatedAt": "2026-04-23T13:24:32Z",
-          "createdAt": "2026-04-21T12:27:58Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 335,
-          "state": "MERGED",
-          "mergedAt": "2026-04-23T13:14:19Z",
-          "closedAt": "2026-04-23T13:14:19Z",
-          "title": "fix: pin js-yaml to exact version 4.1.1",
-          "updatedAt": "2026-04-23T13:14:19Z",
-          "createdAt": "2026-04-21T12:28:31Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 91,
       "security": "CLEAR",
@@ -2068,63 +1905,7 @@
         829,
         830
       ],
-      "prs": [
-        {
-          "number": 828,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-28T13:27:47Z",
-          "title": "fix: sync plugin.json version and rule count with npm package [skip changelog]",
-          "updatedAt": "2026-04-28T13:27:47Z",
-          "createdAt": "2026-04-26T18:18:39Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:039a69bf4b89f3c3870ada215f3e64ad1129439e652b03a561aa6f8f28652fe9"
-          ],
-          "rule_ids": [
-            "CC-stale-count"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 829,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-28T13:27:49Z",
-          "title": "fix: update stale rule count from 405 to 414 in plugin and skill files [skip changelog]",
-          "updatedAt": "2026-04-28T13:27:49Z",
-          "createdAt": "2026-04-26T18:19:20Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:17a15f4663964c5b99248ee3ec99e2e6752239bb65de9fae862630077829e60e",
-            "sha256:2936ce241191d0834e2443a2c76895a07bb3de3c64b3cb1c973e209f9f970a98",
-            "sha256:c125b644c2d53270450c67dd0f6cf9c29388d961bbfa79ca84e0e0f33c7846e7"
-          ],
-          "rule_ids": [
-            "CC-stale-count",
-            "CC-stale-count",
-            "CC-stale-count"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 830,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-28T13:27:51Z",
-          "title": "fix: add missing allowed-tools to plugin/skills/agnix/SKILL.md [skip changelog]",
-          "updatedAt": "2026-04-28T13:27:51Z",
-          "createdAt": "2026-04-26T18:19:56Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:efa1ee83d78ac53a9e14b6d00a6c080e65a396f742aebf8a0079bdef0a9eaec9"
-          ],
-          "rule_ids": [
-            "CC-orphan-component"
-          ],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 64,
       "security": "REVIEW",
@@ -2156,73 +1937,7 @@
         40,
         41
       ],
-      "prs": [
-        {
-          "number": 37,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: add missing model declarations to 9 skill-source frontmatter files",
-          "updatedAt": "2026-04-21T06:43:45Z",
-          "createdAt": "2026-04-21T06:43:45Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 38,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: add missing allowed-tools declaration to knowledge-guide agent",
-          "updatedAt": "2026-04-21T06:44:40Z",
-          "createdAt": "2026-04-21T06:44:40Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 39,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: validate KEY against allowlist in read_config.sh",
-          "updatedAt": "2026-04-21T06:45:14Z",
-          "createdAt": "2026-04-21T06:45:14Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 40,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: scope git add to vault directories in auto-commit.sh",
-          "updatedAt": "2026-04-21T06:45:58Z",
-          "createdAt": "2026-04-21T06:45:58Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 41,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: require execute permission before running reconcile.sh",
-          "updatedAt": "2026-04-21T06:46:24Z",
-          "createdAt": "2026-04-21T06:46:24Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 96,
       "security": "CLEAR",
@@ -3651,21 +3366,7 @@
       "pipeline_prs": [
         19
       ],
-      "prs": [
-        {
-          "number": 19,
-          "state": "MERGED",
-          "mergedAt": "2026-04-25T11:06:16Z",
-          "closedAt": "2026-04-25T11:06:16Z",
-          "title": "fix: add missing YAML frontmatter to skill-creator subagents",
-          "updatedAt": "2026-04-25T11:06:16Z",
-          "createdAt": "2026-04-23T00:38:19Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 85,
       "security": "CLEAR",
@@ -3794,59 +3495,7 @@
         37,
         38
       ],
-      "prs": [
-        {
-          "number": 36,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-28T02:50:58Z",
-          "title": "fix: define model literal and add types prefix in URL Context example",
-          "updatedAt": "2026-04-28T02:50:58Z",
-          "createdAt": "2026-04-27T02:30:21Z",
-          "outcome": "rejected",
-          "fingerprints": [
-            "sha256:3439ae24033ea4eca837d06d4a3e78c2f08ec906b1d97b08486edef14e2937c9"
-          ],
-          "rule_ids": [
-            "BUG-undefined-variable"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 37,
-          "state": "MERGED",
-          "mergedAt": "2026-04-28T02:26:06Z",
-          "closedAt": "2026-04-28T02:26:06Z",
-          "title": "fix: use agent-neutral phrasing for web-fetch fallback in gemini-api-dev",
-          "updatedAt": "2026-04-28T02:26:06Z",
-          "createdAt": "2026-04-27T02:31:10Z",
-          "outcome": "merged",
-          "fingerprints": [
-            "sha256:fc97b7500e81f2a6ab9c904c9a8cd8f56b2199676b15932ae7566bcb0f99ceac"
-          ],
-          "rule_ids": [
-            "BUG-undeclared-tool"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 38,
-          "state": "MERGED",
-          "mergedAt": "2026-04-28T02:49:12Z",
-          "closedAt": "2026-04-28T02:49:12Z",
-          "title": "docs: fix README link text \"thought circulation\" → \"thought signatures\"",
-          "updatedAt": "2026-04-28T02:49:12Z",
-          "createdAt": "2026-04-27T02:31:44Z",
-          "outcome": "merged",
-          "fingerprints": [
-            "sha256:5798b0c47a62e2886ddbdbd6fbfeed259cbe3c361ece2397e36b2d2b26da52f8"
-          ],
-          "rule_ids": [
-            "BUG-link-text-mismatch"
-          ],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 98,
       "security": "PASS",
@@ -3884,76 +3533,7 @@
         759,
         760
       ],
-      "prs": [
-        {
-          "number": 757,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-05-01T02:21:35Z",
-          "title": "fix: correct gws docs +write flags in recipe-post-mortem-setup",
-          "updatedAt": "2026-05-01T02:21:35Z",
-          "createdAt": "2026-04-25T12:19:19Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:7a2087bd83faf7caf5c8954c5d0055864b2f2c656c5ee608f120b2695e87a6ff"
-          ],
-          "rule_ids": [
-            "BUG-broken-reference"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 758,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-05-01T02:21:32Z",
-          "title": "fix: replace nonexistent Forms API list method with Drive files list",
-          "updatedAt": "2026-05-01T02:21:32Z",
-          "createdAt": "2026-04-25T12:19:52Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:99765b5c957f40f0ba430c0f67d6df3ab2f4a7012b96f823937471e5d9ea9206"
-          ],
-          "rule_ids": [
-            "BUG-broken-reference"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 759,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-05-01T02:21:30Z",
-          "title": "fix: add --locked flag to cargo install cargo-llvm-cov in coverage.sh",
-          "updatedAt": "2026-05-01T02:21:30Z",
-          "createdAt": "2026-04-25T12:20:21Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:eb7f32ad08d5f0d22fdf1f65c0eae2ee3f2236db05a42a937d72b955228ebff0"
-          ],
-          "rule_ids": [
-            "SEC-runtime-package-install"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 760,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-05-01T02:21:27Z",
-          "title": "fix: pin devDependencies to exact versions in package.json",
-          "updatedAt": "2026-05-01T02:21:27Z",
-          "createdAt": "2026-04-25T12:20:53Z",
-          "outcome": "applied_separately",
-          "fingerprints": [
-            "sha256:cc6dd0163e79cb9765bf8cff593f2d0bf97402bce9faf742ea55e61456870ae2"
-          ],
-          "rule_ids": [
-            "SEC-unpinned-semver"
-          ],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 99,
       "security": "REVIEW",
@@ -3976,45 +3556,6 @@
       ],
       "prs": [
         {
-          "number": 166,
-          "state": "MERGED",
-          "mergedAt": "2026-04-26T10:06:39Z",
-          "closedAt": "2026-04-26T10:06:39Z",
-          "title": "fix: replace non-existent tool names with correct Claude Code tool names in steering.md",
-          "updatedAt": "2026-04-26T10:06:39Z",
-          "createdAt": "2026-04-23T00:40:43Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 167,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-26T20:45:30Z",
-          "title": "fix: remove write-capable tools from read-only spec-status command",
-          "updatedAt": "2026-04-26T20:45:30Z",
-          "createdAt": "2026-04-23T00:41:18Z",
-          "outcome": "applied_separately",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 168,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-26T20:45:30Z",
-          "title": "fix: add required frontmatter and structure to gemini-agents/spec-reviewer.md",
-          "updatedAt": "2026-04-26T20:45:30Z",
-          "createdAt": "2026-04-23T00:42:57Z",
-          "outcome": "applied_separately",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
           "number": 169,
           "state": "MERGED",
           "mergedAt": "2026-04-26T10:06:50Z",
@@ -4022,19 +3563,6 @@
           "title": "fix: correct @ path separator to / in windsurf-skills AGENTS.md",
           "updatedAt": "2026-04-26T10:06:50Z",
           "createdAt": "2026-04-23T00:43:22Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 170,
-          "state": "MERGED",
-          "mergedAt": "2026-04-26T10:07:00Z",
-          "closedAt": "2026-04-26T10:07:00Z",
-          "title": "fix: document {{DEV_GUIDELINES}} placeholder in all 7 platform docs templates",
-          "updatedAt": "2026-04-26T10:07:00Z",
-          "createdAt": "2026-04-23T00:45:24Z",
           "outcome": "merged",
           "fingerprints": [],
           "rule_ids": [],
@@ -4076,21 +3604,7 @@
       "pipeline_prs": [
         6
       ],
-      "prs": [
-        {
-          "number": 6,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-30T01:25:30Z",
-          "title": "fix: add missing YAML frontmatter to skill-creator agent files",
-          "updatedAt": "2026-04-30T01:25:30Z",
-          "createdAt": "2026-04-20T18:25:06Z",
-          "outcome": "rejected",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "quality_issues": 8,
       "rule_adopted": false,
       "score": 86,
@@ -5107,32 +4621,6 @@
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
-        },
-        {
-          "number": 47,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: fill stub workflow in analyzing-office365-audit-logs-for-compromise",
-          "updatedAt": "2026-04-26T12:14:14Z",
-          "createdAt": "2026-04-21T00:40:22Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 48,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: fill stub workflow in performing-red-team-with-covenant",
-          "updatedAt": "2026-04-26T12:14:20Z",
-          "createdAt": "2026-04-21T00:42:00Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
         }
       ],
       "rule_adopted": false,
@@ -5155,82 +4643,7 @@
         82,
         83
       ],
-      "prs": [
-        {
-          "number": 80,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: add YAML frontmatter to llm-as-judge agent files",
-          "updatedAt": "2026-04-26T06:43:07Z",
-          "createdAt": "2026-04-26T06:43:07Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:a3bd793c450299af37da3e5328485a5e14b98fa453eaf28ebf54babdc848665e",
-            "sha256:deb9dd74a4c87c1906aaa63c7084cef47b7190e7ebce8cb161583aae837559d4",
-            "sha256:eed45fdeaf772ea8dbba7e2904bdcabab6ab06c3cf25756a639e91085f98164d",
-            "sha256:e3a35252e9c653bc2581883b959d49b07cc69c47d0f01db34731aa104e7227f9"
-          ],
-          "rule_ids": [
-            "BUG-missing-frontmatter",
-            "BUG-missing-frontmatter",
-            "BUG-missing-frontmatter",
-            "BUG-missing-frontmatter"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 81,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: remove GitHub token from git clone URL in sandbox_manager.py",
-          "updatedAt": "2026-04-26T06:52:49Z",
-          "createdAt": "2026-04-26T06:45:32Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:4895ce99fa8a490a71dfa6fb7e999f5a3ca9b933cb5a6079a01a1b82221b443d"
-          ],
-          "rule_ids": [
-            "SEC-credential-in-url"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 82,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: tighten production dependency ranges from ^ to ~ in package.json",
-          "updatedAt": "2026-04-26T06:53:52Z",
-          "createdAt": "2026-04-26T06:46:30Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:d1c01a3b5ad2e85dff67b7cd400aa0b8b692b6b5bc72d146601e927f8710cb80"
-          ],
-          "rule_ids": [
-            "SEC-unpinned-semver"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 83,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: validate custom install path in install.sh to prevent path traversal",
-          "updatedAt": "2026-04-26T06:54:52Z",
-          "createdAt": "2026-04-26T06:47:42Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:276888e06e0f33e703a6a0f1ee1486419c19fe99ff6a7c1804df014accefc92a"
-          ],
-          "rule_ids": [
-            "SEC-path-traversal"
-          ],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 83,
       "security": "CLEAR",
@@ -5250,47 +4663,7 @@
         6,
         7
       ],
-      "prs": [
-        {
-          "number": 5,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: create loop state file so autonomous loop actually activates",
-          "updatedAt": "2026-04-22T06:43:24Z",
-          "createdAt": "2026-04-22T06:43:24Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 6,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: prevent JSON and regex injection in stop-hook.sh",
-          "updatedAt": "2026-04-22T06:44:14Z",
-          "createdAt": "2026-04-22T06:44:14Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 7,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: pin better-sqlite3 to exact version (11.10.0)",
-          "updatedAt": "2026-04-22T06:44:39Z",
-          "createdAt": "2026-04-22T06:44:39Z",
-          "outcome": "open",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 90,
       "security": "CLEAR",
@@ -5310,65 +4683,7 @@
         1362,
         1363
       ],
-      "prs": [
-        {
-          "number": 1361,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "docs: fix default port in EN docs (8080 → 3456)",
-          "updatedAt": "2026-04-26T06:50:19Z",
-          "createdAt": "2026-04-26T06:50:19Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:e7f19b9065eff45460cf37ca2b742aa7de14879101e82eba23f45beafb7b91ff",
-            "sha256:2e8cd28acec42b1f46890f53d8a6dfd98ca5713f30f5ef1795d64d5380d3067b",
-            "sha256:23b1cb3b8e6086f80c780f67d53f99071bcb8910ee988ef18f9a376498dd2324"
-          ],
-          "rule_ids": [
-            "CC-terminology-drift",
-            "CC-terminology-drift",
-            "CC-terminology-drift"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 1362,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "docs: fix Router separator in zh-CN preset example (: → ,)",
-          "updatedAt": "2026-04-26T06:51:08Z",
-          "createdAt": "2026-04-26T06:51:08Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:6095d71866351b1ea0996b8ed38917b1811ce212567d0c5b3ef8a646c6b7862a"
-          ],
-          "rule_ids": [
-            "BUG-broken-reference"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 1363,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "docs: fix locale prefix in zh-CN statusline related-command links",
-          "updatedAt": "2026-04-26T06:51:56Z",
-          "createdAt": "2026-04-26T06:51:56Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:789a4a2bcc3fab3a65aeccaccbb834a807d504c1e6806f13d0a6ce56411100d1",
-            "sha256:002d9c9d3f02971d82e5f4cb9ff286841ef89fad08be747202525a6d3b5c1bc6"
-          ],
-          "rule_ids": [
-            "BUG-broken-reference",
-            "BUG-broken-reference"
-          ],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 79,
       "security": "CLEAR",
@@ -5913,13 +5228,13 @@
       "prs": [
         {
           "number": 92,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-06-08T21:03:55Z",
           "title": "security: replace new Function() eval with direct ESM import",
-          "updatedAt": "2026-04-29T01:14:35Z",
+          "updatedAt": "2026-06-08T21:03:56Z",
           "createdAt": "2026-04-10T14:31:55Z",
-          "outcome": "open",
+          "outcome": "applied_separately",
           "fingerprints": [],
           "rule_ids": [],
           "stale_90d_emitted": false
@@ -5944,9 +5259,10 @@
       "score": 93,
       "security": "REVIEW",
       "security_findings": 5,
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "single",
-      "tracking_issue": 94
+      "tracking_issue": 94,
+      "case_study_candidate": true
     },
     "pe-menezes/fin-claude-plugin": {
       "artifacts": 8,
@@ -7202,13 +6518,13 @@
       "prs": [
         {
           "number": 2508,
-          "state": "OPEN",
+          "state": "CLOSED",
           "mergedAt": null,
-          "closedAt": null,
+          "closedAt": "2026-06-08T15:44:39Z",
           "title": "fix(plugin): add missing name and allowed-tools to docs command frontmatter",
-          "updatedAt": "2026-04-26T05:49:54Z",
+          "updatedAt": "2026-06-08T15:44:40Z",
           "createdAt": "2026-04-26T00:37:50Z",
-          "outcome": "open",
+          "outcome": "rejected",
           "fingerprints": [
             "sha256:de76bede1ce4edcdb14d261df159c1b414d78757f705174626648a9f9ed345d0",
             "sha256:c2f552d3c220e979d92596e9e0fe52fdeb0436bdcae135c57b8aaccefa15fe33"
@@ -7224,7 +6540,7 @@
       "score": 82,
       "security": "CLEAR",
       "stars": 53665,
-      "status": "contributed",
+      "status": "tracked",
       "strategy": "single"
     },
     "vectorize-io/hindsight": {
@@ -7712,47 +7028,7 @@
         22,
         23
       ],
-      "prs": [
-        {
-          "number": 21,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-27T23:13:15Z",
-          "title": "fix: replace hardcoded author path in upgrade-patches command",
-          "updatedAt": "2026-04-27T23:13:15Z",
-          "createdAt": "2026-04-22T12:26:08Z",
-          "outcome": "rejected",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 22,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-27T23:13:15Z",
-          "title": "fix: add allowed-tools frontmatter to upgrade-patches command",
-          "updatedAt": "2026-04-27T23:13:15Z",
-          "createdAt": "2026-04-22T12:26:29Z",
-          "outcome": "rejected",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 23,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-27T23:13:16Z",
-          "title": "fix: pin cc-safe to known-good version in setup.sh",
-          "updatedAt": "2026-04-27T23:13:16Z",
-          "createdAt": "2026-04-22T12:26:52Z",
-          "outcome": "rejected",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 94,
       "security": "REVIEW",
@@ -7788,21 +7064,7 @@
       "pipeline_prs": [
         19
       ],
-      "prs": [
-        {
-          "number": 19,
-          "state": "CLOSED",
-          "mergedAt": null,
-          "closedAt": "2026-04-23T20:15:13Z",
-          "title": "fix: add frontmatter to agents/README.md to prevent scanner misclassification",
-          "updatedAt": "2026-04-23T20:15:13Z",
-          "createdAt": "2026-04-22T12:25:42Z",
-          "outcome": "rejected",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 86,
       "security": "CLEAR",
@@ -7821,42 +7083,7 @@
         3,
         4
       ],
-      "prs": [
-        {
-          "number": 3,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: add missing name field to agent-workflow command frontmatter",
-          "updatedAt": "2026-04-25T18:20:40Z",
-          "createdAt": "2026-04-25T18:17:18Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:f1dd6943ed50dc82642b42b34518339ef8885a3c204d27e5e3e7374fa97a020d"
-          ],
-          "rule_ids": [
-            "BUG-missing-frontmatter"
-          ],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 4,
-          "state": "OPEN",
-          "mergedAt": null,
-          "closedAt": null,
-          "title": "fix: align refactor-agent frontmatter name with filename and CLAUDE.md",
-          "updatedAt": "2026-04-25T18:21:33Z",
-          "createdAt": "2026-04-25T18:17:52Z",
-          "outcome": "open",
-          "fingerprints": [
-            "sha256:9abbea89a6a69c1e78d6ae2bec5bd82c0244a4ac43a7edea0a1f1fffbdf3a03a"
-          ],
-          "rule_ids": [
-            "BUG-broken-reference"
-          ],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 72,
       "security": "CLEAR",
@@ -7891,73 +7118,7 @@
         53,
         54
       ],
-      "prs": [
-        {
-          "number": 50,
-          "state": "MERGED",
-          "mergedAt": "2026-04-29T17:42:44Z",
-          "closedAt": "2026-04-29T17:42:44Z",
-          "title": "fix: correct broken skill reference geo-llms-txt -> geo-llmstxt",
-          "updatedAt": "2026-04-29T17:42:44Z",
-          "createdAt": "2026-04-22T12:26:22Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 51,
-          "state": "MERGED",
-          "mergedAt": "2026-04-29T17:42:50Z",
-          "closedAt": "2026-04-29T17:42:50Z",
-          "title": "fix: disable Flask debug mode by default in webapp entrypoint",
-          "updatedAt": "2026-04-29T17:42:50Z",
-          "createdAt": "2026-04-22T12:26:59Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 52,
-          "state": "MERGED",
-          "mergedAt": "2026-04-29T17:42:53Z",
-          "closedAt": "2026-04-29T17:42:53Z",
-          "title": "fix: validate URL scheme before fetching in fetch_page.py",
-          "updatedAt": "2026-04-29T17:42:54Z",
-          "createdAt": "2026-04-22T12:27:25Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 53,
-          "state": "MERGED",
-          "mergedAt": "2026-04-29T17:42:57Z",
-          "closedAt": "2026-04-29T17:42:57Z",
-          "title": "fix: validate crawled URLs stay within original domain in llmstxt_generator",
-          "updatedAt": "2026-04-29T17:42:57Z",
-          "createdAt": "2026-04-22T12:27:56Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        },
-        {
-          "number": 54,
-          "state": "MERGED",
-          "mergedAt": "2026-04-29T17:43:00Z",
-          "closedAt": "2026-04-29T17:43:00Z",
-          "title": "fix: pin rich <14.0.0 and add stdin size guard in generate_pdf_report",
-          "updatedAt": "2026-04-29T17:43:00Z",
-          "createdAt": "2026-04-22T12:28:29Z",
-          "outcome": "merged",
-          "fingerprints": [],
-          "rule_ids": [],
-          "stale_90d_emitted": false
-        }
-      ],
+      "prs": [],
       "rule_adopted": false,
       "score": 88,
       "security": "CLEAR",
