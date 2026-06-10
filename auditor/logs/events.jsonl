@@ -2451,3 +2451,6 @@
 {"timestamp":"2026-06-07T12:46:03Z","workflow":"track","event":"status_check","run_id":"27092820358","run_number":302,"data":{"contributed":38,"tracked":32,"case_study_ready":36,"rule_adopted":2}}
 {"timestamp":"2026-06-09T23:20:09Z","workflow":"daily-report","event":"report_generated","run_id":"27242152981","run_number":1,"data":{"total_repos":218}}
 {"timestamp":"2026-06-09T23:50:35Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"27243357932","run_number":1,"data":{"repos":218,"findings":3385,"advisories":22}}
+{"timestamp":"2026-06-10T22:17:37Z","workflow":"track","event":"finding_outcome","run_id":"27309681502","run_number":7,"data":{"pr":"pbakaus/impeccable#92","pr_state":"closed_unmerged","fingerprints":[],"rule_ids":[]}}
+{"timestamp":"2026-06-10T22:18:41Z","workflow":"track","event":"finding_outcome","run_id":"27309681502","run_number":7,"data":{"pr":"upstash/context7#2508","pr_state":"closed_unmerged","fingerprints":["sha256:de76bede1ce4edcdb14d261df159c1b414d78757f705174626648a9f9ed345d0","sha256:c2f552d3c220e979d92596e9e0fe52fdeb0436bdcae135c57b8aaccefa15fe33"],"rule_ids":["BUG-missing-frontmatter","BUG-undeclared-tool"]}}
+{"timestamp":"2026-06-10T22:19:21Z","workflow":"track","event":"status_check","run_id":"27309681502","run_number":7,"data":{"contributed":36,"tracked":34,"case_study_ready":37,"rule_adopted":2}}
