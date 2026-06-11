@@ -2453,3 +2453,6 @@
 {"timestamp":"2026-06-09T23:50:35Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"27243357932","run_number":1,"data":{"repos":218,"findings":3385,"advisories":22}}
 {"timestamp":"2026-06-10T23:39:04Z","workflow":"daily-report","event":"report_generated","run_id":"27313475304","run_number":2,"data":{"total_repos":218}}
 {"timestamp":"2026-06-10T23:55:37Z","workflow":"dashboard","event":"dashboard_rendered","run_id":"27314135711","run_number":2,"data":{"repos":218,"findings":3385,"advisories":22}}
+{"timestamp":"2026-06-11T12:22:43Z","workflow":"track","event":"finding_outcome","run_id":"27346056909","run_number":9,"data":{"pr":"pbakaus/impeccable#92","pr_state":"closed_unmerged","fingerprints":[],"rule_ids":[]}}
+{"timestamp":"2026-06-11T12:23:56Z","workflow":"track","event":"finding_outcome","run_id":"27346056909","run_number":9,"data":{"pr":"upstash/context7#2508","pr_state":"closed_unmerged","fingerprints":["sha256:de76bede1ce4edcdb14d261df159c1b414d78757f705174626648a9f9ed345d0","sha256:c2f552d3c220e979d92596e9e0fe52fdeb0436bdcae135c57b8aaccefa15fe33"],"rule_ids":["BUG-missing-frontmatter","BUG-undeclared-tool"]}}
+{"timestamp":"2026-06-11T12:24:42Z","workflow":"track","event":"status_check","run_id":"27346056909","run_number":9,"data":{"contributed":36,"tracked":34,"case_study_ready":37,"rule_adopted":2}}
