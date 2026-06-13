@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-12T23:58:44Z",
+  "generated_at": "2026-06-13T23:38:33Z",
   "since": null,
   "summary": {
     "total_repos": 218,
@@ -2521,7 +2521,7 @@
     },
     {
       "repo": "wuji-labs/nopua",
-      "status": "contributed",
+      "status": "complete",
       "stars": 1229,
       "score": 80,
       "security": "CLEAR",
@@ -3912,6 +3912,14 @@
     {
       "day": "2026-06-12",
       "counts": {
+        "report_generated": 1,
+        "dashboard_rendered": 1
+      }
+    },
+    {
+      "day": "2026-06-13",
+      "counts": {
+        "no_narrative": 1,
         "report_generated": 1
       }
     }
